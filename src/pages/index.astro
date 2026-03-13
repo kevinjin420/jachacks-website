@@ -1,0 +1,343 @@
+---
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="/jaseci-logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="JacHacks - Ann Arbor's hackathon. April 4-5th." />
+    <title>JacHacks | April 4-5 | Ann Arbor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+
+    <nav>
+      <div class="nav-inner">
+        <a href="/" class="logo">
+          <img src="/jaseci-logo.png" alt="Jaseci" class="logo-img" />
+          <span>JacHacks</span>
+        </a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdB0o7qlEGeT93KnQcq7V17qlQXQDcp2b2GAGHv65NtkZ75dQ/viewform" target="_blank" rel="noopener noreferrer" class="nav-cta">Apply Now</a>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="grid-bg"></div>
+      <div class="hero-content">
+        <p class="eyebrow">Ann Arbor, MI</p>
+        <h1>Jac<span class="accent">Hacks</span></h1>
+        <p class="date">April 4 – 5</p>
+
+        <div class="code-block">
+          <div class="dots"><span></span><span></span><span></span></div>
+          <pre><code><span class="kw">def</span> <span class="fn">apply_now</span>(
+  link: <span class="type">str</span> = <span class="str">"bit.ly/4s06JH"</span>
+) -> <span class="ret">GoodTimesAndEmployment</span> <span class="kw">by</span> <span class="fn">llm</span>();</code></pre>
+        </div>
+
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdB0o7qlEGeT93KnQcq7V17qlQXQDcp2b2GAGHv65NtkZ75dQ/viewform" target="_blank" rel="noopener noreferrer" class="cta">Apply Now</a>
+      </div>
+    </section>
+
+    <section class="sponsors">
+      <p class="sponsors-label">Sponsors</p>
+      <div class="marquee">
+        <div class="track">
+          <a class="sponsor" href="https://lovable.dev" target="_blank" rel="noopener noreferrer"><img src="/lovable.png" alt="Lovable" /></a>
+          <a class="sponsor" href="https://openai.com/codex/" target="_blank" rel="noopener noreferrer"><img src="/codex.png" alt="Codex" /></a>
+          <a class="sponsor" href="https://www.jpmorgan.com" target="_blank" rel="noopener noreferrer"><img src="/jpmorgan.png" alt="J.P. Morgan" class="invert" /></a>
+          <a class="sponsor" href="https://www.ally.com" target="_blank" rel="noopener noreferrer"><img src="/ally.png" alt="Ally" /></a>
+          <a class="sponsor" href="https://velric.ai" target="_blank" rel="noopener noreferrer"><img src="/velric.png" alt="Velric" /></a>
+          <a class="sponsor" href="https://lovable.dev" target="_blank" rel="noopener noreferrer"><img src="/lovable.png" alt="Lovable" /></a>
+          <a class="sponsor" href="https://openai.com/codex/" target="_blank" rel="noopener noreferrer"><img src="/codex.png" alt="Codex" /></a>
+          <a class="sponsor" href="https://www.jpmorgan.com" target="_blank" rel="noopener noreferrer"><img src="/jpmorgan.png" alt="J.P. Morgan" class="invert" /></a>
+          <a class="sponsor" href="https://www.ally.com" target="_blank" rel="noopener noreferrer"><img src="/ally.png" alt="Ally" /></a>
+          <a class="sponsor" href="https://velric.ai" target="_blank" rel="noopener noreferrer"><img src="/velric.png" alt="Velric" /></a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-logo">
+          <img src="/jaseci-logo.png" alt="Jaseci" class="logo-img" />
+          <span>JacHacks</span>
+        </div>
+        <p>&copy; 2025 JacHacks &middot; Powered by <a href="https://jaseci.org" target="_blank">Jaseci</a></p>
+      </div>
+    </footer>
+
+  </body>
+</html>
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0A0A0A;
+    --card: #18181B;
+    --border: #27272A;
+    --text: #E4E4E7;
+    --muted: #71717A;
+    --light: #A1A1AA;
+    --primary: #F97316;
+    --primary-light: #FB923C;
+    --font: 'Inter', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { text-decoration: none; color: inherit; }
+  .accent { color: var(--primary); }
+
+  /* Nav */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    border-bottom: 1px solid var(--border);
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: -0.03em;
+    color: #fff;
+    transition: opacity 0.2s;
+  }
+  .logo:hover { opacity: 0.75; }
+
+  .logo-img { width: 28px; height: 28px; object-fit: contain; }
+
+  .nav-cta {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--primary);
+    border: 1px solid rgba(249, 115, 22, 0.4);
+    padding: 0.45rem 1.1rem;
+    border-radius: 6px;
+    transition: all 0.15s;
+    letter-spacing: 0.01em;
+  }
+  .nav-cta:hover {
+    background: rgba(249, 115, 22, 0.1);
+    border-color: var(--primary);
+  }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 80px 2rem 6rem;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(249, 115, 22, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(249, 115, 22, 0.04) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 100%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    width: 100%;
+  }
+
+  .eyebrow {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+  }
+
+  h1 {
+    font-size: clamp(6rem, 20vw, 12rem);
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    line-height: 0.85;
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+
+  .date {
+    font-size: clamp(1.75rem, 5vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--light);
+    margin-bottom: 3rem;
+  }
+
+  .code-block {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 3rem;
+    text-align: left;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .dots { display: flex; gap: 0.4rem; margin-bottom: 1rem; }
+  .dots span { width: 10px; height: 10px; border-radius: 50%; }
+  .dots span:nth-child(1) { background: #FF5F57; }
+  .dots span:nth-child(2) { background: #FEBC2E; }
+  .dots span:nth-child(3) { background: #28C840; }
+
+  pre {
+    font-family: var(--mono);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    overflow-x: auto;
+  }
+
+  .kw  { color: #C678DD; }
+  .fn  { color: #61AFEF; }
+  .type { color: #56B6C2; }
+  .str { color: #98C379; }
+  .ret { color: #E5C07B; }
+
+  .cta {
+    display: inline-block;
+    background: var(--primary);
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: 0.02em;
+    padding: 1rem 3rem;
+    border-radius: 8px;
+    transition: all 0.15s;
+  }
+  .cta:hover {
+    background: var(--primary-light);
+    transform: translateY(-2px);
+  }
+
+  /* Sponsors */
+  .sponsors {
+    padding: 4rem 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .sponsors-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .marquee {
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+  }
+
+  .track {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    animation: marquee 22s linear infinite;
+  }
+  .track:hover { animation-play-state: paused; }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .sponsor {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 4rem;
+    flex-shrink: 0;
+    transition: opacity 0.2s;
+  }
+  .sponsor:hover { opacity: 0.75; }
+
+  .sponsor img {
+    height: 48px;
+    max-width: 160px;
+    width: auto;
+    object-fit: contain;
+  }
+  .sponsor img.invert { filter: invert(1); }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+  }
+
+  .footer-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    text-align: center;
+  }
+
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--text);
+  }
+
+  footer p {
+    font-size: 0.775rem;
+    color: var(--muted);
+  }
+
+  footer a { color: var(--primary); }
+
+  @media (max-width: 600px) {
+    .code-block { max-width: 100%; }
+  }
+</style>
