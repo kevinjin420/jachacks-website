@@ -78,6 +78,9 @@
       <div class="hud-bl">
         <span class="hud-label">HACKERS_ONLINE: <span class="hud-count" id="hacker-count">000</span></span>
       </div>
+      <div class="hud-br">
+        <span class="hud-label hud-label-accent">LANG://JAC_REQUIRED</span>
+      </div>
 
       <div class="float-el fe-hex-1">
         <svg viewBox="0 0 60 69" width="60" height="69" fill="none">
@@ -114,7 +117,7 @@
           </div>
         </div>
 
-        <p class="hero-sub">Build and launch a full-stack agentic AI app in 24 hours.</p>
+        <p class="hero-sub">Using only Jac, turn your full-stack agentic AI app idea into reality in 24 hours.</p>
 
         <div class="hero-pills">
           <div class="hero-pill-row">
@@ -143,6 +146,8 @@
 
         <div class="hero-pills">
           <div class="hero-pill-row">
+            <span class="hero-pill hero-pill-accent">JAC LANG REQUIRED</span>
+            <span class="hero-pill-sep">·</span>
             <span class="hero-pill">FREE TO ATTEND</span>
             <span class="hero-pill-sep">·</span>
             <span class="hero-pill">$10K+ PRIZES</span>
@@ -889,10 +894,12 @@
   #bg-canvas { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
 
   /* HUD labels */
-  .hud-tl,.hud-tr,.hud-bl { position:absolute; font-family:var(--mono); font-size:.62rem; letter-spacing:.12em; color:var(--muted); z-index:2; pointer-events:none; display:flex; align-items:center; gap:.5rem; }
+  .hud-tl,.hud-tr,.hud-bl,.hud-br { position:absolute; font-family:var(--mono); font-size:.62rem; letter-spacing:.12em; color:var(--muted); z-index:2; pointer-events:none; display:flex; align-items:center; gap:.5rem; }
   .hud-tl { top:2.5rem; left:1rem; }
   .hud-tr { top:2.5rem; right:1rem; }
   .hud-bl { bottom:1rem; left:1rem; }
+  .hud-br { bottom:1rem; right:1rem; }
+  .hud-label-accent { color: var(--accent); }
   .hud-sep { color:rgba(255,255,255,.1); }
   .hud-status { color:var(--green); animation:blink 2s step-end infinite; }
   .hud-count { color:var(--cyan); font-weight:600; }
@@ -1247,7 +1254,7 @@
     .nav-links { display:none; }
     .hamburger { display:flex; }
     .mobile-menu { display:flex; }
-    .hud-tl,.hud-tr,.hud-bl { display:none; }
+    .hud-tl,.hud-tr,.hud-bl,.hud-br { display:none; }
     .fe-hex-1,.fe-hex-2,.fe-hex-3,.fe-plus-1,.fe-plus-2,.fe-plus-3,.fe-ring-1,.fe-ring-2 { display:none; }
     .stat { padding:.4rem 1.25rem; }
     .stat-div { display:none; }
