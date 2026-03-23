@@ -462,7 +462,7 @@
             </div>
             <div class="timeline">
               <div class="tl-event">
-                <div class="tl-time">8:30 – 9:00 AM</div>
+                <div class="tl-time">8:30 AM – 9:00 AM</div>
                 <div class="tl-line"><div class="tl-dot dot-blue"></div></div>
                 <div class="tl-body">
                   <div class="tl-title">CHECK-IN</div>
@@ -470,7 +470,7 @@
                 </div>
               </div>
               <div class="tl-event">
-                <div class="tl-time">9:00 – 10:00 AM</div>
+                <div class="tl-time">9:00 AM – 10:00 AM</div>
                 <div class="tl-line"><div class="tl-dot"></div></div>
                 <div class="tl-body">
                   <div class="tl-title">OPENING CEREMONY</div>
@@ -478,7 +478,7 @@
                 </div>
               </div>
               <div class="tl-event">
-                <div class="tl-time">10:00 – 11:00 AM</div>
+                <div class="tl-time">10:00 AM – 11:00 AM</div>
                 <div class="tl-line"><div class="tl-dot"></div></div>
                 <div class="tl-body">
                   <div class="tl-title">TEAM FORMATION</div>
@@ -502,7 +502,7 @@
                 </div>
               </div>
               <div class="tl-event">
-                <div class="tl-time">12:00 – 1:00 PM</div>
+                <div class="tl-time">12:00 PM – 1:00 PM</div>
                 <div class="tl-line"><div class="tl-dot"></div></div>
                 <div class="tl-body">
                   <div class="tl-title">🍽️ LUNCH</div>
@@ -510,7 +510,7 @@
                 </div>
               </div>
               <div class="tl-event">
-                <div class="tl-time">1:00 – 2:00 PM</div>
+                <div class="tl-time">1:00 PM – 2:00 PM</div>
                 <div class="tl-line"><div class="tl-dot"></div></div>
                 <div class="tl-body">
                   <div class="tl-title">AGENTIC PROGRAMMING 101</div>
@@ -566,7 +566,7 @@
                 </div>
               </div>
               <div class="tl-event">
-                <div class="tl-time">12:00 – 1:30 PM</div>
+                <div class="tl-time">12:00 PM – 1:30 PM</div>
                 <div class="tl-line"><div class="tl-dot"></div></div>
                 <div class="tl-body">
                   <div class="tl-title">PROJECT DEMOS 🎤</div>
@@ -574,7 +574,7 @@
                 </div>
               </div>
               <div class="tl-event tl-hot">
-                <div class="tl-time">1:30 – 2:30 PM</div>
+                <div class="tl-time">1:30 PM – 2:30 PM</div>
                 <div class="tl-line"><div class="tl-dot dot-gold"></div></div>
                 <div class="tl-body">
                   <div class="tl-title">🏆 AWARDS & CLOSING CEREMONY</div>
@@ -737,7 +737,7 @@
 
     // ===== COUNTDOWN =====
     (function() {
-      const target = new Date('2026-04-04T17:00:00').getTime();
+      const target = new Date('2026-04-04T11:00:00').getTime();
       const eventEnd = new Date('2026-04-05T21:00:00').getTime();
       const hudStatus = document.getElementById('hud-status');
       function updateStatus() {
@@ -1138,10 +1138,10 @@
   .day-badge { font-family:var(--mono); font-size:.62rem; letter-spacing:.2em; color:var(--primary); background:rgba(249,115,22,.1); border:1px solid rgba(249,115,22,.2); padding:.2rem .6rem; border-radius:2px; display:inline-block; margin-bottom:.5rem; }
   .day-title { font-family:var(--display); font-weight:700; font-size:1.25rem; letter-spacing:.05em; color:#fff; }
   .timeline { position:relative; }
-  .timeline::before { content:''; position:absolute; left:60px; top:8px; bottom:8px; width:1px; background:var(--border); }
+  .timeline::before { content:''; position:absolute; left:171px; top:8px; bottom:8px; width:1px; background:var(--border); }
   .tl-event { display:flex; align-items:flex-start; margin-bottom:1.75rem; }
   .tl-event:last-child { margin-bottom:0; }
-  .tl-time { font-family:var(--mono); font-size:.68rem; color:var(--muted); width:70px; flex-shrink:0; padding-top:2px; letter-spacing:.04em; }
+  .tl-time { font-family:var(--mono); font-size:.68rem; color:var(--light); width:160px; flex-shrink:0; padding-top:2px; letter-spacing:.04em; text-align:right; padding-right:1rem; white-space:nowrap; }
   .tl-line { width:22px; flex-shrink:0; display:flex; justify-content:center; padding-top:4px; position:relative; z-index:1; }
   .tl-dot { width:8px; height:8px; border-radius:50%; background:var(--border); border:1px solid var(--muted); flex-shrink:0; }
   .dot-blue { background:#3B82F6; border-color:#3B82F6; box-shadow:0 0 8px rgba(59,130,246,.7); }
