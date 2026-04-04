@@ -1083,6 +1083,23 @@ walker:pub register_participant {
 
 # ── Graph initialization ──
 
+# ── Update Role ──
+
+walker:pub update_role {
+    has email: str = "";
+    has role: str = "";
+
+    can update with Root entry {
+        profile = find_profile_by_email(self.email);
+        if profile == None {
+            report {"error": "Profile not found"};
+            disengage;
+        }
+        profile.role = self.role;
+        report {"email": profile.email, "role": profile.role};
+    }
+}
+
 # ── Delete Judge ──
 
 walker:pub delete_judge {
@@ -1110,6 +1127,7 @@ walker:pub send_invite_email {
     has to_name: str = "";
     has password: str = "jachacks2026";
     has platform_url: str = "https://jachacks.org/judging";
+    has schedule_url: str = "https://jachacks.org/schedule";
 
     can send with Root entry {
         import os;
@@ -1150,6 +1168,7 @@ walker:pub send_invite_email {
                     <p style="margin: 4px 0; font-size: 14px; color: #ccc;">Please arrive at the venue by <strong style="color: #fff;">10:30 AM on Saturday, April 5</strong></p>
                     <p style="margin: 4px 0; font-size: 14px; color: #ccc;">We'll hold a <strong style="color: #fff;">Judge Briefing</strong> before demos begin where we'll walk you through the process, the platform, and answer any questions</p>
                     <p style="margin: 8px 0 0 0; font-size: 13px; color: #888;">You're also welcome to stop by today (April 4) to see the hackers in action!</p>
+                    <p style="margin: 8px 0 0 0; font-size: 13px;"><a href="{self.schedule_url}" style="color: #F4622A;">View the full event schedule</a></p>
                 </div>
 
                 <p style="font-size: 14px; line-height: 1.6; margin-bottom: 12px; color: #ccc;">During the demo session, you'll rate each project on <strong style="color: #fff;">4 criteria</strong> (1–5 stars, equally weighted):</p>
