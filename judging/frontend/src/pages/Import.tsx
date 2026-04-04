@@ -2,29 +2,59 @@ import { useState, useEffect } from "react";
 import { walkerRequest, authRequest, extractReports } from "../api";
 import NavBar from "../components/NavBar";
 
+/**
+ * Proper CSV parser that handles multi-line quoted fields (Devpost exports have
+ * markdown descriptions with newlines inside quoted fields).
+ */
 function parseCSV(text: string): Record<string, string>[] {
-  const lines = text.split("\n").filter((l) => l.trim());
-  if (lines.length < 2) return [];
-  const parseLine = (line: string) => {
-    const result: string[] = [];
-    let current = "";
-    let inQuotes = false;
-    for (const char of line) {
-      if (char === '"') {
-        inQuotes = !inQuotes;
-      } else if (char === "," && !inQuotes) {
-        result.push(current.trim());
-        current = "";
+  const rows: string[][] = [];
+  let current: string[] = [];
+  let field = "";
+  let inQuotes = false;
+
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i];
+    const next = text[i + 1];
+
+    if (inQuotes) {
+      if (char === '"' && next === '"') {
+        field += '"';
+        i++; // skip escaped quote
+      } else if (char === '"') {
+        inQuotes = false;
       } else {
-        current += char;
+        field += char;
+      }
+    } else {
+      if (char === '"') {
+        inQuotes = true;
+      } else if (char === ',') {
+        current.push(field.trim());
+        field = "";
+      } else if (char === '\n' || (char === '\r' && next === '\n')) {
+        current.push(field.trim());
+        field = "";
+        if (current.length > 1 || current[0] !== "") {
+          rows.push(current);
+        }
+        current = [];
+        if (char === '\r') i++; // skip \r\n
+      } else {
+        field += char;
       }
     }
-    result.push(current.trim());
-    return result;
-  };
-  const headers = parseLine(lines[0]);
-  return lines.slice(1).map((line) => {
-    const values = parseLine(line);
+  }
+  // Last field/row
+  if (field || current.length > 0) {
+    current.push(field.trim());
+    if (current.length > 1 || current[0] !== "") {
+      rows.push(current);
+    }
+  }
+
+  if (rows.length < 2) return [];
+  const headers = rows[0];
+  return rows.slice(1).map((values) => {
     const row: Record<string, string> = {};
     headers.forEach((h, i) => {
       row[h] = values[i] || "";
@@ -40,6 +70,9 @@ interface DevpostProject {
   github_url: string;
   demo_url: string;
   devpost_url: string;
+  description: string;
+  built_with: string;
+  prizes: string[];
 }
 
 interface Judge {
@@ -48,52 +81,95 @@ interface Judge {
   role: string;
 }
 
-function mapTrack(desired: string): string {
-  const lower = desired.toLowerCase();
-  if (lower.includes("agentic")) return "agentic_ai";
-  if (lower.includes("fintech")) return "fintech_open";
-  if (lower.includes("social")) return "social_impact";
+function mapTrack(prizes: string[]): string {
+  const all = prizes.join(" ").toLowerCase();
+  if (all.includes("agentic")) return "agentic_ai";
+  if (all.includes("fintech")) return "fintech_open";
+  if (all.includes("social")) return "social_impact";
+  // Default to open track
   return "fintech_open";
 }
 
-function buildTeamName(membersStr: string): string {
-  if (!membersStr || !membersStr.trim()) return "Unknown Team";
-  const members = membersStr
-    .split(/[,\n]/)
-    .map((m) => m.trim())
-    .filter(Boolean);
-  if (members.length === 0) return "Unknown Team";
-  if (members.length <= 3) return members.join(" & ");
-  const firstParts = members[0].split(" ");
-  const lastName = firstParts[firstParts.length - 1];
-  return `Team ${lastName}`;
-}
+/**
+ * Parse Devpost CSV rows into deduplicated projects.
+ * Devpost creates one row PER prize opt-in, so a project with 3 prizes = 3 rows.
+ * We group by Project Title and merge prizes.
+ */
+function parseDevpostProjects(rows: Record<string, string>[]): DevpostProject[] {
+  const projectMap = new Map<string, DevpostProject>();
 
-function parseDevpostRow(row: Record<string, string>): DevpostProject {
-  const name = row["Project Title"] || row["project title"] || "";
-  const devpost_url = row["Submission Url"] || row["submission url"] || "";
-  const videoDemo = row["Video Demo Link"] || row["video demo link"] || "";
-  const desired = row["Desired Prizes"] || row["desired prizes"] || "";
-  const membersStr = row["Team Members"] || row["team members"] || "";
-  const website = row["Website"] || row["website"] || "";
+  for (const row of rows) {
+    const name = row["Project Title"] || "";
+    if (!name || name === "Untitled") continue;
 
-  let github_url = "";
-  let demo_url = videoDemo;
+    // Include both submitted and drafts with real names
 
-  if (website.includes("github.com")) {
-    github_url = website;
-  } else if (website) {
-    demo_url = demo_url || website;
+    const existing = projectMap.get(name);
+    const prize = row["Opt-In Prize"] || "";
+
+    if (existing) {
+      // Merge: just add the prize
+      if (prize && !existing.prizes.includes(prize)) {
+        existing.prizes.push(prize);
+      }
+      continue;
+    }
+
+    // Build team name from submitter + team members
+    const submitterFirst = row["Submitter First Name"] || "";
+    const submitterLast = row["Submitter Last Name"] || "";
+    const memberCount = parseInt(row["Additional Team Member Count"] || "0");
+    const members: string[] = [];
+    if (submitterFirst) members.push(`${submitterFirst} ${submitterLast}`.trim());
+    for (let i = 1; i <= memberCount; i++) {
+      const mFirst = row[`Team Member ${i} First Name`] || "";
+      const mLast = row[`Team Member ${i} Last Name`] || "";
+      if (mFirst) members.push(`${mFirst} ${mLast}`.trim());
+    }
+
+    let team_name = "";
+    if (members.length === 1) team_name = members[0];
+    else if (members.length <= 3) team_name = members.join(" & ");
+    else team_name = `Team ${submitterLast || submitterFirst}`;
+
+    // URLs
+    const devpost_url = row["Submission Url"] || "";
+    const tryItOut = row['"Try it out" Links'] || row["Try it out Links"] || "";
+    const videoDemo = row["Video Demo Link"] || "";
+    let github_url = "";
+    let demo_url = videoDemo;
+
+    if (tryItOut.includes("github.com")) {
+      github_url = tryItOut;
+    } else if (tryItOut) {
+      demo_url = demo_url || tryItOut;
+    }
+
+    // Description - take first 200 chars
+    const rawDesc = row["About The Project"] || "";
+    const description = rawDesc.replace(/^#+\s*.+$/gm, "").replace(/\n{2,}/g, " ").trim().slice(0, 300);
+
+    const builtWith = row["Built With"] || "";
+
+    projectMap.set(name, {
+      name,
+      team_name,
+      track: mapTrack(prize ? [prize] : []),
+      github_url,
+      demo_url,
+      devpost_url,
+      description,
+      built_with: builtWith,
+      prizes: prize ? [prize] : [],
+    });
   }
 
-  return {
-    name,
-    team_name: buildTeamName(membersStr),
-    track: mapTrack(desired),
-    github_url,
-    demo_url,
-    devpost_url,
-  };
+  // Update tracks based on all collected prizes
+  for (const proj of projectMap.values()) {
+    proj.track = mapTrack(proj.prizes);
+  }
+
+  return Array.from(projectMap.values());
 }
 
 const DEFAULT_PASSWORD = "jachacks2026";
@@ -271,9 +347,7 @@ export default function Import() {
         setDevpostProjects([]);
         return;
       }
-      const projects = rows
-        .map(parseDevpostRow)
-        .filter((p) => p.name.trim() !== "");
+      const projects = parseDevpostProjects(rows);
       setDevpostProjects(projects);
       setDevpostMsg(`Parsed ${projects.length} projects from ${file.name}`);
     };
@@ -536,9 +610,8 @@ export default function Import() {
                         <th>Name</th>
                         <th>Team</th>
                         <th>Track</th>
-                        <th>GitHub</th>
-                        <th>Demo</th>
-                        <th>Devpost</th>
+                        <th>Prizes</th>
+                        <th>Links</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -569,53 +642,16 @@ export default function Import() {
                               {p.track}
                             </span>
                           </td>
-                          <td>
-                            {p.github_url ? (
-                              <a
-                                href={p.github_url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                style={{ fontSize: "0.8rem" }}
-                              >
-                                Link
-                              </a>
-                            ) : (
-                              <span style={{ color: "var(--text-muted)" }}>
-                                --
-                              </span>
-                            )}
+                          <td style={{ fontSize: "0.75rem", color: "var(--text-muted)", maxWidth: 150 }}>
+                            {p.prizes.length > 0 ? p.prizes.join(", ") : "—"}
                           </td>
                           <td>
-                            {p.demo_url ? (
-                              <a
-                                href={p.demo_url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                style={{ fontSize: "0.8rem" }}
-                              >
-                                Link
-                              </a>
-                            ) : (
-                              <span style={{ color: "var(--text-muted)" }}>
-                                --
-                              </span>
-                            )}
-                          </td>
-                          <td>
-                            {p.devpost_url ? (
-                              <a
-                                href={p.devpost_url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                style={{ fontSize: "0.8rem" }}
-                              >
-                                Link
-                              </a>
-                            ) : (
-                              <span style={{ color: "var(--text-muted)" }}>
-                                --
-                              </span>
-                            )}
+                            <div style={{ display: "flex", gap: 6 }}>
+                              {p.devpost_url && <a href={p.devpost_url} target="_blank" rel="noopener noreferrer" style={{ fontSize: "0.75rem" }}>Devpost</a>}
+                              {p.github_url && <a href={p.github_url} target="_blank" rel="noopener noreferrer" style={{ fontSize: "0.75rem" }}>GitHub</a>}
+                              {p.demo_url && <a href={p.demo_url} target="_blank" rel="noopener noreferrer" style={{ fontSize: "0.75rem" }}>Demo</a>}
+                              {!p.devpost_url && !p.github_url && !p.demo_url && <span style={{ color: "var(--text-muted)", fontSize: "0.75rem" }}>—</span>}
+                            </div>
                           </td>
                         </tr>
                       ))}
