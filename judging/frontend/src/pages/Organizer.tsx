@@ -9,6 +9,10 @@ export default function Organizer() {
   const [selectedTrack, setSelectedTrack] = useState("");
   const [error, setError] = useState("");
   const intervalRef = useRef<number | null>(null);
+  const [allProjects, setAllProjects] = useState<any[]>([]);
+  const [assigningJudge, setAssigningJudge] = useState<string | null>(null); // email of judge being assigned
+  const [assigningName, setAssigningName] = useState("");
+  const [selectedProjects, setSelectedProjects] = useState<string[]>([]);
 
   useEffect(() => {
     loadAll();
@@ -24,14 +28,17 @@ export default function Organizer() {
 
   async function loadAll() {
     try {
-      const [cfgRes, progRes] = await Promise.all([
+      const [cfgRes, progRes, projRes] = await Promise.all([
         walkerRequest("get_config", {}),
         walkerRequest("get_progress", {}),
+        walkerRequest("get_all_projects", {}),
       ]);
       const cfg = extractFirst(cfgRes);
       if (cfg) setConfig(cfg);
       const prog = extractFirst(progRes);
       if (prog) setProgress(prog);
+      const projs = extractReports(projRes);
+      if (Array.isArray(projs)) setAllProjects(projs);
     } catch (err: any) {
       setError(err.message);
     }
@@ -364,14 +371,13 @@ export default function Organizer() {
                             <button
                               className="btn-secondary"
                               style={{ fontSize: "0.7rem", padding: "3px 8px" }}
-                              onClick={async () => {
-                                try {
-                                  await walkerRequest("auto_assign_judges", {});
-                                  loadAll();
-                                } catch {}
+                              onClick={() => {
+                                setAssigningJudge(j.judge_email);
+                                setAssigningName(j.judge_name);
+                                setSelectedProjects([]);
                               }}
                             >
-                              🔄 Assign
+                              📋 Assign
                             </button>
                             <button
                               className="btn-secondary"
@@ -407,6 +413,92 @@ export default function Organizer() {
             </p>
           )}
         </div>
+
+        {/* Assign Projects Modal */}
+        {assigningJudge && (
+          <div style={{
+            position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
+            background: "rgba(0,0,0,0.7)", zIndex: 1000,
+            display: "flex", alignItems: "center", justifyContent: "center",
+          }} onClick={() => setAssigningJudge(null)}>
+            <div style={{
+              background: "var(--surface)", border: "1px solid var(--border)",
+              borderRadius: 12, padding: 24, maxWidth: 500, width: "90%",
+              maxHeight: "80vh", overflowY: "auto",
+            }} onClick={(e) => e.stopPropagation()}>
+              <h3 style={{ fontFamily: "'Syne', sans-serif", marginBottom: 4 }}>
+                Assign Projects to {assigningName}
+              </h3>
+              <p style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginBottom: 16 }}>
+                Select projects, then click Assign Selected.
+              </p>
+
+              <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
+                <button className="btn-secondary" style={{ fontSize: "0.75rem", padding: "4px 10px" }}
+                  onClick={() => setSelectedProjects(allProjects.map((p: any) => p.project_id))}>
+                  Select All
+                </button>
+                <button className="btn-secondary" style={{ fontSize: "0.75rem", padding: "4px 10px" }}
+                  onClick={() => setSelectedProjects([])}>
+                  Clear
+                </button>
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                {allProjects.map((p: any) => (
+                  <label key={p.project_id} style={{
+                    display: "flex", alignItems: "center", gap: 10,
+                    padding: "8px 12px", borderRadius: 8,
+                    background: selectedProjects.includes(p.project_id) ? "rgba(244,98,42,0.1)" : "var(--bg, #0d0d0d)",
+                    border: `1px solid ${selectedProjects.includes(p.project_id) ? "var(--accent)" : "var(--border)"}`,
+                    cursor: "pointer", transition: "all 0.15s",
+                  }}>
+                    <input type="checkbox"
+                      checked={selectedProjects.includes(p.project_id)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedProjects([...selectedProjects, p.project_id]);
+                        } else {
+                          setSelectedProjects(selectedProjects.filter((id) => id !== p.project_id));
+                        }
+                      }}
+                      style={{ accentColor: "var(--accent)" }}
+                    />
+                    <div>
+                      <div style={{ fontWeight: 600, fontSize: "0.9rem" }}>{p.name}</div>
+                      <div style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>
+                        {p.team_name} · {(p.track || "").replace("_", " ")}
+                      </div>
+                    </div>
+                  </label>
+                ))}
+              </div>
+
+              <div style={{ display: "flex", gap: 8, marginTop: 16, justifyContent: "flex-end" }}>
+                <button className="btn-secondary" onClick={() => setAssigningJudge(null)}>
+                  Cancel
+                </button>
+                <button className="btn-primary"
+                  disabled={selectedProjects.length === 0}
+                  onClick={async () => {
+                    try {
+                      await walkerRequest("assign_judges", {
+                        email: assigningJudge,
+                        project_ids: selectedProjects,
+                      });
+                      setAssigningJudge(null);
+                      loadAll();
+                    } catch (e: any) {
+                      alert(`Error: ${e.message}`);
+                    }
+                  }}
+                >
+                  Assign {selectedProjects.length} Project{selectedProjects.length !== 1 ? "s" : ""}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
