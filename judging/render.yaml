@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: jachacks-judging
+    runtime: docker
+    dockerfilePath: ./judging/Dockerfile
+    dockerContext: ./judging
+    plan: free
+    envVars:
+      - key: SMTP_EMAIL
+        value: svatsal64@gmail.com
+      - key: SMTP_PASSWORD
+        sync: false

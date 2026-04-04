@@ -1,0 +1,6 @@
+__jac_gen__/
+.jac/
+*.db
+*.sqlite
+node_modules/
+frontend/node_modules/
