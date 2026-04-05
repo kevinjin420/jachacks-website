@@ -53,7 +53,7 @@ export default function Organizer() {
       const projs = extractReports(projRes);
       if (Array.isArray(projs)) setAllProjects(projs);
       const grps = extractFirst(grpRes);
-      if (Array.isArray(grps)) setGroups(grps);
+      if (Array.isArray(grps)) setGroups(grps.filter((g: any) => g.group_num > 0));
     } catch (err: any) {
       setError(err.message);
     }
