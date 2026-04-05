@@ -63,9 +63,10 @@ export default function JudgeDashboard() {
   const [error, setError] = useState("");
   const intervalRef = useRef<number | null>(null);
 
+  const firstLoad = useRef(true);
   useEffect(() => {
-    loadAll();
-    intervalRef.current = window.setInterval(loadAll, 5000);
+    loadAll().then(() => { firstLoad.current = false; });
+    intervalRef.current = window.setInterval(() => { loadAll(); }, 5000);
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
@@ -175,12 +176,12 @@ export default function JudgeDashboard() {
       <div className="container">
         <h1 className="page-title">Judge Dashboard</h1>
 
-        {loading && (
+        {loading && firstLoad.current && (
           <p style={{ color: "var(--text-muted)" }}>Loading...</p>
         )}
         {error && <p className="error-msg">{error}</p>}
 
-        {!loading && !isActive && (
+        {!(loading && firstLoad.current) && !isActive && (
           <>
             <div
               className="card"
