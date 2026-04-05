@@ -62,6 +62,7 @@ export default function JudgeDashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const intervalRef = useRef<number | null>(null);
+  const fetchInFlightRef = useRef(false);
 
   const firstLoad = useRef(true);
   useEffect(() => {
@@ -73,85 +74,67 @@ export default function JudgeDashboard() {
   }, []);
 
   async function loadAll() {
+    if (fetchInFlightRef.current) return;
+    fetchInFlightRef.current = true;
+
     try {
       const [cfgRes, projRes] = await Promise.all([
         walkerRequest("get_config", {}),
         walkerRequest("get_assigned_projects", { email }),
       ]);
       const cfg = extractFirst(cfgRes);
-      if (cfg) setConfig(cfg);
 
       const data = extractReports(projRes);
-      const list = Array.isArray(data)
+      let finalAssignments: AssignedProject[] = Array.isArray(data)
         ? data.length === 1 && Array.isArray(data[0]?.projects)
           ? data[0].projects
           : data
         : [];
-      setAllAssignments(list);
 
-      // Load current assignment if judging is active
-      if (cfg && cfg.current_group > 0) {
-        try {
-          const assignRes = await walkerRequest("get_current_assignment", { email });
-          const assign = extractFirst(assignRes);
-          if (assign?.current_assignment) {
-            const ca = assign.current_assignment;
-            const proj = ca.project || {};
-            setCurrentAssignment({
-              project_id: proj.project_id || "",
-              name: proj.name || "",
-              team_name: proj.team_name || "",
-              track: proj.track || "",
-              table_num: proj.table_num,
-              group_num: ca.group_num,
-              round_num: ca.round_num,
-              status: "pending",
-            });
-          } else {
-            setCurrentAssignment(null);
-          }
-          // Map all_assignments for the list
-          if (assign?.all_assignments) {
-            const mapped = assign.all_assignments.map((a: any) => ({
-              project_id: a.project?.project_id || "",
-              name: a.project?.name || "",
-              team_name: a.project?.team_name || "",
-              track: a.project?.track || "",
-              group_num: a.group_num,
-              round_num: a.round_num,
-              table_num: a.project?.table_num,
-              status: "pending",
-            }));
-            setAllAssignments(mapped);
-          }
-        } catch {
-          setCurrentAssignment(null);
+      let finalCurrentAssignment: CurrentAssignment | null = null;
+
+      try {
+        const assignRes = await walkerRequest("get_current_assignment", { email });
+        const assign = extractFirst(assignRes);
+
+        if (cfg && cfg.current_group > 0 && assign?.current_assignment) {
+          const ca = assign.current_assignment;
+          const proj = ca.project || {};
+          finalCurrentAssignment = {
+            project_id: proj.project_id || "",
+            name: proj.name || "",
+            team_name: proj.team_name || "",
+            track: proj.track || "",
+            table_num: proj.table_num,
+            group_num: ca.group_num,
+            round_num: ca.round_num,
+            status: "pending",
+          };
         }
-      } else {
-        setCurrentAssignment(null);
-        // Still load assignments so judges can see their tables before judging starts
-        try {
-          const assignRes = await walkerRequest("get_current_assignment", { email });
-          const assign = extractFirst(assignRes);
-          if (assign?.all_assignments) {
-            const mapped = assign.all_assignments.map((a: any) => ({
-              project_id: a.project?.project_id || "",
-              name: a.project?.name || "",
-              team_name: a.project?.team_name || "",
-              track: a.project?.track || "",
-              group_num: a.group_num,
-              round_num: a.round_num,
-              table_num: a.project?.table_num,
-              status: "pending",
-            }));
-            setAllAssignments(mapped);
-          }
-        } catch {}
-      }
+
+        if (assign?.all_assignments) {
+          finalAssignments = assign.all_assignments.map((a: any) => ({
+            project_id: a.project?.project_id || "",
+            name: a.project?.name || "",
+            team_name: a.project?.team_name || "",
+            track: a.project?.track || "",
+            group_num: a.group_num,
+            round_num: a.round_num,
+            table_num: a.project?.table_num,
+            status: "pending",
+          }));
+        }
+      } catch {}
+
+      // Set all state in one batch — no intermediate renders, no flicker.
+      if (cfg) setConfig(cfg);
+      setCurrentAssignment(finalCurrentAssignment);
+      setAllAssignments(finalAssignments);
     } catch (err: any) {
       setError(err.message);
     } finally {
       setLoading(false);
+      fetchInFlightRef.current = false;
     }
   }
 
