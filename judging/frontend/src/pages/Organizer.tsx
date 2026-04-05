@@ -1,22 +1,32 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { walkerRequest, extractFirst, extractReports } from "../api";
 import NavBar from "../components/NavBar";
 
+function useStableState<T>(initial: T): [T, (v: T) => void] {
+  const [state, setState] = useState(initial);
+  const ref = useRef(JSON.stringify(initial));
+  const setStable = useCallback((v: T) => {
+    const json = JSON.stringify(v);
+    if (json !== ref.current) { ref.current = json; setState(v); }
+  }, []);
+  return [state, setStable];
+}
+
 export default function Organizer() {
-  const [config, setConfig] = useState<any>({});
-  const [progress, setProgress] = useState<any>(null);
-  const [leaderboard, setLeaderboard] = useState<any[]>([]);
+  const [config, setConfig] = useStableState<any>({});
+  const [progress, setProgress] = useStableState<any>(null);
+  const [leaderboard, setLeaderboard] = useStableState<any[]>([]);
   const [selectedTrack, setSelectedTrack] = useState("");
   const [error, setError] = useState("");
   const intervalRef = useRef<number | null>(null);
-  const [allProjects, setAllProjects] = useState<any[]>([]);
+  const [allProjects, setAllProjects] = useStableState<any[]>([]);
   const [assigningJudge, setAssigningJudge] = useState<string | null>(null);
   const [assigningName, setAssigningName] = useState("");
   const [selectedProjects, setSelectedProjects] = useState<string[]>([]);
   const [flowLoading, setFlowLoading] = useState("");
   const [flowMsg, setFlowMsg] = useState("");
   const [expandedGroup, setExpandedGroup] = useState<number | null>(null);
-  const [groups, setGroups] = useState<any[]>([]);
+  const [groups, setGroups] = useStableState<any[]>([]);
   const [groupsOpen, setGroupsOpen] = useState(true);
   const [timerStart, setTimerStart] = useState<number | null>(null);
   const [timerDisplay, setTimerDisplay] = useState("0:00");

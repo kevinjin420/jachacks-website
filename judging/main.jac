@@ -1246,17 +1246,17 @@ walker:pub assign_rotation {
         total_assignments = 0;
 
         for (g, group_projects) in groups.items() {
+            if g == 0 { continue; }
+            # Sort by table_num so consecutive indices = consecutive tables
+            group_projects.sort(key=lambda p: Project: p.table_num);
             n_proj = len(group_projects);
-            # Round 1: judge[i] gets project[i % n_proj]
-            # Round 2: judge[i] gets project[(i+1) % n_proj]
+            # Round 1: judge[i] gets table[i] (project at table i+1)
+            # Round 2: judge[i] gets table[i+1] (next table over)
             for (i, judge) in enumerate(judges) {
-                # Round 1 assignment
                 r1_idx = i % n_proj;
+                r2_idx = (i + 1) % n_proj;
                 judge +>:AssignedTo(round_num=1):+> group_projects[r1_idx];
                 total_assignments += 1;
-
-                # Round 2 assignment (shifted by 1)
-                r2_idx = (i + 1) % n_proj;
                 if r2_idx != r1_idx {
                     judge +>:AssignedTo(round_num=2):+> group_projects[r2_idx];
                     total_assignments += 1;
@@ -1305,22 +1305,29 @@ walker:pub get_current_assignment {
         current_group = config.current_group;
         current_round = config.current_round;
 
-        # Simple approach: get all assigned projects, group by group_num
+        # Get all assigned projects, group by group_num, sort by table_num
         assigned = [profile -->](?:Project);
-        all_assignments = [];
-        groups_seen: dict = {};
+        # Group by group_num first
+        by_group: dict = {};
         for proj in assigned {
             g = proj.group_num;
-            if g not in groups_seen {
-                groups_seen[g] = 0;
+            if g not in by_group {
+                by_group[g] = [];
             }
-            groups_seen[g] += 1;
-            round_num = groups_seen[g];  # 1st project in group = round 1, 2nd = round 2
-            all_assignments.append({
-                "project": project_to_dict(proj),
-                "round_num": round_num,
-                "group_num": g
-            });
+            by_group[g].append(proj);
+        }
+        # Sort each group by table_num so lower table = Round 1, higher = Round 2
+        all_assignments = [];
+        for (g, projs) in by_group.items() {
+            projs.sort(key=lambda p: Project: p.table_num);
+            for (idx, proj) in enumerate(projs) {
+                round_num = idx + 1;
+                all_assignments.append({
+                    "project": project_to_dict(proj),
+                    "round_num": round_num,
+                    "group_num": g
+                });
+            }
         }
 
         # Find current assignment
