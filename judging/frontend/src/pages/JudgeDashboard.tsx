@@ -1,7 +1,21 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { walkerRequest, extractFirst, extractReports, getStoredEmail } from "../api";
 import NavBar from "../components/NavBar";
+
+// Only update state if data actually changed (prevents flicker)
+function useStableState<T>(initial: T): [T, (v: T) => void] {
+  const [state, setState] = useState(initial);
+  const ref = useRef(JSON.stringify(initial));
+  const setStable = useCallback((v: T) => {
+    const json = JSON.stringify(v);
+    if (json !== ref.current) {
+      ref.current = json;
+      setState(v);
+    }
+  }, []);
+  return [state, setStable];
+}
 
 const TRACK_COLORS: Record<string, { bg: string; text: string }> = {
   agentic_ai: { bg: "rgba(139, 92, 246, 0.15)", text: "#8B5CF6" },
@@ -41,9 +55,9 @@ interface CurrentAssignment {
 
 export default function JudgeDashboard() {
   const email = getStoredEmail();
-  const [config, setConfig] = useState<any>({});
-  const [currentAssignment, setCurrentAssignment] = useState<CurrentAssignment | null>(null);
-  const [allAssignments, setAllAssignments] = useState<AssignedProject[]>([]);
+  const [config, setConfig] = useStableState<any>({});
+  const [currentAssignment, setCurrentAssignment] = useStableState<CurrentAssignment | null>(null);
+  const [allAssignments, setAllAssignments] = useStableState<AssignedProject[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const intervalRef = useRef<number | null>(null);
