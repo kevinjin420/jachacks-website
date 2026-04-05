@@ -64,7 +64,7 @@ def create_app() -> web.Application:
     return app
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 3000))
+    port = int(os.environ.get("PORT", 10000))
     print(f"\n  JacHacks Judging Platform")
     print(f"  Frontend: {FRONTEND_DIR}")
     print(f"  API proxy: {JAC_API}")
