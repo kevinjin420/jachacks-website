@@ -27,13 +27,19 @@ edge HasProfile {}
 edge HasAward {}
 edge HasScore {}
 edge HasAwardScore {}
-edge AssignedTo {}
+edge AssignedTo {
+    has round_num: int = 1;
+}
 
 # ── Nodes ──
 
 node Config {
     has scoring_locked: bool = False,
-        event_name: str = "JacHacks 2026";
+        event_name: str = "JacHacks 2026",
+        current_group: int = 0,
+        current_round: int = 0,
+        total_groups: int = 0,
+        group_size: int = 10;
 }
 
 node Project {
@@ -46,7 +52,8 @@ node Project {
         devpost_url: str = "",
         description: str = "",
         submitted_by: str = "",
-        submitted_at: str = "";
+        submitted_at: str = "",
+        group_num: int = 0;
 }
 
 node UserProfile {
@@ -157,7 +164,8 @@ def project_to_dict(p: Project) -> dict {
         "devpost_url": p.devpost_url,
         "description": p.description,
         "submitted_by": p.submitted_by,
-        "submitted_at": p.submitted_at
+        "submitted_at": p.submitted_at,
+        "group_num": p.group_num
     };
 }
 
@@ -218,7 +226,11 @@ walker:pub get_config {
         c = get_config_node();
         report {
             "scoring_locked": c.scoring_locked,
-            "event_name": c.event_name
+            "event_name": c.event_name,
+            "current_group": c.current_group,
+            "current_round": c.current_round,
+            "total_groups": c.total_groups,
+            "group_size": c.group_size
         };
     }
 }
@@ -1082,6 +1094,163 @@ walker:pub register_participant {
 }
 
 # ── Graph initialization ──
+
+# ── Create Groups (split projects into groups of N) ──
+
+walker:pub create_groups {
+    has group_size: int = 10;
+
+    can create with Root entry {
+        projects = [root -->](?:Project);
+        import random;
+        random.shuffle(projects);
+        group_num = 1;
+        for (i, proj) in enumerate(projects) {
+            proj.group_num = group_num;
+            if (i + 1) % self.group_size == 0 {
+                group_num += 1;
+            }
+        }
+        total_groups = group_num;
+        config = get_config_node();
+        config.total_groups = total_groups;
+        config.group_size = self.group_size;
+        config.current_group = 0;
+        config.current_round = 0;
+
+        # Report group summary
+        summary = {};
+        for proj in projects {
+            g = proj.group_num;
+            if g not in summary {
+                summary[g] = [];
+            }
+            summary[g].append(proj.name);
+        }
+        report {"total_groups": total_groups, "group_size": self.group_size, "groups": summary};
+    }
+}
+
+# ── Rotation Assignment (assign each judge 2 projects per group) ──
+
+walker:pub assign_rotation {
+    can assign with Root entry {
+        judges = [p for p in [root -->](?:UserProfile) if p.role == "judge"];
+        projects = [root -->](?:Project);
+        config = get_config_node();
+
+        # Clear existing assignments
+        for judge in judges {
+            for proj in [judge -->](?:Project) {
+                judge del --> proj;
+            }
+        }
+
+        # Group projects by group_num
+        groups: dict = {};
+        for proj in projects {
+            g = proj.group_num;
+            if g not in groups {
+                groups[g] = [];
+            }
+            groups[g].append(proj);
+        }
+
+        num_judges = len(judges);
+        total_assignments = 0;
+
+        for (g, group_projects) in groups.items() {
+            n_proj = len(group_projects);
+            # Round 1: judge[i] gets project[i % n_proj]
+            # Round 2: judge[i] gets project[(i+1) % n_proj]
+            for (i, judge) in enumerate(judges) {
+                # Round 1 assignment
+                r1_idx = i % n_proj;
+                judge +>:AssignedTo(round_num=1):+> group_projects[r1_idx];
+                total_assignments += 1;
+
+                # Round 2 assignment (shifted by 1)
+                r2_idx = (i + 1) % n_proj;
+                if r2_idx != r1_idx {
+                    judge +>:AssignedTo(round_num=2):+> group_projects[r2_idx];
+                    total_assignments += 1;
+                }
+            }
+        }
+
+        report {
+            "total_assignments": total_assignments,
+            "judges": num_judges,
+            "groups": len(groups),
+            "projects_per_judge": total_assignments / num_judges if num_judges > 0 else 0
+        };
+    }
+}
+
+# ── Set Current Group/Round (organizer controls) ──
+
+walker:pub set_judging_state {
+    has current_group: int = 0;
+    has current_round: int = 0;
+
+    can set with Root entry {
+        config = get_config_node();
+        config.current_group = self.current_group;
+        config.current_round = self.current_round;
+        report {
+            "current_group": config.current_group,
+            "current_round": config.current_round
+        };
+    }
+}
+
+# ── Get Judge's Current Assignment ──
+
+walker:pub get_current_assignment {
+    has email: str = "";
+
+    can fetch with Root entry {
+        profile = find_profile_by_email(self.email);
+        if profile == None {
+            report {"error": "Profile not found"};
+            disengage;
+        }
+        config = get_config_node();
+        current_group = config.current_group;
+        current_round = config.current_round;
+
+        # Get all assignments for this judge
+        all_assignments = [];
+        for edge_ref in [edge profile -->](?:AssignedTo) {
+            # Get the target project
+            target_nodes = [edge_ref -->];
+            if len(target_nodes) > 0 {
+                proj = target_nodes[0];
+                all_assignments.append({
+                    "project": project_to_dict(proj),
+                    "round_num": edge_ref.round_num,
+                    "group_num": proj.group_num
+                });
+            }
+        }
+
+        # Filter for current group and round
+        current = None;
+        for a in all_assignments {
+            if a["group_num"] == current_group and a["round_num"] == current_round {
+                current = a;
+            }
+        }
+
+        report {
+            "current_group": current_group,
+            "current_round": current_round,
+            "current_assignment": current,
+            "all_assignments": all_assignments,
+            "total_groups": config.total_groups
+        };
+    }
+}
 
 # ── Update Role ──
 

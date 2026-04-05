@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { walkerRequest, authRequest, extractReports } from "../api";
+import { walkerRequest, authRequest, extractFirst, extractReports } from "../api";
 import NavBar from "../components/NavBar";
 
 /**
@@ -218,10 +218,15 @@ export default function Import() {
   const [devpostFileName, setDevpostFileName] = useState("");
 
   const [assignMsg, setAssignMsg] = useState("");
+  const [groupSize, setGroupSize] = useState(10);
+  const [groupMsg, setGroupMsg] = useState("");
+  const [groupSummary, setGroupSummary] = useState("");
   const [loading, setLoading] = useState({
     devpost: false,
     judges: false,
     assign: false,
+    createGroups: false,
+    assignRotation: false,
   });
 
   async function loadJudges() {
@@ -734,6 +739,116 @@ export default function Import() {
                 </span>
               )}
             </div>
+          </div>
+
+          {/* ===== GROUP SETUP ===== */}
+          <div className="card">
+            <h3
+              style={{
+                fontFamily: "'Syne', sans-serif",
+                fontWeight: 700,
+                marginBottom: 8,
+              }}
+            >
+              Group Setup (Rotation Judging)
+            </h3>
+            <p
+              style={{
+                color: "var(--text-muted)",
+                fontSize: "0.85rem",
+                marginBottom: 16,
+              }}
+            >
+              Split projects into groups for rotation-based judging. Each group enters a room,
+              judges score 2 projects each (round 1 + round 2), then the next group comes in.
+            </p>
+
+            <div style={{ display: "flex", gap: 12, alignItems: "end", marginBottom: 16 }}>
+              <div className="form-group" style={{ marginBottom: 0, width: 120 }}>
+                <label>Group Size</label>
+                <input
+                  type="number"
+                  min={2}
+                  max={50}
+                  value={groupSize}
+                  onChange={(e) => setGroupSize(parseInt(e.target.value) || 10)}
+                />
+              </div>
+              <button
+                className="btn-primary"
+                onClick={async () => {
+                  setLoading((l) => ({ ...l, createGroups: true }));
+                  setGroupMsg("");
+                  setGroupSummary("");
+                  try {
+                    const res = await walkerRequest("create_groups", { group_size: groupSize });
+                    const data = extractFirst(res);
+                    if (data) {
+                      const totalGroups = data.total_groups || 0;
+                      const groups = data.groups || [];
+                      let summary = `${totalGroups} group(s) created`;
+                      if (groups.length > 0) {
+                        summary += ": " + groups.map((g: any) =>
+                          `Group ${g.group_num} (${g.count || g.project_count || "?"} projects)`
+                        ).join(", ");
+                      }
+                      setGroupSummary(summary);
+                    }
+                    setGroupMsg("Groups created successfully!");
+                  } catch (err: any) {
+                    setGroupMsg(`Error: ${err.message}`);
+                  } finally {
+                    setLoading((l) => ({ ...l, createGroups: false }));
+                  }
+                }}
+                disabled={loading.createGroups}
+                style={{ height: 42 }}
+              >
+                {loading.createGroups ? "Creating..." : "Create Groups"}
+              </button>
+              <button
+                className="btn-secondary"
+                onClick={async () => {
+                  setLoading((l) => ({ ...l, assignRotation: true }));
+                  setGroupMsg("");
+                  try {
+                    await walkerRequest("assign_rotation", {});
+                    setGroupMsg("Rotation assigned — each judge gets 2 projects per group");
+                  } catch (err: any) {
+                    setGroupMsg(`Error: ${err.message}`);
+                  } finally {
+                    setLoading((l) => ({ ...l, assignRotation: false }));
+                  }
+                }}
+                disabled={loading.assignRotation}
+                style={{ height: 42 }}
+              >
+                {loading.assignRotation ? "Assigning..." : "Assign Rotation"}
+              </button>
+            </div>
+
+            {groupSummary && (
+              <p style={{
+                fontSize: "0.85rem",
+                color: "var(--text-muted)",
+                padding: "10px 14px",
+                background: "var(--surface)",
+                borderRadius: 8,
+                border: "1px solid var(--border)",
+                marginBottom: 8,
+              }}>
+                {groupSummary}
+              </p>
+            )}
+
+            {groupMsg && (
+              <p style={{
+                fontSize: "0.85rem",
+                color: groupMsg.startsWith("Error") ? "var(--danger)" : "var(--success)",
+              }}>
+                {groupMsg}
+              </p>
+            )}
           </div>
 
           {/* ===== CURRENT JUDGES LIST ===== */}

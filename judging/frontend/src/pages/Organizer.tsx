@@ -10,9 +10,11 @@ export default function Organizer() {
   const [error, setError] = useState("");
   const intervalRef = useRef<number | null>(null);
   const [allProjects, setAllProjects] = useState<any[]>([]);
-  const [assigningJudge, setAssigningJudge] = useState<string | null>(null); // email of judge being assigned
+  const [assigningJudge, setAssigningJudge] = useState<string | null>(null);
   const [assigningName, setAssigningName] = useState("");
   const [selectedProjects, setSelectedProjects] = useState<string[]>([]);
+  const [flowLoading, setFlowLoading] = useState("");
+  const [flowMsg, setFlowMsg] = useState("");
 
   useEffect(() => {
     loadAll();
@@ -68,6 +70,46 @@ export default function Organizer() {
     }
   }
 
+  async function flowAction(action: string) {
+    setFlowLoading(action);
+    setFlowMsg("");
+    try {
+      if (action === "create_groups") {
+        const res = await walkerRequest("create_groups", { group_size: 10 });
+        const data = extractFirst(res);
+        setFlowMsg(data ? `Created ${data.total_groups || "?"} groups` : "Groups created");
+      } else if (action === "assign_rotation") {
+        await walkerRequest("assign_rotation", {});
+        setFlowMsg("Rotation assigned — each judge gets 2 projects per group");
+      } else if (action === "start") {
+        await walkerRequest("set_judging_state", { current_group: 1, current_round: 1 });
+        setFlowMsg("Judging started — Group 1, Round 1");
+      } else if (action === "next_round") {
+        const g = config.current_group || 1;
+        const r = config.current_round || 1;
+        if (r === 1) {
+          await walkerRequest("set_judging_state", { current_group: g, current_round: 2 });
+        } else {
+          const nextGroup = g + 1;
+          if (nextGroup > (config.total_groups || 999)) {
+            await walkerRequest("set_judging_state", { current_group: 0, current_round: 0 });
+            setFlowMsg("All groups complete!");
+          } else {
+            await walkerRequest("set_judging_state", { current_group: nextGroup, current_round: 1 });
+          }
+        }
+      } else if (action === "pause") {
+        await walkerRequest("set_judging_state", { current_group: 0, current_round: 0 });
+        setFlowMsg("Judging paused");
+      }
+      await loadAll();
+    } catch (err: any) {
+      setFlowMsg(`Error: ${err.message}`);
+    } finally {
+      setFlowLoading("");
+    }
+  }
+
   const judges = progress?.judges || [];
   const totalScored = judges.reduce(
     (s: number, j: any) => s + (j.submitted || j.scored || 0),
@@ -87,19 +129,146 @@ export default function Organizer() {
           <h1 className="page-title" style={{ marginBottom: 0 }}>
             Mission Control
           </h1>
-          <span
+          {config.current_group > 0 && (
+            <span
+              style={{
+                fontFamily: "'Space Mono', monospace",
+                fontSize: "0.8rem",
+                color: "var(--accent)",
+                background: "rgba(244, 98, 42, 0.15)",
+                border: "1px solid var(--accent)",
+                padding: "4px 12px",
+                borderRadius: 20,
+                fontWeight: 700,
+              }}
+            >
+              Group {config.current_group} / Round {config.current_round}
+            </span>
+          )}
+        </div>
+
+        {/* Judging Flow Control Panel */}
+        <div
+          className="card mb-16"
+          style={{
+            border: "2px solid var(--accent)",
+            background: "rgba(244, 98, 42, 0.05)",
+          }}
+        >
+          <h3
             style={{
-              fontFamily: "'Space Mono', monospace",
-              fontSize: "0.8rem",
-              color: "var(--text-muted)",
-              background: "var(--surface)",
-              border: "1px solid var(--border)",
-              padding: "4px 12px",
-              borderRadius: 20,
+              fontFamily: "'Syne', sans-serif",
+              fontWeight: 700,
+              marginBottom: 12,
+              color: "var(--accent)",
             }}
           >
-            Round 1
-          </span>
+            Judging Flow
+          </h3>
+
+          {(!config.current_group || config.current_group === 0) ? (
+            <>
+              <p style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginBottom: 16 }}>
+                Set up groups, assign rotations, then start judging.
+              </p>
+              <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+                <button
+                  className="btn-secondary"
+                  onClick={() => flowAction("create_groups")}
+                  disabled={!!flowLoading}
+                >
+                  {flowLoading === "create_groups" ? "Creating..." : "1. Setup Groups (10 per group)"}
+                </button>
+                <button
+                  className="btn-secondary"
+                  onClick={() => flowAction("assign_rotation")}
+                  disabled={!!flowLoading}
+                >
+                  {flowLoading === "assign_rotation" ? "Assigning..." : "2. Assign Rotation"}
+                </button>
+                <button
+                  className="btn-primary"
+                  onClick={() => flowAction("start")}
+                  disabled={!!flowLoading}
+                  style={{ fontWeight: 700 }}
+                >
+                  {flowLoading === "start" ? "Starting..." : "3. Start Judging"}
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <div
+                style={{
+                  background: "rgba(244, 98, 42, 0.15)",
+                  border: "2px solid var(--accent)",
+                  borderRadius: 12,
+                  padding: "20px 24px",
+                  textAlign: "center",
+                  marginBottom: 16,
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: "'Syne', sans-serif",
+                    fontSize: "2rem",
+                    fontWeight: 800,
+                    color: "var(--accent)",
+                    lineHeight: 1.2,
+                  }}
+                >
+                  GROUP {config.current_group} — ROUND {config.current_round}
+                </div>
+                <div
+                  style={{
+                    color: "var(--text-muted)",
+                    fontSize: "0.85rem",
+                    marginTop: 4,
+                    fontFamily: "'Space Mono', monospace",
+                  }}
+                >
+                  {config.current_group} of {config.total_groups || "?"} groups
+                </div>
+              </div>
+              <div style={{ display: "flex", gap: 12, justifyContent: "center" }}>
+                <button
+                  className="btn-primary"
+                  onClick={() => flowAction("next_round")}
+                  disabled={!!flowLoading}
+                  style={{ fontWeight: 700, fontSize: "1rem", padding: "10px 24px" }}
+                >
+                  {flowLoading === "next_round"
+                    ? "Advancing..."
+                    : config.current_round === 1
+                      ? "Next Round (Round 2)"
+                      : (config.current_group || 0) >= (config.total_groups || 999)
+                        ? "Finish Judging"
+                        : `Next Group (Group ${(config.current_group || 0) + 1})`
+                  }
+                </button>
+                <button
+                  className="btn-secondary"
+                  onClick={() => flowAction("pause")}
+                  disabled={!!flowLoading}
+                  style={{ color: "var(--danger, #ef4444)" }}
+                >
+                  {flowLoading === "pause" ? "Pausing..." : "Pause Judging"}
+                </button>
+              </div>
+            </>
+          )}
+
+          {flowMsg && (
+            <p
+              style={{
+                marginTop: 12,
+                fontSize: "0.85rem",
+                color: flowMsg.startsWith("Error") ? "var(--danger)" : "var(--success)",
+              }}
+            >
+              {flowMsg}
+            </p>
+          )}
         </div>
 
         <div className="stat-grid">

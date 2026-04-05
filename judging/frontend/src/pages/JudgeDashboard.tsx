@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { walkerRequest, extractReports, getStoredEmail } from "../api";
+import { walkerRequest, extractFirst, extractReports, getStoredEmail } from "../api";
 import NavBar from "../components/NavBar";
 
 const TRACK_COLORS: Record<string, { bg: string; text: string }> = {
@@ -24,28 +24,66 @@ interface AssignedProject {
   track: string;
   status: string;
   draft_score?: number;
+  group_num?: number;
+  round_num?: number;
+}
+
+interface CurrentAssignment {
+  project_id: string;
+  name: string;
+  team_name: string;
+  track: string;
+  group_num: number;
+  round_num: number;
+  status: string;
 }
 
 export default function JudgeDashboard() {
   const email = getStoredEmail();
-  const [projects, setProjects] = useState<AssignedProject[]>([]);
+  const [config, setConfig] = useState<any>({});
+  const [currentAssignment, setCurrentAssignment] = useState<CurrentAssignment | null>(null);
+  const [allAssignments, setAllAssignments] = useState<AssignedProject[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const intervalRef = useRef<number | null>(null);
 
   useEffect(() => {
-    loadProjects();
+    loadAll();
+    intervalRef.current = window.setInterval(loadAll, 5000);
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
   }, []);
 
-  async function loadProjects() {
+  async function loadAll() {
     try {
-      const res = await walkerRequest("get_assigned_projects", { email });
-      const data = extractReports(res);
+      const [cfgRes, projRes] = await Promise.all([
+        walkerRequest("get_config", {}),
+        walkerRequest("get_assigned_projects", { email }),
+      ]);
+      const cfg = extractFirst(cfgRes);
+      if (cfg) setConfig(cfg);
+
+      const data = extractReports(projRes);
       const list = Array.isArray(data)
         ? data.length === 1 && Array.isArray(data[0]?.projects)
           ? data[0].projects
           : data
         : [];
-      setProjects(list);
+      setAllAssignments(list);
+
+      // Load current assignment if judging is active
+      if (cfg && cfg.current_group > 0) {
+        try {
+          const assignRes = await walkerRequest("get_current_assignment", { email });
+          const assign = extractFirst(assignRes);
+          setCurrentAssignment(assign || null);
+        } catch {
+          setCurrentAssignment(null);
+        }
+      } else {
+        setCurrentAssignment(null);
+      }
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -65,11 +103,8 @@ export default function JudgeDashboard() {
     return "Pending";
   }
 
-  const submitted = projects.filter(
-    (p) => p.status === "submitted"
-  ).length;
-  const drafts = projects.filter((p) => p.status === "draft").length;
-  const remaining = projects.length - submitted - drafts;
+  const isActive = config.current_group > 0;
+  const currentScored = currentAssignment?.status === "submitted";
 
   return (
     <>
@@ -77,129 +112,267 @@ export default function JudgeDashboard() {
       <div className="container">
         <h1 className="page-title">Judge Dashboard</h1>
 
-        <div className="stat-grid">
-          <div className="stat-card">
-            <div className="stat-icon">&#128203;</div>
-            <div className="stat-value">{projects.length}</div>
-            <div className="stat-label">Assigned</div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-icon">&#9989;</div>
-            <div className="stat-value">{submitted}</div>
-            <div className="stat-label">Submitted</div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-icon">&#9998;</div>
-            <div className="stat-value">{drafts}</div>
-            <div className="stat-label">Drafts</div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-icon">&#8987;</div>
-            <div className="stat-value">{remaining}</div>
-            <div className="stat-label">Remaining</div>
-          </div>
-        </div>
-
         {loading && (
-          <p style={{ color: "var(--text-muted)" }}>
-            Loading projects...
-          </p>
+          <p style={{ color: "var(--text-muted)" }}>Loading...</p>
         )}
         {error && <p className="error-msg">{error}</p>}
 
-        {!loading && projects.length === 0 && (
-          <div className="card" style={{ textAlign: "center" }}>
-            <p style={{ color: "var(--text-muted)" }}>
-              No projects assigned yet. Please wait for an organizer to
-              assign projects.
+        {!loading && !isActive && (
+          <div
+            className="card"
+            style={{
+              textAlign: "center",
+              padding: "40px 24px",
+            }}
+          >
+            <div style={{ fontSize: "2rem", marginBottom: 12 }}>&#9203;</div>
+            <h2
+              style={{
+                fontFamily: "'Syne', sans-serif",
+                fontWeight: 700,
+                marginBottom: 8,
+              }}
+            >
+              Judging hasn't started yet
+            </h2>
+            <p style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>
+              Please wait for the organizer to begin the judging session.
             </p>
           </div>
         )}
 
-        {!loading && projects.length > 0 && (
-          <div style={{ display: "grid", gap: 12 }}>
-            {projects.map((p) => (
-              <Link
-                key={p.project_id}
-                to={`/judge/${p.project_id}`}
-                style={{ textDecoration: "none", color: "inherit" }}
+        {!loading && isActive && (
+          <>
+            {/* Current Group/Round Banner */}
+            <div
+              style={{
+                background: "rgba(244, 98, 42, 0.12)",
+                border: "2px solid var(--accent)",
+                borderRadius: 12,
+                padding: "20px 24px",
+                textAlign: "center",
+                marginBottom: 20,
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: "'Syne', sans-serif",
+                  fontSize: "1.8rem",
+                  fontWeight: 800,
+                  color: "var(--accent)",
+                  lineHeight: 1.2,
+                }}
               >
-                <div
-                  className="card"
+                GROUP {config.current_group} — ROUND {config.current_round}
+              </div>
+            </div>
+
+            {/* Current Assignment */}
+            {currentAssignment && !currentScored && (
+              <div className="card mb-16" style={{ border: "2px solid var(--accent)" }}>
+                <h3
                   style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    padding: "16px 20px",
-                    cursor: "pointer",
+                    fontFamily: "'Syne', sans-serif",
+                    fontWeight: 700,
+                    marginBottom: 4,
+                    color: "var(--accent)",
                   }}
                 >
-                  <div>
-                    <div
-                      style={{
-                        fontWeight: 600,
-                        marginBottom: 4,
-                        fontSize: "1rem",
-                      }}
-                    >
-                      {p.name}
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        gap: 8,
-                        alignItems: "center",
-                      }}
-                    >
-                      <span
-                        style={{
-                          color: "var(--text-muted)",
-                          fontSize: "0.85rem",
-                        }}
-                      >
-                        {p.team_name}
-                      </span>
-                      <span
-                        className="chip"
-                        style={trackStyle(p.track)}
-                      >
-                        {p.track}
-                      </span>
-                    </div>
-                  </div>
+                  Your Current Assignment
+                </h3>
+                <p
+                  style={{
+                    color: "var(--text-muted)",
+                    fontSize: "0.85rem",
+                    marginBottom: 16,
+                  }}
+                >
+                  Score this project now (3 min presentation)
+                </p>
+
+                <div
+                  style={{
+                    background: "var(--surface)",
+                    borderRadius: 10,
+                    padding: "16px 20px",
+                    marginBottom: 16,
+                  }}
+                >
                   <div
                     style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 12,
+                      fontWeight: 700,
+                      fontSize: "1.2rem",
+                      marginBottom: 4,
                     }}
                   >
-                    {p.status === "draft" && p.draft_score && (
-                      <span
-                        style={{
-                          fontFamily: "'Space Mono', monospace",
-                          fontSize: "0.85rem",
-                          color: "var(--text-muted)",
-                        }}
-                      >
-                        {p.draft_score}/5
+                    {currentAssignment.name}
+                  </div>
+                  <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                    <span style={{ color: "var(--text-muted)", fontSize: "0.85rem" }}>
+                      {currentAssignment.team_name}
+                    </span>
+                    {currentAssignment.track && (
+                      <span className="chip" style={trackStyle(currentAssignment.track)}>
+                        {currentAssignment.track}
                       </span>
                     )}
-                    <span className={chipClass(p.status)}>
-                      {chipLabel(p.status)}
-                    </span>
-                    <span
-                      style={{
-                        color: "var(--accent)",
-                        fontSize: "0.85rem",
-                      }}
-                    >
-                      Score &rarr;
-                    </span>
                   </div>
                 </div>
-              </Link>
-            ))}
+
+                <Link
+                  to={`/judge/${currentAssignment.project_id}`}
+                  style={{ textDecoration: "none" }}
+                >
+                  <button
+                    className="btn-primary"
+                    style={{
+                      width: "100%",
+                      fontSize: "1.1rem",
+                      padding: "14px 24px",
+                      fontWeight: 700,
+                    }}
+                  >
+                    Score This Project
+                  </button>
+                </Link>
+              </div>
+            )}
+
+            {/* Already scored current */}
+            {currentScored && (
+              <div
+                className="card mb-16"
+                style={{
+                  textAlign: "center",
+                  padding: "30px 24px",
+                  border: "2px solid var(--success, #22C55E)",
+                }}
+              >
+                <div style={{ fontSize: "2.5rem", marginBottom: 8 }}>&#9989;</div>
+                <h3
+                  style={{
+                    fontFamily: "'Syne', sans-serif",
+                    fontWeight: 700,
+                    color: "var(--success, #22C55E)",
+                    marginBottom: 4,
+                  }}
+                >
+                  Score Submitted
+                </h3>
+                <p style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>
+                  Waiting for next round... The organizer will advance when ready.
+                </p>
+              </div>
+            )}
+
+            {/* No assignment for this round */}
+            {!currentAssignment && (
+              <div
+                className="card mb-16"
+                style={{
+                  textAlign: "center",
+                  padding: "30px 24px",
+                }}
+              >
+                <p style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>
+                  No assignment for this round. Waiting for organizer.
+                </p>
+              </div>
+            )}
+          </>
+        )}
+
+        {/* All Assignments List */}
+        {!loading && allAssignments.length > 0 && (
+          <div className="card">
+            <h3
+              style={{
+                fontFamily: "'Syne', sans-serif",
+                fontWeight: 700,
+                marginBottom: 12,
+              }}
+            >
+              All Assignments
+            </h3>
+            <div style={{ display: "grid", gap: 10 }}>
+              {allAssignments.map((p) => {
+                const isCurrent =
+                  isActive &&
+                  currentAssignment &&
+                  p.project_id === currentAssignment.project_id;
+                const isInactive =
+                  isActive && !isCurrent && p.status !== "submitted";
+                return (
+                  <Link
+                    key={p.project_id}
+                    to={`/judge/${p.project_id}`}
+                    style={{
+                      textDecoration: "none",
+                      color: "inherit",
+                      opacity: isInactive ? 0.4 : 1,
+                      pointerEvents: isInactive ? "none" : "auto",
+                    }}
+                  >
+                    <div
+                      className="card"
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        padding: "14px 18px",
+                        cursor: isInactive ? "default" : "pointer",
+                        border: isCurrent ? "2px solid var(--accent)" : undefined,
+                      }}
+                    >
+                      <div>
+                        <div
+                          style={{
+                            fontWeight: 600,
+                            marginBottom: 4,
+                            fontSize: "0.95rem",
+                          }}
+                        >
+                          {p.name}
+                          {p.group_num != null && (
+                            <span
+                              style={{
+                                fontSize: "0.7rem",
+                                color: "var(--text-muted)",
+                                marginLeft: 8,
+                                fontFamily: "'Space Mono', monospace",
+                              }}
+                            >
+                              G{p.group_num}
+                              {p.round_num != null && `/R${p.round_num}`}
+                            </span>
+                          )}
+                        </div>
+                        <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                          <span style={{ color: "var(--text-muted)", fontSize: "0.8rem" }}>
+                            {p.team_name}
+                          </span>
+                          {p.track && (
+                            <span className="chip" style={trackStyle(p.track)}>
+                              {p.track}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                        <span className={chipClass(p.status)}>
+                          {chipLabel(p.status)}
+                        </span>
+                        {!isInactive && (
+                          <span style={{ color: "var(--accent)", fontSize: "0.8rem" }}>
+                            Score &rarr;
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
           </div>
         )}
       </div>
