@@ -6,27 +6,27 @@ import NavBar from "../components/NavBar";
 const CRITERIA = [
   {
     key: "technical_execution",
-    label: "Technical Execution",
-    weight: 0.25,
-    desc: "Does the project work? Is the code clean, the architecture sound, and the demo stable?",
+    label: "Technical Depth",
+    weight: 0.35,
+    desc: "How well does the code work? How creative is the architecture? Is the demo stable?",
   },
   {
     key: "jac_usage",
-    label: "Use of Jac & Jaseci",
-    weight: 0.25,
-    desc: "How deeply does the project leverage Jac\u2019s unique features? by llm(), walkers, graph-native data, single-file full-stack.",
+    label: "JAC Integration",
+    weight: 0.30,
+    desc: "How deeply and effectively is JAC used as the backbone? walkers, by llm(), graph-native data, single-file full-stack.",
   },
   {
     key: "creativity",
-    label: "Creativity & Innovation",
-    weight: 0.25,
-    desc: "Is this a fresh idea? Does it approach a problem in a way we haven\u2019t seen before?",
+    label: "Real-World Impact",
+    weight: 0.20,
+    desc: "Does this solve a real problem? Would anyone actually use it?",
   },
   {
     key: "presentation",
-    label: "Presentation & Demo",
-    weight: 0.25,
-    desc: "Was the 3-min pitch clear, engaging, and well-structured?",
+    label: "Presentation",
+    weight: 0.15,
+    desc: "Can you clearly explain what you built and why it matters? Show, don't tell.",
   },
 ] as const;
 
@@ -79,10 +79,10 @@ export default function ScoreProject() {
 
   const [project, setProject] = useState<any>(null);
   const [scores, setScores] = useState<Scores>({
-    technical_execution: 3,
-    jac_usage: 3,
-    creativity: 3,
-    presentation: 3,
+    technical_execution: 1,
+    jac_usage: 1,
+    creativity: 1,
+    presentation: 1,
   });
   const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(true);
@@ -108,10 +108,10 @@ export default function ScoreProject() {
         if (res.my_score) {
           const s = res.my_score;
           setScores({
-            technical_execution: s.technical_execution ?? 3,
-            jac_usage: s.jac_usage ?? 3,
-            creativity: s.creativity ?? 3,
-            presentation: s.presentation ?? 3,
+            technical_execution: s.technical_execution ?? 1,
+            jac_usage: s.jac_usage ?? 1,
+            creativity: s.creativity ?? 1,
+            presentation: s.presentation ?? 1,
           });
           setNotes(s.notes || "");
           setIsSubmitted(!!s.is_final);
@@ -125,12 +125,12 @@ export default function ScoreProject() {
   }
 
   function overallScore(): number {
-    const total =
-      scores.technical_execution +
-      scores.jac_usage +
-      scores.creativity +
-      scores.presentation;
-    return Math.round((total / 4) * 100) / 100;
+    const weighted =
+      scores.technical_execution * 0.35 +
+      scores.jac_usage * 0.30 +
+      scores.creativity * 0.20 +
+      scores.presentation * 0.15;
+    return Math.round(weighted * 100) / 100;
   }
 
   async function save(isFinal: boolean) {
@@ -193,6 +193,37 @@ export default function ScoreProject() {
         </button>
 
         <div className="card mb-16">
+          {project.table_num != null && (
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 12,
+              marginBottom: 12,
+              padding: "8px 14px",
+              background: "rgba(244, 98, 42, 0.1)",
+              border: "1px solid var(--accent)",
+              borderRadius: 8,
+            }}>
+              <div style={{
+                width: 40, height: 40, borderRadius: '50%',
+                background: 'var(--accent)', color: 'white',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontWeight: 800, fontSize: '1.1rem',
+                fontFamily: "'Space Mono', monospace",
+                flexShrink: 0,
+              }}>
+                {project.table_num}
+              </div>
+              <span style={{
+                fontFamily: "'Space Mono', monospace",
+                fontWeight: 700,
+                fontSize: "0.85rem",
+                color: "var(--accent)",
+              }}>
+                TABLE {project.table_num}
+              </span>
+            </div>
+          )}
           <h2
             style={{
               fontFamily: "'Syne', sans-serif",

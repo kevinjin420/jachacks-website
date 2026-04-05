@@ -5,6 +5,7 @@ import ScoreProject from "./pages/ScoreProject";
 import Organizer from "./pages/Organizer";
 import Import from "./pages/Import";
 import Results from "./pages/Results";
+import Teams from "./pages/Teams";
 
 function RequireAuth({
   children,
@@ -29,6 +30,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/teams" element={<Teams />} />
         <Route
           path="/judge"
           element={

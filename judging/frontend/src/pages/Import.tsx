@@ -248,11 +248,15 @@ export default function Import() {
     setAddJudgeMsg("");
     setAddJudgeLoading(true);
     try {
-      // 1. Create auth account
-      await authRequest("/user/register", {
-        username: judgeEmail.trim(),
-        password: DEFAULT_PASSWORD,
-      });
+      // 1. Create auth account (ignore if already exists)
+      try {
+        await authRequest("/user/register", {
+          username: judgeEmail.trim(),
+          password: DEFAULT_PASSWORD,
+        });
+      } catch {
+        // Account may already exist — that's fine, continue
+      }
       // 2. Import into judging system
       await walkerRequest("import_judges", {
         judges_json: JSON.stringify([

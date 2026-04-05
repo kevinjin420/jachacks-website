@@ -36,6 +36,7 @@ interface CurrentAssignment {
   group_num: number;
   round_num: number;
   status: string;
+  table_num?: number;
 }
 
 export default function JudgeDashboard() {
@@ -77,7 +78,36 @@ export default function JudgeDashboard() {
         try {
           const assignRes = await walkerRequest("get_current_assignment", { email });
           const assign = extractFirst(assignRes);
-          setCurrentAssignment(assign || null);
+          if (assign?.current_assignment) {
+            const ca = assign.current_assignment;
+            const proj = ca.project || {};
+            setCurrentAssignment({
+              project_id: proj.project_id || "",
+              name: proj.name || "",
+              team_name: proj.team_name || "",
+              track: proj.track || "",
+              table_num: proj.table_num,
+              group_num: ca.group_num,
+              round_num: ca.round_num,
+              status: "pending",
+            });
+          } else {
+            setCurrentAssignment(null);
+          }
+          // Map all_assignments for the list
+          if (assign?.all_assignments) {
+            const mapped = assign.all_assignments.map((a: any) => ({
+              project_id: a.project?.project_id || "",
+              name: a.project?.name || "",
+              team_name: a.project?.team_name || "",
+              track: a.project?.track || "",
+              group_num: a.group_num,
+              round_num: a.round_num,
+              table_num: a.project?.table_num,
+              status: "pending",
+            }));
+            setAllAssignments(mapped);
+          }
         } catch {
           setCurrentAssignment(null);
         }
@@ -196,26 +226,58 @@ export default function JudgeDashboard() {
                     borderRadius: 10,
                     padding: "16px 20px",
                     marginBottom: 16,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 16,
                   }}
                 >
-                  <div
-                    style={{
-                      fontWeight: 700,
-                      fontSize: "1.2rem",
-                      marginBottom: 4,
-                    }}
-                  >
-                    {currentAssignment.name}
-                  </div>
-                  <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                    <span style={{ color: "var(--text-muted)", fontSize: "0.85rem" }}>
-                      {currentAssignment.team_name}
-                    </span>
-                    {currentAssignment.track && (
-                      <span className="chip" style={trackStyle(currentAssignment.track)}>
-                        {currentAssignment.track}
+                  {currentAssignment.table_num != null && (
+                    <div style={{
+                      textAlign: "center",
+                      flexShrink: 0,
+                    }}>
+                      <div style={{
+                        fontFamily: "'Space Mono', monospace",
+                        fontSize: "0.65rem",
+                        fontWeight: 700,
+                        color: "var(--text-muted)",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.05em",
+                      }}>
+                        TABLE
+                      </div>
+                      <div style={{
+                        width: 52, height: 52, borderRadius: '50%',
+                        background: 'var(--accent)', color: 'white',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        fontWeight: 800, fontSize: '1.4rem',
+                        fontFamily: "'Space Mono', monospace",
+                        margin: "4px auto 0",
+                      }}>
+                        {currentAssignment.table_num}
+                      </div>
+                    </div>
+                  )}
+                  <div>
+                    <div
+                      style={{
+                        fontWeight: 700,
+                        fontSize: "1.2rem",
+                        marginBottom: 4,
+                      }}
+                    >
+                      {currentAssignment.name}
+                    </div>
+                    <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                      <span style={{ color: "var(--text-muted)", fontSize: "0.85rem" }}>
+                        {currentAssignment.team_name}
                       </span>
-                    )}
+                      {currentAssignment.track && (
+                        <span className="chip" style={trackStyle(currentAssignment.track)}>
+                          {currentAssignment.track}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
 

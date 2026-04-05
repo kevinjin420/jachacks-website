@@ -15,6 +15,11 @@ export default function Organizer() {
   const [selectedProjects, setSelectedProjects] = useState<string[]>([]);
   const [flowLoading, setFlowLoading] = useState("");
   const [flowMsg, setFlowMsg] = useState("");
+  const [groups, setGroups] = useState<any[]>([]);
+  const [groupsOpen, setGroupsOpen] = useState(true);
+  const [timerStart, setTimerStart] = useState<number | null>(null);
+  const [timerDisplay, setTimerDisplay] = useState("0:00");
+  const timerRef = useRef<number | null>(null);
 
   useEffect(() => {
     loadAll();
@@ -30,17 +35,24 @@ export default function Organizer() {
 
   async function loadAll() {
     try {
-      const [cfgRes, progRes, projRes] = await Promise.all([
+      const [cfgRes, progRes, projRes, grpRes] = await Promise.all([
         walkerRequest("get_config", {}),
         walkerRequest("get_progress", {}),
         walkerRequest("get_all_projects", {}),
+        walkerRequest("get_groups", {}),
       ]);
       const cfg = extractFirst(cfgRes);
-      if (cfg) setConfig(cfg);
+      if (cfg) {
+        setConfig(cfg);
+        // Collapse groups when judging is active
+        if (cfg.current_group > 0) setGroupsOpen(false);
+      }
       const prog = extractFirst(progRes);
       if (prog) setProgress(prog);
       const projs = extractReports(projRes);
       if (Array.isArray(projs)) setAllProjects(projs);
+      const grps = extractFirst(grpRes);
+      if (Array.isArray(grps)) setGroups(grps);
     } catch (err: any) {
       setError(err.message);
     }
@@ -70,38 +82,73 @@ export default function Organizer() {
     }
   }
 
-  async function flowAction(action: string) {
-    setFlowLoading(action);
+  // Timer effect
+  useEffect(() => {
+    if (timerStart) {
+      timerRef.current = window.setInterval(() => {
+        const elapsed = Math.floor((Date.now() - timerStart) / 1000);
+        const mins = Math.floor(elapsed / 60);
+        const secs = elapsed % 60;
+        setTimerDisplay(`${mins}:${secs.toString().padStart(2, "0")}`);
+      }, 1000);
+    } else {
+      if (timerRef.current) clearInterval(timerRef.current);
+      setTimerDisplay("0:00");
+    }
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+  }, [timerStart]);
+
+  function startTimer() { setTimerStart(Date.now()); }
+  function resetTimer() { setTimerStart(null); }
+
+  async function setupGroups() {
+    setFlowLoading("setup");
     setFlowMsg("");
     try {
-      if (action === "create_groups") {
-        const res = await walkerRequest("create_groups", { group_size: 10 });
-        const data = extractFirst(res);
-        setFlowMsg(data ? `Created ${data.total_groups || "?"} groups` : "Groups created");
-      } else if (action === "assign_rotation") {
-        await walkerRequest("assign_rotation", {});
-        setFlowMsg("Rotation assigned — each judge gets 2 projects per group");
-      } else if (action === "start") {
-        await walkerRequest("set_judging_state", { current_group: 1, current_round: 1 });
-        setFlowMsg("Judging started — Group 1, Round 1");
-      } else if (action === "next_round") {
-        const g = config.current_group || 1;
-        const r = config.current_round || 1;
-        if (r === 1) {
-          await walkerRequest("set_judging_state", { current_group: g, current_round: 2 });
-        } else {
-          const nextGroup = g + 1;
-          if (nextGroup > (config.total_groups || 999)) {
-            await walkerRequest("set_judging_state", { current_group: 0, current_round: 0 });
-            setFlowMsg("All groups complete!");
-          } else {
-            await walkerRequest("set_judging_state", { current_group: nextGroup, current_round: 1 });
-          }
-        }
-      } else if (action === "pause") {
-        await walkerRequest("set_judging_state", { current_group: 0, current_round: 0 });
-        setFlowMsg("Judging paused");
-      }
+      await walkerRequest("create_groups", { group_size: 10 });
+      await walkerRequest("assign_rotation", {});
+      setFlowMsg("Groups created & judges assigned!");
+      await loadAll();
+    } catch (err: any) {
+      setFlowMsg(`Error: ${err.message}`);
+    } finally {
+      setFlowLoading("");
+    }
+  }
+
+  async function startGroup(groupNum: number) {
+    setFlowLoading("start");
+    try {
+      await walkerRequest("set_judging_state", { current_group: groupNum, current_round: 1 });
+      startTimer();
+      await loadAll();
+    } catch (err: any) {
+      setFlowMsg(`Error: ${err.message}`);
+    } finally {
+      setFlowLoading("");
+    }
+  }
+
+  async function startRound2() {
+    setFlowLoading("round2");
+    try {
+      const g = config.current_group || 1;
+      await walkerRequest("set_judging_state", { current_group: g, current_round: 2 });
+      startTimer();
+      await loadAll();
+    } catch (err: any) {
+      setFlowMsg(`Error: ${err.message}`);
+    } finally {
+      setFlowLoading("");
+    }
+  }
+
+  async function endGroup() {
+    setFlowLoading("end");
+    try {
+      await walkerRequest("set_judging_state", { current_group: 0, current_round: 0 });
+      resetTimer();
+      setFlowMsg("Group complete! Call in the next group.");
       await loadAll();
     } catch (err: any) {
       setFlowMsg(`Error: ${err.message}`);
@@ -147,129 +194,138 @@ export default function Organizer() {
           )}
         </div>
 
-        {/* Judging Flow Control Panel */}
-        <div
-          className="card mb-16"
-          style={{
-            border: "2px solid var(--accent)",
-            background: "rgba(244, 98, 42, 0.05)",
-          }}
-        >
-          <h3
-            style={{
-              fontFamily: "'Syne', sans-serif",
-              fontWeight: 700,
-              marginBottom: 12,
-              color: "var(--accent)",
-            }}
-          >
-            Judging Flow
-          </h3>
-
-          {(!config.current_group || config.current_group === 0) ? (
-            <>
-              <p style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginBottom: 16 }}>
-                Set up groups, assign rotations, then start judging.
+        {/* ACTIVE JUDGING — Big timer + controls */}
+        {config.current_group > 0 && (
+          <div className="card mb-16" style={{ border: "2px solid var(--accent)", background: "rgba(244, 98, 42, 0.05)", textAlign: "center" }}>
+            <div style={{ fontFamily: "'Space Mono', monospace", fontSize: "3rem", fontWeight: 700, color: "var(--accent)" }}>
+              {timerDisplay}
+            </div>
+            <div style={{ fontFamily: "'Syne', sans-serif", fontSize: "1.8rem", fontWeight: 800, color: "white", margin: "8px 0" }}>
+              GROUP {config.current_group} — ROUND {config.current_round}
+            </div>
+            <div style={{ color: "var(--text-muted)", fontSize: "0.85rem", fontFamily: "'Space Mono', monospace", marginBottom: 20 }}>
+              {config.current_group} of {config.total_groups || "?"} groups • 3 min per round
+            </div>
+            <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+              {config.current_round === 1 ? (
+                <button className="btn-primary" onClick={startRound2} disabled={!!flowLoading}
+                  style={{ fontWeight: 700, fontSize: "1.1rem", padding: "12px 32px" }}>
+                  {flowLoading === "round2" ? "..." : "🔄 Rotate → Round 2"}
+                </button>
+              ) : (
+                <button className="btn-primary" onClick={endGroup} disabled={!!flowLoading}
+                  style={{ fontWeight: 700, fontSize: "1.1rem", padding: "12px 32px" }}>
+                  {flowLoading === "end" ? "..." : "✅ End Group " + config.current_group}
+                </button>
+              )}
+              <button className="btn-secondary" onClick={endGroup} disabled={!!flowLoading}
+                style={{ color: "var(--danger, #ef4444)" }}>
+                ⏸ Pause
+              </button>
+            </div>
+            {config.current_round === 1 && (
+              <p style={{ marginTop: 12, color: "var(--text-muted)", fontSize: "0.8rem" }}>
+                When time's up, click Rotate. Judges move one table to the right.
               </p>
-              <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-                <button
-                  className="btn-secondary"
-                  onClick={() => flowAction("create_groups")}
-                  disabled={!!flowLoading}
-                >
-                  {flowLoading === "create_groups" ? "Creating..." : "1. Setup Groups (10 per group)"}
-                </button>
-                <button
-                  className="btn-secondary"
-                  onClick={() => flowAction("assign_rotation")}
-                  disabled={!!flowLoading}
-                >
-                  {flowLoading === "assign_rotation" ? "Assigning..." : "2. Assign Rotation"}
-                </button>
-                <button
-                  className="btn-primary"
-                  onClick={() => flowAction("start")}
-                  disabled={!!flowLoading}
-                  style={{ fontWeight: 700 }}
-                >
-                  {flowLoading === "start" ? "Starting..." : "3. Start Judging"}
-                </button>
-              </div>
-            </>
-          ) : (
-            <>
-              <div
-                style={{
-                  background: "rgba(244, 98, 42, 0.15)",
-                  border: "2px solid var(--accent)",
-                  borderRadius: 12,
-                  padding: "20px 24px",
-                  textAlign: "center",
-                  marginBottom: 16,
-                }}
-              >
-                <div
-                  style={{
-                    fontFamily: "'Syne', sans-serif",
-                    fontSize: "2rem",
-                    fontWeight: 800,
-                    color: "var(--accent)",
-                    lineHeight: 1.2,
-                  }}
-                >
-                  GROUP {config.current_group} — ROUND {config.current_round}
-                </div>
-                <div
-                  style={{
-                    color: "var(--text-muted)",
-                    fontSize: "0.85rem",
-                    marginTop: 4,
-                    fontFamily: "'Space Mono', monospace",
-                  }}
-                >
-                  {config.current_group} of {config.total_groups || "?"} groups
-                </div>
-              </div>
-              <div style={{ display: "flex", gap: 12, justifyContent: "center" }}>
-                <button
-                  className="btn-primary"
-                  onClick={() => flowAction("next_round")}
-                  disabled={!!flowLoading}
-                  style={{ fontWeight: 700, fontSize: "1rem", padding: "10px 24px" }}
-                >
-                  {flowLoading === "next_round"
-                    ? "Advancing..."
-                    : config.current_round === 1
-                      ? "Next Round (Round 2)"
-                      : (config.current_group || 0) >= (config.total_groups || 999)
-                        ? "Finish Judging"
-                        : `Next Group (Group ${(config.current_group || 0) + 1})`
-                  }
-                </button>
-                <button
-                  className="btn-secondary"
-                  onClick={() => flowAction("pause")}
-                  disabled={!!flowLoading}
-                  style={{ color: "var(--danger, #ef4444)" }}
-                >
-                  {flowLoading === "pause" ? "Pausing..." : "Pause Judging"}
-                </button>
-              </div>
-            </>
-          )}
+            )}
+          </div>
+        )}
 
-          {flowMsg && (
-            <p
-              style={{
-                marginTop: 12,
-                fontSize: "0.85rem",
-                color: flowMsg.startsWith("Error") ? "var(--danger)" : "var(--success)",
-              }}
-            >
-              {flowMsg}
-            </p>
-          )}
-        </div>
+        {/* SETUP / GROUP SELECTION — when not actively judging */}
+        {(!config.current_group || config.current_group === 0) && (
+          <div className="card mb-16" style={{ border: "2px solid var(--accent)", background: "rgba(244, 98, 42, 0.05)" }}>
+            <h3 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, marginBottom: 12, color: "var(--accent)" }}>
+              {groups.length === 0 ? "Setup Judging" : "Select a Group to Start"}
+            </h3>
+
+            {groups.length === 0 ? (
+              <div>
+                <p style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginBottom: 16 }}>
+                  This will split projects into groups of 10 and assign each judge 2 projects per group.
+                </p>
+                <button className="btn-primary" onClick={setupGroups} disabled={!!flowLoading}
+                  style={{ fontWeight: 700, fontSize: "1rem", padding: "10px 24px" }}>
+                  {flowLoading === "setup" ? "Setting up..." : "🎯 Setup Groups & Assign Judges"}
+                </button>
+              </div>
+            ) : (
+              <div style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", marginTop: 8 }}>
+                {groups.map((g: any) => (
+                  <button key={g.group_num} className="btn-secondary"
+                    onClick={() => startGroup(g.group_num)}
+                    disabled={!!flowLoading}
+                    style={{
+                      padding: "16px", textAlign: "center", borderRadius: 12,
+                      border: "2px solid var(--border)", transition: "all 0.15s",
+                    }}>
+                    <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: "1.2rem", color: "var(--accent)" }}>
+                      GROUP {g.group_num}
+                    </div>
+                    <div style={{ fontSize: "0.8rem", color: "var(--text-muted)", marginTop: 4 }}>
+                      {g.projects?.length || 0} projects
+                    </div>
+                    <div style={{ fontSize: "0.75rem", color: "var(--success)", marginTop: 4 }}>
+                      ▶ Start
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {flowMsg && (
+              <p style={{ marginTop: 12, fontSize: "0.85rem", color: flowMsg.startsWith("Error") ? "var(--danger)" : "var(--success)" }}>
+                {flowMsg}
+              </p>
+            )}
+          </div>
+        )}
+
+        {/* Group Details — collapsible */}
+        {groups.length > 0 && (
+          <div className="card mb-16">
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer" }}
+              onClick={() => setGroupsOpen(!groupsOpen)}>
+              <h3 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, margin: 0 }}>
+                Group Details
+              </h3>
+              <span style={{ fontSize: "0.85rem", color: "var(--text-muted)", fontFamily: "'Space Mono', monospace" }}>
+                {groupsOpen ? "▼ hide" : "▶ show"} ({groups.length} groups, {groups.reduce((s: number, g: any) => s + (g.projects?.length || 0), 0)} projects)
+              </span>
+            </div>
+            {groupsOpen && (
+              <div style={{ display: "grid", gap: 16, marginTop: 16, gridTemplateColumns: "repeat(auto-fill, minmax(380px, 1fr))" }}>
+                {groups.map((g: any) => (
+                  <div key={g.group_num} style={{
+                    border: config.current_group === g.group_num ? "2px solid var(--accent)" : "1px solid var(--border)",
+                    borderRadius: 10, padding: 16, background: "var(--bg, #0d0d0d)",
+                  }}>
+                    <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 12 }}>
+                      <span style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: "1rem", color: "var(--accent)" }}>
+                        GROUP {g.group_num}
+                      </span>
+                      <span style={{ fontSize: "0.75rem", color: "var(--text-muted)", fontFamily: "'Space Mono', monospace" }}>
+                        {g.projects?.length || 0} projects
+                      </span>
+                    </div>
+                    {(g.projects || []).map((p: any) => (
+                      <div key={p.project_id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "6px 0", borderBottom: "1px solid var(--border)" }}>
+                        <div style={{
+                          width: 32, height: 32, borderRadius: '50%', background: 'var(--accent)', color: 'white',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          fontWeight: 800, fontSize: '0.85rem', fontFamily: "'Space Mono', monospace", flexShrink: 0,
+                        }}>{p.table_num}</div>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontWeight: 600, fontSize: "0.85rem", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{p.name}</div>
+                          <div style={{ fontSize: "0.7rem", color: "var(--text-muted)" }}>{p.team_name}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
         <div className="stat-grid">
           <div className="stat-card">

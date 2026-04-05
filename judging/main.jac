@@ -53,7 +53,8 @@ node Project {
         description: str = "",
         submitted_by: str = "",
         submitted_at: str = "",
-        group_num: int = 0;
+        group_num: int = 0,
+        table_num: int = 0;
 }
 
 node UserProfile {
@@ -99,10 +100,10 @@ node AwardScore {
 
 # ── Scoring weights ──
 
-glob WEIGHT_TECHNICAL: float = 0.25;
-glob WEIGHT_JAC_USAGE: float = 0.25;
-glob WEIGHT_CREATIVITY: float = 0.25;
-glob WEIGHT_PRESENTATION: float = 0.25;
+glob WEIGHT_TECHNICAL: float = 0.35;
+glob WEIGHT_JAC_USAGE: float = 0.30;
+glob WEIGHT_CREATIVITY: float = 0.20;
+glob WEIGHT_PRESENTATION: float = 0.15;
 glob TIE_THRESHOLD: float = 0.3;
 
 # ── Helper functions ──
@@ -165,7 +166,8 @@ def project_to_dict(p: Project) -> dict {
         "description": p.description,
         "submitted_by": p.submitted_by,
         "submitted_at": p.submitted_at,
-        "group_num": p.group_num
+        "group_num": p.group_num,
+        "table_num": p.table_num
     };
 }
 
@@ -1105,29 +1107,113 @@ walker:pub create_groups {
         import random;
         random.shuffle(projects);
         group_num = 1;
+        table_in_group = 1;
         for (i, proj) in enumerate(projects) {
             proj.group_num = group_num;
+            proj.table_num = table_in_group;
+            table_in_group += 1;
             if (i + 1) % self.group_size == 0 {
                 group_num += 1;
+                table_in_group = 1;
             }
         }
         total_groups = group_num;
+        if len(projects) % self.group_size == 0 and len(projects) > 0 {
+            total_groups = group_num - 1;
+        }
         config = get_config_node();
         config.total_groups = total_groups;
         config.group_size = self.group_size;
         config.current_group = 0;
         config.current_round = 0;
 
-        # Report group summary
-        summary = {};
+        # Report group summary with table numbers
+        groups_detail = [];
+        current_g = {};
         for proj in projects {
             g = proj.group_num;
-            if g not in summary {
-                summary[g] = [];
+            if str(g) not in current_g {
+                current_g[str(g)] = [];
             }
-            summary[g].append(proj.name);
+            current_g[str(g)].append({
+                "name": proj.name,
+                "team_name": proj.team_name,
+                "table_num": proj.table_num,
+                "project_id": proj.project_id
+            });
         }
-        report {"total_groups": total_groups, "group_size": self.group_size, "groups": summary};
+        for (g, projs) in current_g.items() {
+            groups_detail.append({
+                "group_num": int(g),
+                "projects": projs
+            });
+        }
+        groups_detail.sort(key=lambda x: dict: x["group_num"]);
+        report {"total_groups": total_groups, "group_size": self.group_size, "groups": groups_detail};
+    }
+}
+
+# ── Get Team Table (public, no login needed) ──
+
+walker:pub get_team_tables {
+    can fetch with Root entry {
+        config = get_config_node();
+        projects = [root -->](?:Project);
+        groups_map: dict = {};
+        for proj in projects {
+            g = proj.group_num;
+            if g not in groups_map {
+                groups_map[g] = [];
+            }
+            groups_map[g].append({
+                "name": proj.name,
+                "team_name": proj.team_name,
+                "table_num": proj.table_num,
+                "group_num": g,
+                "track": proj.track
+            });
+        }
+        result = [];
+        for (g, projs) in groups_map.items() {
+            projs.sort(key=lambda x: dict: x["table_num"]);
+            result.append({"group_num": g, "projects": projs});
+        }
+        result.sort(key=lambda x: dict: x["group_num"]);
+        report {
+            "groups": result,
+            "current_group": config.current_group,
+            "current_round": config.current_round,
+            "total_groups": config.total_groups
+        };
+    }
+}
+
+# ── Get Groups (view all groups with table assignments) ──
+
+walker:pub get_groups {
+    can fetch with Root entry {
+        projects = [root -->](?:Project);
+        groups_map: dict = {};
+        for proj in projects {
+            g = str(proj.group_num);
+            if g not in groups_map {
+                groups_map[g] = [];
+            }
+            groups_map[g].append({
+                "name": proj.name,
+                "team_name": proj.team_name,
+                "table_num": proj.table_num,
+                "project_id": proj.project_id,
+                "track": proj.track
+            });
+        }
+        result = [];
+        for (g, projs) in groups_map.items() {
+            projs.sort(key=lambda x: dict: x["table_num"]);
+            result.append({"group_num": int(g), "projects": projs});
+        }
+        result.sort(key=lambda x: dict: x["group_num"]);
+        report result;
     }
 }
 
@@ -1219,22 +1305,25 @@ walker:pub get_current_assignment {
         current_group = config.current_group;
         current_round = config.current_round;
 
-        # Get all assignments for this judge
+        # Simple approach: get all assigned projects, group by group_num
+        assigned = [profile -->](?:Project);
         all_assignments = [];
-        for edge_ref in [edge profile -->](?:AssignedTo) {
-            # Get the target project
-            target_nodes = [edge_ref -->];
-            if len(target_nodes) > 0 {
-                proj = target_nodes[0];
-                all_assignments.append({
-                    "project": project_to_dict(proj),
-                    "round_num": edge_ref.round_num,
-                    "group_num": proj.group_num
-                });
+        groups_seen: dict = {};
+        for proj in assigned {
+            g = proj.group_num;
+            if g not in groups_seen {
+                groups_seen[g] = 0;
             }
+            groups_seen[g] += 1;
+            round_num = groups_seen[g];  # 1st project in group = round 1, 2nd = round 2
+            all_assignments.append({
+                "project": project_to_dict(proj),
+                "round_num": round_num,
+                "group_num": g
+            });
         }
 
-        # Filter for current group and round
+        # Find current assignment
         current = None;
         for a in all_assignments {
             if a["group_num"] == current_group and a["round_num"] == current_round {
