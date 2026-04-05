@@ -15,6 +15,7 @@ export default function Organizer() {
   const [selectedProjects, setSelectedProjects] = useState<string[]>([]);
   const [flowLoading, setFlowLoading] = useState("");
   const [flowMsg, setFlowMsg] = useState("");
+  const [expandedGroup, setExpandedGroup] = useState<number | null>(null);
   const [groups, setGroups] = useState<any[]>([]);
   const [groupsOpen, setGroupsOpen] = useState(true);
   const [timerStart, setTimerStart] = useState<number | null>(null);
@@ -249,25 +250,75 @@ export default function Organizer() {
                 </button>
               </div>
             ) : (
-              <div style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", marginTop: 8 }}>
-                {groups.map((g: any) => (
-                  <button key={g.group_num} className="btn-secondary"
-                    onClick={() => startGroup(g.group_num)}
-                    disabled={!!flowLoading}
-                    style={{
-                      padding: "16px", textAlign: "center", borderRadius: 12,
-                      border: "2px solid var(--border)", transition: "all 0.15s",
-                    }}>
-                    <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: "1.2rem", color: "var(--accent)" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 8 }}>
+                {/* Group tabs */}
+                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                  {groups.map((g: any) => (
+                    <button key={g.group_num}
+                      className={expandedGroup === g.group_num ? "btn-primary" : "btn-secondary"}
+                      onClick={() => setExpandedGroup(expandedGroup === g.group_num ? null : g.group_num)}
+                      style={{ padding: "10px 20px", borderRadius: 10, fontWeight: 700 }}>
                       GROUP {g.group_num}
+                      <span style={{ fontSize: "0.75rem", opacity: 0.7, marginLeft: 6 }}>
+                        ({g.projects?.length || 0})
+                      </span>
+                    </button>
+                  ))}
+                </div>
+
+                {/* Expanded group detail */}
+                {expandedGroup != null && groups.filter((g: any) => g.group_num === expandedGroup).map((g: any) => (
+                  <div key={g.group_num} style={{
+                    border: "2px solid var(--accent)", borderRadius: 12, padding: 20,
+                    background: "rgba(244, 98, 42, 0.03)",
+                  }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+                      <div>
+                        <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: "1.3rem", color: "var(--accent)" }}>
+                          GROUP {g.group_num}
+                        </div>
+                        <div style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>
+                          {g.projects?.length || 0} projects • 2 rounds • ~6 min total
+                        </div>
+                      </div>
+                      <button className="btn-primary" onClick={() => startGroup(g.group_num)}
+                        disabled={!!flowLoading}
+                        style={{ fontWeight: 700, fontSize: "1.1rem", padding: "12px 28px" }}>
+                        {flowLoading === "start" ? "Starting..." : "▶ Start Group " + g.group_num}
+                      </button>
                     </div>
-                    <div style={{ fontSize: "0.8rem", color: "var(--text-muted)", marginTop: 4 }}>
-                      {g.projects?.length || 0} projects
+
+                    <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginBottom: 12, fontFamily: "'Space Mono', monospace", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                      Table Assignments
                     </div>
-                    <div style={{ fontSize: "0.75rem", color: "var(--success)", marginTop: 4 }}>
-                      ▶ Start
+
+                    <div style={{ display: "grid", gap: 6 }}>
+                      {(g.projects || []).map((p: any) => (
+                        <div key={p.project_id} style={{
+                          display: "flex", alignItems: "center", gap: 12,
+                          padding: "8px 12px", borderRadius: 8,
+                          background: "var(--bg, #0d0d0d)", border: "1px solid var(--border)",
+                        }}>
+                          <div style={{
+                            width: 38, height: 38, borderRadius: "50%",
+                            background: "var(--accent)", color: "white",
+                            display: "flex", alignItems: "center", justifyContent: "center",
+                            fontWeight: 800, fontSize: "1rem",
+                            fontFamily: "'Space Mono', monospace", flexShrink: 0,
+                          }}>
+                            {p.table_num}
+                          </div>
+                          <div style={{ flex: 1 }}>
+                            <div style={{ fontWeight: 600, fontSize: "0.9rem" }}>{p.name}</div>
+                            <div style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>{p.team_name}</div>
+                          </div>
+                          <span className="chip" style={{ fontSize: "0.65rem", padding: "2px 8px" }}>
+                            {(p.track || "").replace("_", " ")}
+                          </span>
+                        </div>
+                      ))}
                     </div>
-                  </button>
+                  </div>
                 ))}
               </div>
             )}
