@@ -318,6 +318,19 @@ export default function Organizer() {
                         </div>
                       ))}
                     </div>
+
+                    <div style={{
+                      marginTop: 16, padding: "12px 16px", borderRadius: 8,
+                      background: "rgba(244, 98, 42, 0.08)", border: "1px solid var(--border)",
+                    }}>
+                      <div style={{ fontWeight: 600, fontSize: "0.85rem", marginBottom: 6 }}>
+                        &#128203; Judge Rotation
+                      </div>
+                      <p style={{ fontSize: "0.8rem", color: "var(--text-muted)", margin: 0 }}>
+                        Round 1: Each judge goes to their assigned table<br/>
+                        Round 2: Every judge moves one table to the right (Table 10 &rarr; Table 1)
+                      </p>
+                    </div>
                   </div>
                 ))}
               </div>

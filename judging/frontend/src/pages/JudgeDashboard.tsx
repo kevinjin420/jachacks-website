@@ -378,6 +378,90 @@ export default function JudgeDashboard() {
                   p.project_id === currentAssignment.project_id;
                 const isInactive =
                   isActive && !isCurrent && p.status !== "submitted";
+                const isScored = p.status === "submitted";
+
+                const cardContent = (
+                  <div
+                    className="card"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      padding: "14px 18px",
+                      cursor: isInactive || isScored ? "default" : "pointer",
+                      border: isCurrent ? "2px solid var(--accent)" : undefined,
+                    }}
+                  >
+                    <div>
+                      <div
+                        style={{
+                          fontWeight: 600,
+                          marginBottom: 4,
+                          fontSize: "0.95rem",
+                        }}
+                      >
+                        {p.name}
+                        {p.group_num != null && (
+                          <span
+                            style={{
+                              fontSize: "0.7rem",
+                              color: "var(--text-muted)",
+                              marginLeft: 8,
+                              fontFamily: "'Space Mono', monospace",
+                            }}
+                          >
+                            G{p.group_num}
+                            {p.round_num != null && `/R${p.round_num}`}
+                          </span>
+                        )}
+                      </div>
+                      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                        <span style={{ color: "var(--text-muted)", fontSize: "0.8rem" }}>
+                          {p.team_name}
+                        </span>
+                        {p.track && (
+                          <span className="chip" style={trackStyle(p.track)}>
+                            {p.track}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      {isScored ? (
+                        <span style={{
+                          color: "#22C55E",
+                          fontSize: "0.8rem",
+                          fontWeight: 700,
+                          background: "rgba(34, 197, 94, 0.12)",
+                          padding: "4px 10px",
+                          borderRadius: 12,
+                        }}>
+                          &#10003; Scored
+                        </span>
+                      ) : (
+                        <>
+                          <span className={chipClass(p.status)}>
+                            {chipLabel(p.status)}
+                          </span>
+                          {!isInactive && (
+                            <span style={{ color: "var(--accent)", fontSize: "0.8rem" }}>
+                              Score &rarr;
+                            </span>
+                          )}
+                        </>
+                      )}
+                    </div>
+                  </div>
+                );
+
+                if (isScored) {
+                  return (
+                    <div key={p.project_id} style={{ textDecoration: "none", color: "inherit" }}>
+                      {cardContent}
+                    </div>
+                  );
+                }
+
                 return (
                   <Link
                     key={p.project_id}
@@ -389,62 +473,7 @@ export default function JudgeDashboard() {
                       pointerEvents: isInactive ? "none" : "auto",
                     }}
                   >
-                    <div
-                      className="card"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        padding: "14px 18px",
-                        cursor: isInactive ? "default" : "pointer",
-                        border: isCurrent ? "2px solid var(--accent)" : undefined,
-                      }}
-                    >
-                      <div>
-                        <div
-                          style={{
-                            fontWeight: 600,
-                            marginBottom: 4,
-                            fontSize: "0.95rem",
-                          }}
-                        >
-                          {p.name}
-                          {p.group_num != null && (
-                            <span
-                              style={{
-                                fontSize: "0.7rem",
-                                color: "var(--text-muted)",
-                                marginLeft: 8,
-                                fontFamily: "'Space Mono', monospace",
-                              }}
-                            >
-                              G{p.group_num}
-                              {p.round_num != null && `/R${p.round_num}`}
-                            </span>
-                          )}
-                        </div>
-                        <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                          <span style={{ color: "var(--text-muted)", fontSize: "0.8rem" }}>
-                            {p.team_name}
-                          </span>
-                          {p.track && (
-                            <span className="chip" style={trackStyle(p.track)}>
-                              {p.track}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                        <span className={chipClass(p.status)}>
-                          {chipLabel(p.status)}
-                        </span>
-                        {!isInactive && (
-                          <span style={{ color: "var(--accent)", fontSize: "0.8rem" }}>
-                            Score &rarr;
-                          </span>
-                        )}
-                      </div>
-                    </div>
+                    {cardContent}
                   </Link>
                 );
               })}

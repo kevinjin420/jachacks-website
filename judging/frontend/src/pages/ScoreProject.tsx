@@ -90,6 +90,7 @@ export default function ScoreProject() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
     loadProject();
@@ -287,6 +288,18 @@ export default function ScoreProject() {
           </div>
         </div>
 
+        {isSubmitted && (
+          <div style={{ textAlign: "center", padding: "40px 20px" }}>
+            <div style={{ fontSize: "3rem", marginBottom: 12 }}>&#9989;</div>
+            <h2 style={{ fontFamily: "'Syne', sans-serif", color: "#22C55E", marginBottom: 8 }}>Score Submitted!</h2>
+            <p style={{ color: "#888" }}>Your score has been recorded. Go back to the dashboard for your next assignment.</p>
+            <button className="btn-primary" onClick={() => navigate("/judge")} style={{ marginTop: 20, padding: "12px 32px" }}>
+              &larr; Back to Dashboard
+            </button>
+          </div>
+        )}
+
+        {!isSubmitted && (
         <div className="card">
           <div className="flex-between mb-16">
             <h3
@@ -321,22 +334,6 @@ export default function ScoreProject() {
               </div>
             </div>
           </div>
-
-          {isSubmitted && (
-            <div
-              style={{
-                padding: "10px 16px",
-                background: "rgba(34, 197, 94, 0.1)",
-                border: "1px solid rgba(34, 197, 94, 0.3)",
-                borderRadius: 8,
-                marginBottom: 20,
-                color: "var(--success)",
-                fontSize: "0.85rem",
-              }}
-            >
-              This score has been submitted as final.
-            </div>
-          )}
 
           {CRITERIA.map((c) => (
             <div className="criterion-card" key={c.key}>
@@ -389,34 +386,57 @@ export default function ScoreProject() {
           {error && <p className="error-msg">{error}</p>}
           {success && <p className="success-msg">{success}</p>}
 
-          {!isSubmitted && (
-            <div style={{ display: "flex", gap: 12, marginTop: 12 }}>
-              <button
-                className="btn-secondary"
-                onClick={() => save(false)}
-                disabled={saving}
-              >
-                {saving ? "Saving..." : "Save Draft"}
+          <div style={{ display: "flex", gap: 12, marginTop: 12 }}>
+            <button
+              className="btn-secondary"
+              onClick={() => save(false)}
+              disabled={saving}
+            >
+              {saving ? "Saving..." : "Save Draft"}
+            </button>
+            <button
+              className="btn-primary"
+              onClick={() => setShowConfirm(true)}
+              disabled={saving}
+            >
+              Submit Final
+            </button>
+          </div>
+        </div>
+        )}
+      </div>
+
+      {showConfirm && (
+        <div style={{
+          position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
+          background: "rgba(0,0,0,0.7)", zIndex: 1000,
+          display: "flex", alignItems: "center", justifyContent: "center",
+        }}>
+          <div style={{
+            background: "#1a1a1a", border: "2px solid #F4622A",
+            borderRadius: 16, padding: "32px", maxWidth: 400, width: "90%",
+            textAlign: "center",
+          }}>
+            <div style={{ fontSize: "2rem", marginBottom: 12 }}>&#9888;&#65039;</div>
+            <h3 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, marginBottom: 8 }}>
+              Submit Final Score?
+            </h3>
+            <p style={{ color: "#888", fontSize: "0.9rem", marginBottom: 20 }}>
+              This cannot be changed once submitted.
+            </p>
+            <div style={{ display: "flex", gap: 12, justifyContent: "center" }}>
+              <button className="btn-secondary" onClick={() => setShowConfirm(false)}
+                style={{ padding: "10px 24px", fontSize: "1rem" }}>
+                Cancel
               </button>
-              <button
-                className="btn-primary"
-                onClick={() => {
-                  if (
-                    window.confirm(
-                      "Submit final score? This cannot be changed."
-                    )
-                  ) {
-                    save(true);
-                  }
-                }}
-                disabled={saving}
-              >
-                Submit Final
+              <button className="btn-primary" onClick={() => { setShowConfirm(false); save(true); }}
+                style={{ padding: "10px 24px", fontSize: "1rem", fontWeight: 700 }}>
+                Submit Score
               </button>
             </div>
-          )}
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }
