@@ -39,6 +39,7 @@ interface AssignedProject {
   status: string;
   draft_score?: number;
   group_num?: number;
+  table_num?: number;
   round_num?: number;
 }
 
@@ -127,6 +128,24 @@ export default function JudgeDashboard() {
         }
       } else {
         setCurrentAssignment(null);
+        // Still load assignments so judges can see their tables before judging starts
+        try {
+          const assignRes = await walkerRequest("get_current_assignment", { email });
+          const assign = extractFirst(assignRes);
+          if (assign?.all_assignments) {
+            const mapped = assign.all_assignments.map((a: any) => ({
+              project_id: a.project?.project_id || "",
+              name: a.project?.name || "",
+              team_name: a.project?.team_name || "",
+              track: a.project?.track || "",
+              group_num: a.group_num,
+              round_num: a.round_num,
+              table_num: a.project?.table_num,
+              status: "pending",
+            }));
+            setAllAssignments(mapped);
+          }
+        } catch {}
       }
     } catch (err: any) {
       setError(err.message);
@@ -162,27 +181,87 @@ export default function JudgeDashboard() {
         {error && <p className="error-msg">{error}</p>}
 
         {!loading && !isActive && (
-          <div
-            className="card"
-            style={{
-              textAlign: "center",
-              padding: "40px 24px",
-            }}
-          >
-            <div style={{ fontSize: "2rem", marginBottom: 12 }}>&#9203;</div>
-            <h2
+          <>
+            <div
+              className="card"
               style={{
-                fontFamily: "'Syne', sans-serif",
-                fontWeight: 700,
-                marginBottom: 8,
+                textAlign: "center",
+                padding: "30px 24px",
+                marginBottom: 20,
               }}
             >
-              Judging hasn't started yet
-            </h2>
-            <p style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>
-              Please wait for the organizer to begin the judging session.
-            </p>
-          </div>
+              <div style={{ fontSize: "2rem", marginBottom: 8 }}>&#9203;</div>
+              <h2 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, marginBottom: 8 }}>
+                Judging hasn't started yet
+              </h2>
+              <p style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>
+                Please wait for the organizer to begin. Here are your table assignments:
+              </p>
+            </div>
+
+            {/* Show upcoming assignments grouped by group */}
+            {allAssignments.length > 0 && (
+              <div className="card">
+                <h3 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, marginBottom: 16 }}>
+                  Your Table Assignments
+                </h3>
+                {(() => {
+                  const byGroup: Record<number, typeof allAssignments> = {};
+                  allAssignments.forEach(a => {
+                    const g = a.group_num || 0;
+                    if (!byGroup[g]) byGroup[g] = [];
+                    byGroup[g].push(a);
+                  });
+                  return Object.entries(byGroup).sort(([a], [b]) => Number(a) - Number(b)).map(([gNum, items]) => (
+                    <div key={gNum} style={{ marginBottom: 16 }}>
+                      <div style={{
+                        fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: "0.9rem",
+                        color: "var(--accent)", marginBottom: 8,
+                      }}>
+                        GROUP {gNum}
+                      </div>
+                      {items.map((a, i) => (
+                        <div key={a.project_id + i} style={{
+                          display: "flex", alignItems: "center", gap: 12,
+                          padding: "10px 12px", borderRadius: 8, marginBottom: 6,
+                          background: "var(--bg, #0d0d0d)", border: "1px solid var(--border)",
+                        }}>
+                          <div style={{
+                            width: 42, height: 42, borderRadius: "50%",
+                            background: "var(--accent)", color: "white",
+                            display: "flex", alignItems: "center", justifyContent: "center",
+                            fontWeight: 800, fontSize: "1.1rem",
+                            fontFamily: "'Space Mono', monospace", flexShrink: 0,
+                          }}>
+                            {a.table_num || "?"}
+                          </div>
+                          <div style={{ flex: 1 }}>
+                            <div style={{ fontWeight: 600 }}>{a.name}</div>
+                            <div style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>{a.team_name}</div>
+                          </div>
+                          <span style={{
+                            fontSize: "0.7rem", padding: "2px 8px", borderRadius: 4,
+                            background: "rgba(244, 98, 42, 0.1)", color: "var(--accent)",
+                            fontFamily: "'Space Mono', monospace",
+                          }}>
+                            Round {a.round_num}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  ));
+                })()}
+                <div style={{
+                  marginTop: 12, padding: "10px 14px", borderRadius: 8,
+                  background: "rgba(244, 98, 42, 0.08)", border: "1px solid var(--border)",
+                  fontSize: "0.8rem", color: "var(--text-muted)",
+                }}>
+                  <strong>Round 1:</strong> Go to your assigned table<br/>
+                  <strong>Round 2:</strong> Move one table to the right (Table 10 → Table 1)
+                </div>
+              </div>
+            )}
+          </>
         )}
 
         {!loading && isActive && (
