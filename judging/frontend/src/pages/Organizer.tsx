@@ -524,12 +524,12 @@ export default function Organizer() {
                                     to_email: j.judge_email,
                                     to_name: j.judge_name,
                                     password: "jachacks2026",
-                                    platform_url: window.location.origin,
+                                    platform_url: "https://jachacks.org/judging",
                                   });
                                   alert(`Invite sent to ${j.judge_email}`);
                                 } catch {
                                   // Copy fallback
-                                  const msg = `Hey ${j.judge_name}! You're a judge at JacHacks 2026.\n\nLogin: ${window.location.origin}\nEmail: ${j.judge_email}\nPassword: jachacks2026`;
+                                  const msg = `Hey ${j.judge_name}! You're a judge at JacHacks 2026.\n\nLogin: https://jachacks.org/judging\nEmail: ${j.judge_email}\nPassword: jachacks2026`;
                                   await navigator.clipboard.writeText(msg);
                                   alert(`Email failed — invite copied to clipboard instead`);
                                 }

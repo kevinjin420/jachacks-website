@@ -173,7 +173,7 @@ function parseDevpostProjects(rows: Record<string, string>[]): DevpostProject[] 
 }
 
 const DEFAULT_PASSWORD = "jachacks2026";
-const LOGIN_URL = window.location.origin + "/login";
+const LOGIN_URL = "https://jachacks.org/judging";
 
 function buildInviteMessage(name: string, email: string) {
   return `Hey ${name || email.split("@")[0]}! You're a judge at JacHacks 2026 🎉
