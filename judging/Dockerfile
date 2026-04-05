@@ -13,6 +13,7 @@ ENV SMTP_EMAIL=""
 ENV SMTP_PASSWORD=""
 ENV PORT=10000
 
-RUN printf '#!/bin/bash\nset -e\necho "Starting Jac backend on port 8001..."\njac start main.jac --no_client -p 8001 &\necho "Waiting for Jac..."\nfor i in $(seq 1 60); do\n  if curl -sf http://localhost:8001/walker/health -H "Content-Type: application/json" -d "{}" > /dev/null 2>&1; then\n    echo "Jac is ready!"\n    break\n  fi\n  sleep 2\ndone\necho "Starting frontend on port 10000..."\nexec python3 serve.py\n' > /app/start.sh && chmod +x /app/start.sh
+# Start script: run from /app/data (persistent disk) so SQLite DB survives deploys
+RUN printf '#!/bin/bash\nset -e\nmkdir -p /app/data\ncd /app/data\ncp -n /app/main.jac /app/data/main.jac 2>/dev/null || cp /app/main.jac /app/data/main.jac\ncp -n /app/jac.toml /app/data/jac.toml 2>/dev/null || cp /app/jac.toml /app/data/jac.toml\necho "Starting Jac backend on port 8001..."\njac start main.jac --no_client -p 8001 &\necho "Waiting for Jac..."\nfor i in $(seq 1 60); do\n  if curl -sf http://localhost:8001/walker/health -H "Content-Type: application/json" -d "{}" > /dev/null 2>&1; then\n    echo "Jac is ready!"\n    break\n  fi\n  sleep 2\ndone\necho "Starting frontend on port 10000..."\ncd /app\nexec python3 serve.py\n' > /app/start.sh && chmod +x /app/start.sh
 
 CMD ["/bin/bash", "/app/start.sh"]
