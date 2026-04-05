@@ -219,8 +219,8 @@ export default function Organizer() {
                 </button>
               )}
               <button className="btn-secondary" onClick={endGroup} disabled={!!flowLoading}
-                style={{ color: "var(--danger, #ef4444)" }}>
-                ⏸ Pause
+                style={{ color: "var(--danger, #ef4444)", fontSize: "1rem", padding: "12px 24px", fontWeight: 700 }}>
+                ✕ Stop & Exit
               </button>
             </div>
             {config.current_round === 1 && (
