@@ -1245,16 +1245,19 @@ walker:pub assign_rotation {
         num_judges = len(judges);
         total_assignments = 0;
 
-        for (g, group_projects) in groups.items() {
-            if g == 0 { continue; }
+        group_keys = [g for g in groups.keys() if g != 0];
+        group_keys.sort();
+        for (gi, g) in enumerate(group_keys) {
+            group_projects = groups[g];
             # Sort by table_num so consecutive indices = consecutive tables
             group_projects.sort(key=lambda p: Project: p.table_num);
             n_proj = len(group_projects);
-            # Round 1: judge[i] gets table[i] (project at table i+1)
-            # Round 2: judge[i] gets table[i+1] (next table over)
+            # Offset starting position by group index so judges get different tables each group
+            # Group 1: judge 0 starts at table 0, Group 2: judge 0 starts at table 2, etc.
+            offset = (gi * 2) % n_proj;
             for (i, judge) in enumerate(judges) {
-                r1_idx = i % n_proj;
-                r2_idx = (i + 1) % n_proj;
+                r1_idx = (i + offset) % n_proj;
+                r2_idx = (r1_idx + 1) % n_proj;
                 judge +>:AssignedTo(round_num=1):+> group_projects[r1_idx];
                 total_assignments += 1;
                 if r2_idx != r1_idx {
