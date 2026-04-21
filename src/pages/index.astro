@@ -446,30 +446,30 @@
           <div class="section-eyebrow">// GALLERY</div>
           <h2 class="section-title">Moments from <span class="text-accent">the Weekend</span></h2>
         </div>
-        <div class="gallery-grid reveal">
-          <div class="gallery-item tall">
-            <img src="/photos/DSC06563.webp" alt="Keynote speaker" loading="lazy" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" />
+        <div class="gallery-grid">
+          <div class="gallery-item tall reveal">
+            <img src="/photos/DSC06563.webp" alt="Keynote speaker" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" />
           </div>
-          <div class="gallery-item wide">
-            <img src="/photos/DSC06792.webp" alt="Full room group photo" loading="lazy" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" />
+          <div class="gallery-item wide reveal delay-1">
+            <img src="/photos/DSC06792.webp" alt="Full room group photo" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" />
           </div>
-          <div class="gallery-item">
-            <img src="/photos/DSC06646.webp" alt="Team presenting" loading="lazy" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" />
+          <div class="gallery-item reveal delay-2">
+            <img src="/photos/DSC06646.webp" alt="Team presenting" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" />
           </div>
-          <div class="gallery-item">
-            <img src="/photos/DSC06650.webp" alt="Team presenting" loading="lazy" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" />
+          <div class="gallery-item reveal delay-3">
+            <img src="/photos/DSC06650.webp" alt="Team presenting" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" />
           </div>
-          <div class="gallery-item wide">
-            <img src="/photos/DSC06673.webp" alt="Project demo presentation" loading="lazy" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" />
+          <div class="gallery-item wide reveal delay-1">
+            <img src="/photos/DSC06673.webp" alt="Project demo presentation" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" />
           </div>
-          <div class="gallery-item">
-            <img src="/photos/DSC06546.webp" alt="Check-in and registration" loading="lazy" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" />
+          <div class="gallery-item reveal delay-2">
+            <img src="/photos/DSC06546.webp" alt="Check-in and registration" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" />
           </div>
-          <div class="gallery-item">
-            <img src="/photos/DSC06774.webp" alt="Winners group photo" loading="lazy" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" />
+          <div class="gallery-item reveal delay-3">
+            <img src="/photos/DSC06774.webp" alt="Winners group photo" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" />
           </div>
-          <div class="gallery-item tall">
-            <img src="/photos/DSC06776.webp" alt="Winners group photo" loading="lazy" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" />
+          <div class="gallery-item tall reveal delay-1">
+            <img src="/photos/DSC06776.webp" alt="Winners group photo" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" />
           </div>
         </div>
       </div>
@@ -809,10 +809,11 @@
   .section-sub { color:var(--light); font-size:.97rem; line-height:1.65; max-width:600px; }
   .section-header { margin-bottom:4rem; }
 
-  .reveal { opacity:0; transform:translateY(26px); transition:opacity .65s ease,transform .65s ease; }
+  .reveal { opacity:0; transform:translateY(26px); transition:opacity .65s ease,transform .65s ease; will-change: transform, opacity; }
   .reveal.revealed { opacity:1; transform:translateY(0); }
   .delay-1 { transition-delay:.12s; }
   .delay-2 { transition-delay:.24s; }
+  .delay-3 { transition-delay:.36s; }
 
   .corner { position:absolute; width:14px; height:14px; }
   .corner.tl { top:0; left:0; border-top:2px solid; border-left:2px solid; }
