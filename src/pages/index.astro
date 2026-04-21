@@ -152,7 +152,7 @@
     </div>
 
     <!-- PLATINUM SPONSOR -->
-    <div class="platinum-sponsor">
+    <div class="platinum-sponsor reveal">
       <span class="platinum-label">PLATINUM SPONSOR</span>
       <a href="https://jaseci.org" target="_blank" rel="noopener noreferrer" class="platinum-link">
         <img src="/jaseci-logo.png" alt="Jaseci" class="platinum-logo" />
@@ -746,6 +746,46 @@
   .stat-key { font-family:var(--mono); font-size:.62rem; font-weight:500; letter-spacing:.18em; color:var(--muted); }
   .stat-div { font-family:var(--mono); color:rgba(249,115,22,.3); font-size:1rem; padding:0 .5rem; }
 
+  /* ── PLATINUM SPONSOR ── */
+  .platinum-sponsor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 5rem 2rem;
+    background: radial-gradient(circle at center, rgba(249,115,22,0.08) 0%, transparent 70%);
+    position: relative;
+    z-index: 1;
+  }
+  .platinum-label {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    color: var(--primary);
+    opacity: 0.8;
+  }
+  .platinum-logo {
+    height: 90px;
+    width: auto;
+    filter: drop-shadow(0 0 25px rgba(249,115,22,0.3));
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
+  }
+  .platinum-link:hover .platinum-logo {
+    transform: scale(1.08);
+    filter: drop-shadow(0 0 40px rgba(249,115,22,0.5));
+  }
+  .platinum-desc {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 1.15rem;
+    color: var(--light);
+    letter-spacing: 0.05em;
+    opacity: 0.85;
+    max-width: 400px;
+    text-align: center;
+    line-height: 1.4;
+  }
+
   /* ── SPONSOR STRIP ── */
   .sponsor-strip { display: flex; flex-direction: column; align-items: center; gap: 1rem; padding: 2rem 0; background: radial-gradient(ellipse 60% 100% at 20% 50%, rgba(80,40,20,.18) 0%, transparent 70%), rgba(0,0,0,.2); border-bottom: 1px solid rgba(255,255,255,.06); position: relative; z-index: 1; overflow: hidden; }
   .strip-label { font-family: var(--mono); font-size: .6rem; letter-spacing: .3em; color: rgba(255,255,255,.3); white-space: nowrap; }
@@ -917,6 +957,9 @@
     .fe-hex-1,.fe-hex-2,.fe-hex-3,.fe-plus-1,.fe-plus-2,.fe-plus-3,.fe-ring-1,.fe-ring-2 { display:none; }
     .stat { padding:.4rem 1.25rem; }
     .stat-div { display:none; }
+    .platinum-sponsor { padding: 4rem 1.5rem; }
+    .platinum-logo { height: 70px; }
+    .platinum-desc { font-size: 1rem; }
     .track-row { grid-template-columns:1fr; }
     .awards-grid { grid-template-columns:1fr; }
     .wc-grand .wc-inner { grid-template-columns:1fr; }
