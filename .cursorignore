@@ -1,0 +1,5 @@
+# Reduce indexing / file watching noise (does not affect git or builds)
+node_modules/
+dist/
+.astro/
+.git/
