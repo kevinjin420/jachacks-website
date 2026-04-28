@@ -3,11 +3,14 @@
 
 <html lang="en">
   <head>
+    <script is:inline>
+      try { var t = localStorage.getItem('theme'); if (t === 'light') document.documentElement.setAttribute('data-theme','light'); } catch(e){}
+    </script>
     <meta charset="utf-8" />
     <link rel="icon" type="image/png" href="/jaseci-logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Gallery — JacHacks 1.0</title>
-    <meta name="description" content="Photos from JacHacks 1.0 — April 4–5, 2026, Ann Arbor, MI." />
+    <title>Gallery — JacHacks Winter</title>
+    <meta name="description" content="Photos from JacHacks Winter — April 4–5, 2026, Ann Arbor, MI." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Rajdhani:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -34,7 +37,7 @@
     <!-- HEADER -->
     <header class="gallery-header">
       <div class="header-content">
-        <div class="header-eyebrow">// JACHACKS 1.0 · APR 4–5, 2026 · ANN ARBOR, MI</div>
+        <div class="header-eyebrow">// JACHACKS WINTER · APR 4–5, 2026 · ANN ARBOR, MI</div>
         <h1 class="header-title">Gallery</h1>
         <p class="header-sub">Moments from the weekend — 170+ builders, 70 projects, 24 hours.</p>
       </div>
@@ -62,7 +65,7 @@
     <main class="gallery-main">
       <div class="gallery-grid">
 
-        <div class="gi gi-a" data-caption="All hands on deck — the full JacHacks 1.0 crowd">
+        <div class="gi gi-a" data-caption="All hands on deck — the full JacHacks Winter crowd">
           <img src="/photos/DSC06792.webp" alt="Full room group photo" loading="eager" decoding="async" />
           <div class="gi-overlay"><span class="gi-zoom">&#x2B;</span></div>
         </div>
@@ -102,7 +105,7 @@
           <div class="gi-overlay"><span class="gi-zoom">&#x2B;</span></div>
         </div>
 
-        <div class="gi gi-i" data-caption="Champions — the JacHacks 1.0 winning teams">
+        <div class="gi gi-i" data-caption="Champions — the JacHacks Winter winning teams">
           <img src="/photos/DSC06774.webp" alt="Winners group photo" loading="lazy" decoding="async" />
           <div class="gi-overlay"><span class="gi-zoom">&#x2B;</span></div>
         </div>

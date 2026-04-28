@@ -3,6 +3,9 @@
 
 <html lang="en">
   <head>
+    <script is:inline>
+      try { var t = localStorage.getItem('theme'); if (t === 'light') document.documentElement.setAttribute('data-theme','light'); } catch(e){}
+    </script>
     <meta charset="utf-8" />
     <link rel="icon" type="image/png" href="/jaseci-logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -33,9 +36,13 @@
         </a>
         <div class="nav-links">
           <a href="#spring" class="nav-link">// SPRING</a>
-          <a href="#winners" class="nav-link">// JACHACKS 1.0</a>
+          <a href="#winners" class="nav-link">// JACHACKS WINTER</a>
           <a href="/gallery" class="nav-link">// GALLERY</a>
         </div>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme" title="Toggle light/dark">
+          <svg class="tt-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="tt-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
         <a href="https://github.com/jaseci-labs/jaseci" target="_blank" rel="noopener noreferrer" class="nav-cta">STAR ON GITHUB</a>
         <button class="hamburger" id="hamburger" aria-label="Menu">
           <span></span><span></span><span></span>
@@ -45,7 +52,7 @@
 
     <div class="mobile-menu" id="mobile-menu">
       <a href="#spring">// SPRING</a>
-      <a href="#winners">// JACHACKS 1.0</a>
+      <a href="#winners">// JACHACKS WINTER</a>
       <a href="/gallery">// GALLERY</a>
       <a href="https://github.com/jaseci-labs/jaseci" target="_blank" class="mobile-cta">STAR ON GITHUB</a>
     </div>
@@ -143,7 +150,7 @@
             REGISTRATION COMING SOON
           </div>
           <a href="#winners" class="btn-ghost">
-            SEE JACHACKS 1.0
+            SEE JACHACKS WINTER
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
           </a>
         </div>
@@ -233,7 +240,7 @@
 
     <!-- SPONSOR STRIP -->
     <div class="sponsor-strip">
-      <span class="strip-label">JACHACKS 1.0 SPONSORS</span>
+      <span class="strip-label">JACHACKS WINTER SPONSORS</span>
       <div class="strip-marquee">
         <div class="strip-track">
           <a class="strip-logo" href="https://lovable.dev" target="_blank" rel="noopener noreferrer"><img src="/sponsors/lovable.svg" alt="Lovable" /></a>
@@ -267,15 +274,15 @@
       </div>
     </div>
 
-    <!-- JACHACKS 1.0 BANNER -->
+    <!-- JACHACKS WINTER BANNER -->
     <div class="v1-banner">
       <div class="v1-banner-bg">
-        <img src="/photos/DSC06792.webp" alt="JacHacks 1.0" />
+        <img src="/photos/DSC06792.webp" alt="JacHacks Winter" />
         <div class="v1-banner-overlay"></div>
       </div>
       <div class="v1-banner-content">
         <div class="v1-banner-eyebrow">// APR 4–5, 2026 · ANN ARBOR, MI</div>
-        <div class="v1-banner-title">JacHacks <span class="v1-banner-accent">1.0</span></div>
+        <div class="v1-banner-title">JacHacks <span class="v1-banner-accent">Winter</span></div>
         <div class="v1-banner-sub">Where it all started — 170+ builders, 70 projects, 24 hours.</div>
         <div class="v1-stats-row">
           <div class="v1-stat">
@@ -301,247 +308,324 @@
       </div>
     </div>
 
+    <!-- WINTER RECAP -->
+    <section class="section recap-section" id="recap">
+      <div class="container">
+        <div class="recap-header reveal">
+          <div class="section-eyebrow">// THE RECAP</div>
+          <h2 class="section-title">Relive <span class="text-accent">JacHacks Winter</span></h2>
+          <p class="section-sub">24 hours. 70 projects. One unforgettable weekend at U-M North Campus.</p>
+        </div>
+        <div class="recap-frame reveal">
+          <span class="recap-corner recap-corner-tl"></span>
+          <span class="recap-corner recap-corner-tr"></span>
+          <span class="recap-corner recap-corner-bl"></span>
+          <span class="recap-corner recap-corner-br"></span>
+          <div class="recap-video">
+            <span class="recap-rec"><span class="recap-rec-dot"></span> RECAP REEL</span>
+            <iframe src="https://www.youtube.com/embed/zsqUxuRY5PI?rel=0" title="JacHacks Winter recap" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIDEO MODAL -->
+    <div class="vm-backdrop" id="vm-backdrop"></div>
+    <div class="vm" id="vm">
+      <div class="vm-shell">
+        <span class="vm-caption">// PROJECT DEMO</span>
+        <button class="vm-close" id="vm-close" aria-label="Close video">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+        <div class="vm-body">
+          <iframe id="vm-iframe" src="" title="Project demo video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+
     <!-- WINNERS -->
     <section class="section section-dark" id="winners">
       <div class="container">
         <div class="section-header reveal">
-          <div class="section-eyebrow">// JACHACKS 1.0 · WINNERS</div>
-          <h2 class="section-title">The Best of <span class="text-accent">JacHacks 1.0</span></h2>
+          <div class="section-eyebrow">// JACHACKS WINTER · WINNERS</div>
+          <h2 class="section-title">The Best of <span class="text-accent">JacHacks Winter</span></h2>
           <p class="section-sub">The projects that stood out — built in 24 hours at U-M North Campus, April 2026.</p>
         </div>
 
-        <!-- Grand Prize -->
-        <div class="winner-grand reveal">
-          <a class="winner-card wc-grand" href="https://devpost.com/software/npm-supply-chain-risk-analyzer" target="_blank" rel="noopener noreferrer">
-            <div class="wc-grand-glow"></div>
-            <div class="wc-corners">
-              <span class="corner tl"></span><span class="corner tr"></span>
-              <span class="corner bl"></span><span class="corner br"></span>
-            </div>
-            <div class="wc-inner">
-              <div class="winner-img">
-                <img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/004/534/605/datas/gallery.jpg" alt="ChainViz" />
-              </div>
-              <div class="winner-content">
-                <div class="winner-badges">
-                  <span class="winner-place wc-place-grand">BEST USE OF JAC</span>
-                </div>
-                <div class="winner-name">ChainViz</div>
-                <div class="winner-team">by Darsh Poddar</div>
-                <p class="winner-desc">3D visualization of npm's single points of failure — with autonomous Jac agents that investigate any package's blast radius in real time. Combines historical attack replays, vulnerability scanning across 217K+ records, and multi-agent AI investigation.</p>
-                <span class="winner-link">View on Devpost →</span>
-              </div>
-            </div>
-          </a>
-        </div>
-
-        <!-- Track: Agentic AI -->
+        <!-- Agentic AI -->
         <div class="track-section">
           <div class="track-header">
             <span class="track-header-icon">//</span>
             <span class="track-label">Agentic AI Track</span>
             <span class="track-label-sub">2 WINNERS</span>
           </div>
-          <div class="track-row">
-            <a class="winner-card wc-1st reveal" href="https://devpost.com/software/project-e54qlw07j9i1" target="_blank" rel="noopener noreferrer">
-              <div class="wc-corners">
-                <span class="corner tl"></span><span class="corner tr"></span>
-                <span class="corner bl"></span><span class="corner br"></span>
-              </div>
-              <div class="winner-img winner-img-sm">
+          <div class="projects-grid projects-grid-2">
+            <div class="pcard reveal"
+              data-video="rAgFg8S8IJo"
+              data-devpost="https://devpost.com/software/project-e54qlw07j9i1">
+              <div class="pcard-bar bar-1st"></div>
+              <div class="pcard-thumb">
                 <img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/004/534/388/datas/original.png" alt="GraphClaw" />
-              </div>
-              <div class="winner-content">
-                <div class="winner-badges">
-                  <span class="winner-place wc-place-1st">1ST PLACE</span>
-                  <span class="winner-award-tag">+ BEST USE OF BASE44</span>
+                <div class="pcard-rec">DEMO</div>
+                <div class="pcard-play-overlay">
+                  <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg></div>
+                  <span class="play-label">CLICK TO WATCH</span>
                 </div>
-                <div class="winner-name">GraphClaw</div>
-                <div class="winner-team">by A K M Mahmudul Kabir, Abdullah Al Mahmud</div>
-                <p class="winner-desc">A multi-agent AI platform where memory lives in a property graph, agents are graph walkers, and skills can be installed from the internet at runtime.</p>
-                <span class="winner-link">View on Devpost →</span>
               </div>
-            </a>
+              <div class="pcard-body">
+                <div class="pcard-badges">
+                  <span class="pbadge pbadge-1st">1ST PLACE</span>
+                  <span class="pbadge pbadge-extra">BEST USE OF BASE44</span>
+                </div>
+                <h3 class="pcard-title">GraphClaw</h3>
+                <p class="pcard-team">A K M Mahmudul Kabir, Abdullah Al Mahmud</p>
+                <p class="pcard-desc">A multi-agent AI platform where memory lives in a property graph, agents are graph walkers, and skills can be installed from the internet at runtime.</p>
+              </div>
+              <div class="pcard-actions">
+                <a class="pcard-devpost" href="https://devpost.com/software/project-e54qlw07j9i1" target="_blank" rel="noopener noreferrer">DEVPOST →</a>
+              </div>
+            </div>
 
-            <a class="winner-card wc-2nd reveal delay-1" href="https://devpost.com/software/ghostwatch" target="_blank" rel="noopener noreferrer">
-              <div class="wc-corners">
-                <span class="corner tl"></span><span class="corner tr"></span>
-                <span class="corner bl"></span><span class="corner br"></span>
-              </div>
-              <div class="winner-img winner-img-sm">
+            <div class="pcard reveal delay-1"
+              data-video="ZN0UVnNUpRs"
+              data-video-start="2"
+              data-devpost="https://devpost.com/software/ghostwatch">
+              <div class="pcard-bar bar-2nd"></div>
+              <div class="pcard-thumb">
                 <img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/004/533/420/datas/gallery.jpg" alt="GhostWatch" />
-              </div>
-              <div class="winner-content">
-                <div class="winner-badges">
-                  <span class="winner-place wc-place-2nd">2ND PLACE</span>
+                <div class="pcard-rec">DEMO</div>
+                <div class="pcard-play-overlay">
+                  <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg></div>
+                  <span class="play-label">CLICK TO WATCH</span>
                 </div>
-                <div class="winner-name">GhostWatch</div>
-                <div class="winner-team">by Aaron Sun, Ayush Madhav Kumar</div>
-                <p class="winner-desc">Autonomous code defense with graph-native clarity. Monitors repositories for risky dependency changes and PR signals, with automated sandboxed testing and optional fix generation.</p>
-                <span class="winner-link">View on Devpost →</span>
               </div>
-            </a>
+              <div class="pcard-body">
+                <div class="pcard-badges"><span class="pbadge pbadge-2nd">2ND PLACE</span></div>
+                <h3 class="pcard-title">GhostWatch</h3>
+                <p class="pcard-team">Aaron Sun, Ayush Madhav Kumar</p>
+                <p class="pcard-desc">Autonomous code defense with graph-native clarity. Monitors repositories for risky dependency changes and PR signals, with automated sandboxed testing and optional fix generation.</p>
+              </div>
+              <div class="pcard-actions">
+                <a class="pcard-devpost" href="https://devpost.com/software/ghostwatch" target="_blank" rel="noopener noreferrer">DEVPOST →</a>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- Track: Fintech -->
+        <!-- Fintech -->
         <div class="track-section">
           <div class="track-header">
             <span class="track-header-icon">//</span>
             <span class="track-label">Fintech Track</span>
             <span class="track-label-sub">2 WINNERS</span>
           </div>
-          <div class="track-row">
-            <a class="winner-card wc-1st reveal" href="https://devpost.com/software/polywatch" target="_blank" rel="noopener noreferrer">
-              <div class="wc-corners">
-                <span class="corner tl"></span><span class="corner tr"></span>
-                <span class="corner bl"></span><span class="corner br"></span>
-              </div>
-              <div class="winner-img winner-img-sm winner-img-empty"></div>
-              <div class="winner-content">
-                <div class="winner-badges">
-                  <span class="winner-place wc-place-1st">1ST PLACE</span>
+          <div class="projects-grid projects-grid-2">
+            <div class="pcard reveal"
+              data-video=""
+              data-devpost="https://devpost.com/software/polywatch">
+              <div class="pcard-bar bar-1st"></div>
+              <div class="pcard-thumb pcard-thumb-empty">
+                <div class="pcard-rec">DEMO</div>
+                <div class="pcard-play-overlay">
+                  <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg></div>
+                  <span class="play-label">CLICK TO WATCH</span>
                 </div>
-                <div class="winner-name">PolyWatch</div>
-                <div class="winner-team">by Adam Christley, Caeden Kidd, Amar Zecevic, Schultz</div>
-                <p class="winner-desc">AI powered insider trading detection for prediction markets. Uses Tree of Thought reasoning to autonomously investigate manipulation, coordinated wallets, and suspicious trading patterns on Polymarket.</p>
-                <span class="winner-link">View on Devpost →</span>
               </div>
-            </a>
+              <div class="pcard-body">
+                <div class="pcard-badges"><span class="pbadge pbadge-1st">1ST PLACE</span></div>
+                <h3 class="pcard-title">PolyWatch</h3>
+                <p class="pcard-team">Adam Christley, Caeden Kidd, Amar Zecevic, Schultz</p>
+                <p class="pcard-desc">AI powered insider trading detection for prediction markets. Uses Tree of Thought reasoning to autonomously investigate manipulation, coordinated wallets, and suspicious trading patterns.</p>
+              </div>
+              <div class="pcard-actions">
+                <a class="pcard-devpost" href="https://devpost.com/software/polywatch" target="_blank" rel="noopener noreferrer">DEVPOST →</a>
+              </div>
+            </div>
 
-            <a class="winner-card wc-2nd reveal delay-1" href="https://devpost.com/software/sybilscope" target="_blank" rel="noopener noreferrer">
-              <div class="wc-corners">
-                <span class="corner tl"></span><span class="corner tr"></span>
-                <span class="corner bl"></span><span class="corner br"></span>
-              </div>
-              <div class="winner-img winner-img-sm">
+            <div class="pcard reveal delay-1"
+              data-video="6xC28FnsD9Y"
+              data-devpost="https://devpost.com/software/sybilscope">
+              <div class="pcard-bar bar-2nd"></div>
+              <div class="pcard-thumb">
                 <img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/004/534/307/datas/gallery.jpg" alt="SybilScope" />
-              </div>
-              <div class="winner-content">
-                <div class="winner-badges">
-                  <span class="winner-place wc-place-2nd">2ND PLACE</span>
+                <div class="pcard-rec">DEMO</div>
+                <div class="pcard-play-overlay">
+                  <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg></div>
+                  <span class="play-label">CLICK TO WATCH</span>
                 </div>
-                <div class="winner-name">SybilScope</div>
-                <div class="winner-team">by David Chong, Yanshengtian Dong, Shrimann Myneni</div>
-                <p class="winner-desc">Detects fake wallet clusters in crypto airdrops using Jac's native graph Walker and AI reasoning. Builds a live wallet graph to distinguish coordinated fraud from legitimate activity.</p>
-                <span class="winner-link">View on Devpost →</span>
               </div>
-            </a>
+              <div class="pcard-body">
+                <div class="pcard-badges"><span class="pbadge pbadge-2nd">2ND PLACE</span></div>
+                <h3 class="pcard-title">SybilScope</h3>
+                <p class="pcard-team">David Chong, Yanshengtian Dong, Shrimann Myneni</p>
+                <p class="pcard-desc">Detects fake wallet clusters in crypto airdrops using Jac's native graph Walker and AI reasoning. Builds a live wallet graph to distinguish coordinated fraud from legitimate activity.</p>
+              </div>
+              <div class="pcard-actions">
+                <a class="pcard-devpost" href="https://devpost.com/software/sybilscope" target="_blank" rel="noopener noreferrer">DEVPOST →</a>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- Track: Social Impact -->
+        <!-- Social Impact -->
         <div class="track-section">
           <div class="track-header">
             <span class="track-header-icon">//</span>
             <span class="track-label">Social Impact Track</span>
             <span class="track-label-sub">2 WINNERS</span>
           </div>
-          <div class="track-row">
-            <a class="winner-card wc-1st reveal" href="https://devpost.com/software/hijac" target="_blank" rel="noopener noreferrer">
-              <div class="wc-corners">
-                <span class="corner tl"></span><span class="corner tr"></span>
-                <span class="corner bl"></span><span class="corner br"></span>
-              </div>
-              <div class="winner-img winner-img-sm">
+          <div class="projects-grid projects-grid-2">
+            <div class="pcard reveal"
+              data-video="SeP5gTAS4j0"
+              data-video-start="1"
+              data-devpost="https://devpost.com/software/hijac">
+              <div class="pcard-bar bar-1st"></div>
+              <div class="pcard-thumb">
                 <img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/004/533/977/datas/gallery.jpg" alt="Hijac" />
-              </div>
-              <div class="winner-content">
-                <div class="winner-badges">
-                  <span class="winner-place wc-place-1st">1ST PLACE</span>
+                <div class="pcard-rec">DEMO</div>
+                <div class="pcard-play-overlay">
+                  <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg></div>
+                  <span class="play-label">CLICK TO WATCH</span>
                 </div>
-                <div class="winner-name">Hijac</div>
-                <div class="winner-team">by Meron Demissie, Nitin Shankar Madhu, Chuka Ezeoke</div>
-                <p class="winner-desc">An AI-powered mobile agent that hijacks your routine. Monitors device sensors and automatically performs contextual actions based on detected patterns and user-defined rules.</p>
-                <span class="winner-link">View on Devpost →</span>
               </div>
-            </a>
+              <div class="pcard-body">
+                <div class="pcard-badges"><span class="pbadge pbadge-1st">1ST PLACE</span></div>
+                <h3 class="pcard-title">Hijac</h3>
+                <p class="pcard-team">Meron Demissie, Nitin Shankar Madhu, Chuka Ezeoke</p>
+                <p class="pcard-desc">An AI-powered mobile agent that hijacks your routine. Monitors device sensors and automatically performs contextual actions based on detected patterns and user-defined rules.</p>
+              </div>
+              <div class="pcard-actions">
+                <a class="pcard-devpost" href="https://devpost.com/software/hijac" target="_blank" rel="noopener noreferrer">DEVPOST →</a>
+              </div>
+            </div>
 
-            <a class="winner-card wc-2nd reveal delay-1" href="https://devpost.com/software/jac-in-the-block" target="_blank" rel="noopener noreferrer">
-              <div class="wc-corners">
-                <span class="corner tl"></span><span class="corner tr"></span>
-                <span class="corner bl"></span><span class="corner br"></span>
-              </div>
-              <div class="winner-img winner-img-sm winner-img-empty"></div>
-              <div class="winner-content">
-                <div class="winner-badges">
-                  <span class="winner-place wc-place-2nd">2ND PLACE</span>
+            <div class="pcard reveal delay-1"
+              data-video="nxqcHtGdQfo"
+              data-devpost="https://devpost.com/software/jac-in-the-block">
+              <div class="pcard-bar bar-2nd"></div>
+              <div class="pcard-thumb pcard-thumb-empty">
+                <div class="pcard-rec">DEMO</div>
+                <div class="pcard-play-overlay">
+                  <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg></div>
+                  <span class="play-label">CLICK TO WATCH</span>
                 </div>
-                <div class="winner-name">Jac in the Block</div>
-                <div class="winner-team">by Krish Deshmukh, Kuldeep Debnath, Junna Park, Adam</div>
-                <p class="winner-desc">An accessible learning toolkit for Jac combining a block-based visual interface, real-time graph visualization, and a VS Code Extension Suite with linting and debugging support.</p>
-                <span class="winner-link">View on Devpost →</span>
               </div>
-            </a>
+              <div class="pcard-body">
+                <div class="pcard-badges"><span class="pbadge pbadge-2nd">2ND PLACE</span></div>
+                <h3 class="pcard-title">Jac in the Block</h3>
+                <p class="pcard-team">Krish Deshmukh, Kuldeep Debnath, Junna Park, Adam</p>
+                <p class="pcard-desc">An accessible learning toolkit for Jac combining a block-based visual interface, real-time graph visualization, and a VS Code Extension Suite with linting and debugging support.</p>
+              </div>
+              <div class="pcard-actions">
+                <a class="pcard-devpost" href="https://devpost.com/software/jac-in-the-block" target="_blank" rel="noopener noreferrer">DEVPOST →</a>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- Sponsor & Special Awards -->
+        <!-- Special Awards -->
         <div class="track-section">
           <div class="track-header">
             <span class="track-header-icon">//</span>
             <span class="track-label">Sponsor &amp; Special Awards</span>
-            <span class="track-label-sub">3 WINNERS</span>
+            <span class="track-label-sub">4 WINNERS</span>
           </div>
-          <div class="awards-grid">
-            <a class="winner-card wc-award reveal" href="https://devpost.com/software/6th-sense-5cfry8" target="_blank" rel="noopener noreferrer">
-              <div class="wc-corners">
-                <span class="corner tl"></span><span class="corner tr"></span>
-                <span class="corner bl"></span><span class="corner br"></span>
+          <div class="projects-grid projects-grid-3">
+            <div class="pcard reveal"
+              data-video="R1tjGuE_HS8"
+              data-video-start="2"
+              data-devpost="https://devpost.com/software/npm-supply-chain-risk-analyzer">
+              <div class="pcard-bar bar-award"></div>
+              <div class="pcard-thumb">
+                <img src="https://img.youtube.com/vi/R1tjGuE_HS8/maxresdefault.jpg" alt="ChainViz demo" />
+                <div class="pcard-rec">DEMO</div>
+                <div class="pcard-play-overlay">
+                  <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg></div>
+                  <span class="play-label">CLICK TO WATCH</span>
+                </div>
               </div>
-              <div class="winner-img winner-img-sm">
+              <div class="pcard-body">
+                <div class="pcard-badges"><span class="pbadge pbadge-award">BEST USE OF JAC</span></div>
+                <h3 class="pcard-title">ChainViz</h3>
+                <p class="pcard-team">Darsh Poddar</p>
+                <p class="pcard-desc">3D visualization of npm's single points of failure — with autonomous Jac agents that investigate any package's blast radius in real time across 217K+ vulnerability records.</p>
+              </div>
+              <div class="pcard-actions">
+                <a class="pcard-devpost" href="https://devpost.com/software/npm-supply-chain-risk-analyzer" target="_blank" rel="noopener noreferrer">DEVPOST →</a>
+              </div>
+            </div>
+
+            <div class="pcard reveal delay-1"
+              data-video="dFl09zi6uoQ"
+              data-devpost="https://devpost.com/software/6th-sense-5cfry8">
+              <div class="pcard-bar bar-award"></div>
+              <div class="pcard-thumb">
                 <img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/004/534/228/datas/gallery.jpg" alt="6th Sense" />
-              </div>
-              <div class="winner-content">
-                <div class="winner-badges">
-                  <span class="winner-place wc-place-award">BEST USE OF LOVABLE</span>
+                <div class="pcard-rec">DEMO</div>
+                <div class="pcard-play-overlay">
+                  <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg></div>
+                  <span class="play-label">CLICK TO WATCH</span>
                 </div>
-                <div class="winner-name">6th Sense</div>
-                <div class="winner-team">by Raj, Adwayan Goswami, Aryan Singh, Param Natu</div>
-                <p class="winner-desc">A real-time AI assistant that listens, reads social cues, and suggests what to say instantly — for interviews, networking, and high-pressure conversations.</p>
-                <span class="winner-link">View on Devpost →</span>
               </div>
-            </a>
+              <div class="pcard-body">
+                <div class="pcard-badges"><span class="pbadge pbadge-award">BEST USE OF LOVABLE</span></div>
+                <h3 class="pcard-title">6th Sense</h3>
+                <p class="pcard-team">Raj, Adwayan Goswami, Aryan Singh, Param Natu</p>
+                <p class="pcard-desc">A real-time AI assistant that listens, reads social cues, and suggests what to say instantly — for interviews, networking, and high-pressure conversations.</p>
+              </div>
+              <div class="pcard-actions">
+                <a class="pcard-devpost" href="https://devpost.com/software/6th-sense-5cfry8" target="_blank" rel="noopener noreferrer">DEVPOST →</a>
+              </div>
+            </div>
 
-            <a class="winner-card wc-award reveal delay-1" href="https://devpost.com/software/corpus-43v970" target="_blank" rel="noopener noreferrer">
-              <div class="wc-corners">
-                <span class="corner tl"></span><span class="corner tr"></span>
-                <span class="corner bl"></span><span class="corner br"></span>
-              </div>
-              <div class="winner-img winner-img-sm">
+            <div class="pcard reveal delay-2"
+              data-video="iwCxhwj_zYk"
+              data-devpost="https://devpost.com/software/corpus-43v970">
+              <div class="pcard-bar bar-award"></div>
+              <div class="pcard-thumb">
                 <img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/004/533/924/datas/gallery.jpg" alt="Corpus" />
-              </div>
-              <div class="winner-content">
-                <div class="winner-badges">
-                  <span class="winner-place wc-place-award">BEST USE OF INSFORGE + BACKBOARD</span>
+                <div class="pcard-rec">DEMO</div>
+                <div class="pcard-play-overlay">
+                  <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg></div>
+                  <span class="play-label">CLICK TO WATCH</span>
                 </div>
-                <div class="winner-name">Corpus</div>
-                <div class="winner-team">by Anirudh Manjesh</div>
-                <p class="winner-desc">Your codebase has an immune system. Corpus watches AI-generated code, catches breakage before it lands, and self-heals your project by verifying structural integrity against your codebase graph.</p>
-                <span class="winner-link">View on Devpost →</span>
               </div>
-            </a>
+              <div class="pcard-body">
+                <div class="pcard-badges"><span class="pbadge pbadge-award">BEST USE OF INSFORGE + BACKBOARD</span></div>
+                <h3 class="pcard-title">Corpus</h3>
+                <p class="pcard-team">Anirudh Manjesh</p>
+                <p class="pcard-desc">Your codebase has an immune system. Corpus watches AI-generated code, catches breakage before it lands, and self-heals your project against your codebase graph.</p>
+              </div>
+              <div class="pcard-actions">
+                <a class="pcard-devpost" href="https://devpost.com/software/corpus-43v970" target="_blank" rel="noopener noreferrer">DEVPOST →</a>
+              </div>
+            </div>
 
-            <a class="winner-card wc-award reveal delay-2" href="https://devpost.com/software/inocula-weaponize-the-trust-graph-then-inoculate-it" target="_blank" rel="noopener noreferrer">
-              <div class="wc-corners">
-                <span class="corner tl"></span><span class="corner tr"></span>
-                <span class="corner bl"></span><span class="corner br"></span>
-              </div>
-              <div class="winner-img winner-img-sm">
+            <div class="pcard reveal delay-3"
+              data-video=""
+              data-devpost="https://devpost.com/software/inocula-weaponize-the-trust-graph-then-inoculate-it">
+              <div class="pcard-bar bar-award"></div>
+              <div class="pcard-thumb">
                 <img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/004/534/234/datas/gallery.jpg" alt="Inocula" />
-              </div>
-              <div class="winner-content">
-                <div class="winner-badges">
-                  <span class="winner-place wc-place-award">BEST STARTUP IDEA</span>
+                <div class="pcard-rec">DEMO</div>
+                <div class="pcard-play-overlay">
+                  <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg></div>
+                  <span class="play-label">CLICK TO WATCH</span>
                 </div>
-                <div class="winner-name">Inocula</div>
-                <div class="winner-team">by Marcel Billingslea, Jana Hazimeh, Sudarshan Sridhar</div>
-                <p class="winner-desc">Expose the infection. Build the immunity. A full-spectrum Bluetooth attack and defense system that weaponizes the trust graph — then inoculates it.</p>
-                <span class="winner-link">View on Devpost →</span>
               </div>
-            </a>
+              <div class="pcard-body">
+                <div class="pcard-badges"><span class="pbadge pbadge-award">BEST STARTUP IDEA</span></div>
+                <h3 class="pcard-title">Inocula</h3>
+                <p class="pcard-team">Marcel Billingslea, Jana Hazimeh, Sudarshan Sridhar</p>
+                <p class="pcard-desc">Expose the infection. Build the immunity. A full-spectrum Bluetooth attack and defense system that weaponizes the trust graph — then inoculates it.</p>
+              </div>
+              <div class="pcard-actions">
+                <a class="pcard-devpost" href="https://devpost.com/software/inocula-weaponize-the-trust-graph-then-inoculate-it" target="_blank" rel="noopener noreferrer">DEVPOST →</a>
+              </div>
+            </div>
           </div>
         </div>
+
       </div>
     </section>
 
@@ -557,7 +641,7 @@
             <div class="gt-overlay"></div>
           </div>
           <div class="gallery-teaser-content">
-            <div class="section-eyebrow">// JACHACKS 1.0 · GALLERY</div>
+            <div class="section-eyebrow">// JACHACKS WINTER · GALLERY</div>
             <h2 class="section-title">Moments from <span class="text-accent">the Weekend</span></h2>
             <p class="section-sub">170+ hackers. 24 hours. One unforgettable weekend in Ann Arbor.</p>
             <a href="/gallery" class="btn-primary" style="margin-top:2rem; display:inline-flex;">
@@ -578,7 +662,7 @@
         </div>
         <div class="footer-nav">
           <a href="#spring">Spring 2026</a>
-          <a href="#winners">JacHacks 1.0</a>
+          <a href="#winners">JacHacks Winter</a>
           <a href="/gallery">Gallery</a>
         </div>
         <div class="footer-socials">
@@ -708,6 +792,93 @@
     const hbg=document.getElementById('hamburger')!,mm=document.getElementById('mobile-menu')!;
     hbg.addEventListener('click',()=>{hbg.classList.toggle('open');mm.classList.toggle('open');});
     mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{hbg.classList.remove('open');mm.classList.remove('open');}));
+
+    // ===== THEME TOGGLE =====
+    const themeBtn = document.getElementById('theme-toggle')!;
+    themeBtn.addEventListener('click', () => {
+      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+      if (isLight) {
+        document.documentElement.removeAttribute('data-theme');
+        try { localStorage.setItem('theme','dark'); } catch(e){}
+      } else {
+        document.documentElement.setAttribute('data-theme','light');
+        try { localStorage.setItem('theme','light'); } catch(e){}
+      }
+    });
+
+    // ===== TEAM AVATARS =====
+    function getInitials(name: string): string {
+      const cleaned = name.replace(/\./g, '').trim();
+      const parts = cleaned.split(/\s+/).filter(p => p.length > 0);
+      if (parts.length === 0) return '?';
+      if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    }
+    function escapeHtml(s: string): string {
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+    document.querySelectorAll<HTMLElement>('.pcard-team').forEach(el => {
+      const text = (el.textContent || '').trim();
+      if (!text) return;
+      const names = text.split(/,\s*/).map(n => n.trim()).filter(n => n.length > 0);
+      if (names.length === 0) return;
+      // Preserve Astro's scoped style attribute on dynamically created children
+      const cidAttr = el.getAttributeNames().find(n => n.startsWith('data-astro-cid-'));
+      const cidStr = cidAttr ? ` ${cidAttr}=""` : '';
+      el.innerHTML = `<span class="team-label"${cidStr}>TEAM</span>` +
+        names.map(n => `<span class="team-avatar"${cidStr} data-name="${escapeHtml(n)}">${escapeHtml(getInitials(n))}</span>`).join('');
+    });
+
+    // ===== VIDEO MODAL =====
+    const vmBackdrop = document.getElementById('vm-backdrop')!;
+    const vm = document.getElementById('vm')!;
+    const vmIframe = document.getElementById('vm-iframe') as HTMLIFrameElement;
+    const vmClose = document.getElementById('vm-close')!;
+
+    function openVideo(youtubeId: string, startSeconds?: string) {
+      const start = startSeconds && startSeconds.length > 0 ? `&start=${startSeconds}` : '';
+      vmIframe.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0${start}`;
+      vm.classList.add('open');
+      vmBackdrop.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeVideo() {
+      vm.classList.remove('open');
+      vmBackdrop.classList.remove('open');
+      vmIframe.src = '';
+      document.body.style.overflow = '';
+    }
+
+    function handleProjectClick(card: HTMLElement) {
+      const videoId = card.dataset.video;
+      const videoStart = card.dataset.videoStart;
+      const devpost = card.dataset.devpost;
+      if (videoId && videoId.length > 0) {
+        openVideo(videoId, videoStart);
+      } else if (devpost) {
+        window.open(devpost, '_blank', 'noopener,noreferrer');
+      }
+    }
+
+    document.querySelectorAll<HTMLElement>('.js-demo').forEach(el => {
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const card = el.closest<HTMLElement>('[data-devpost]');
+        if (card) handleProjectClick(card);
+      });
+    });
+
+    document.querySelectorAll<HTMLElement>('.pcard-thumb').forEach(thumb => {
+      thumb.addEventListener('click', () => {
+        const card = thumb.closest<HTMLElement>('[data-devpost]');
+        if (card) handleProjectClick(card);
+      });
+    });
+
+    vmClose.addEventListener('click', closeVideo);
+    vmBackdrop.addEventListener('click', closeVideo);
+    vm.addEventListener('click', e => { if (e.target === vm) closeVideo(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && vm.classList.contains('open')) closeVideo(); });
   </script>
   </body>
 </html>
@@ -767,6 +938,11 @@
   .nav-link:hover { color:#fff; background:rgba(249,115,22,.12); border-color:rgba(249,115,22,.35); box-shadow:0 0 14px rgba(249,115,22,.15); }
   .nav-cta { font-family:var(--display); font-weight:700; font-size:.78rem; letter-spacing:.1em; color:#000; background:var(--primary); padding:.38rem 1.2rem; border-radius: 100px; white-space:nowrap; flex-shrink:0; transition:all .2s; box-shadow:0 0 20px rgba(249,115,22,.4); }
   .nav-cta:hover { background:var(--pl); box-shadow:0 0 35px rgba(249,115,22,.65); transform:translateY(-1px); }
+  .theme-toggle { width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.12); color:rgba(255,255,255,.75); cursor:pointer; display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; transition:all .25s; padding:0; }
+  .theme-toggle:hover { color:var(--primary); border-color:rgba(249,115,22,.45); background:rgba(249,115,22,.08); box-shadow:0 0 14px rgba(249,115,22,.2); }
+  .theme-toggle .tt-moon { display:none; }
+  :root[data-theme="light"] .theme-toggle .tt-sun { display:none; }
+  :root[data-theme="light"] .theme-toggle .tt-moon { display:block; }
   .hamburger { display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:4px; flex-shrink:0; }
   .hamburger span { display:block; width:20px; height:2px; background:var(--text); transition:all .25s; border-radius:2px; }
   .hamburger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
@@ -869,8 +1045,23 @@
   .notify-text { font-family:var(--display); font-weight:600; font-size:1.25rem; color:var(--light); letter-spacing:.03em; }
   .notify-actions { display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; margin-top:.5rem; }
 
-  /* ── GRAND PRIZE GLOW ── */
-  .wc-grand-glow { position:absolute; inset:0; pointer-events:none; background:radial-gradient(ellipse 80% 60% at 50% 0%, rgba(249,115,22,.12) 0%, transparent 70%); z-index:0; }
+  /* ── VIDEO MODAL ── */
+  .vm-backdrop { position:fixed; inset:0; background:rgba(4,3,10,.85); z-index:300; opacity:0; pointer-events:none; transition:opacity .35s ease; backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); }
+  .vm-backdrop.open { opacity:1; pointer-events:all; }
+  .vm { position:fixed; inset:0; z-index:301; display:flex; align-items:center; justify-content:center; padding:2.5rem; opacity:0; pointer-events:none; transition:opacity .35s ease; }
+  .vm.open { opacity:1; pointer-events:all; }
+  .vm-shell { position:relative; width:100%; max-width:1180px; transform:scale(.94); transition:transform .35s cubic-bezier(.2,.8,.25,1); }
+  .vm.open .vm-shell { transform:scale(1); }
+  .vm-body { width:100%; aspect-ratio:16/9; border-radius:14px; overflow:hidden; box-shadow:0 40px 120px rgba(0,0,0,.7), 0 0 50px rgba(249,115,22,.12), 0 0 0 1px rgba(255,255,255,.08); background:#000; position:relative; }
+  .vm-body iframe { width:100%; height:100%; border:none; display:block; }
+  .vm-close { position:absolute; top:-3.25rem; right:0; width:40px; height:40px; border-radius:50%; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.18); color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .2s, border-color .2s, transform .2s; backdrop-filter:blur(8px); }
+  .vm-close:hover { background:rgba(249,115,22,.3); border-color:rgba(249,115,22,.5); transform:rotate(90deg); }
+  .vm-caption { position:absolute; top:-3rem; left:0; font-family:var(--mono); font-size:.6rem; letter-spacing:.28em; color:rgba(255,255,255,.5); text-transform:uppercase; }
+  @media (max-width:768px) {
+    .vm { padding:1rem; }
+    .vm-close { top:-2.5rem; width:34px; height:34px; }
+    .vm-caption { display:none; }
+  }
 
   /* ── PLATINUM SPONSOR ── */
   .platinum-sponsor { display: flex; flex-direction: column; align-items: center; gap: 1.25rem; padding: 5rem 2rem; background: radial-gradient(circle at center, rgba(249,115,22,.07) 0%, transparent 70%); position: relative; z-index: 1; }
@@ -908,6 +1099,28 @@
   .v1-stat-key { font-family:var(--mono); font-size:.55rem; letter-spacing:.2em; color:var(--muted); }
   .v1-stat-sep { font-family:var(--mono); color:rgba(249,115,22,.25); font-size:.85rem; padding:0 .25rem; }
 
+  /* ── RECAP VIDEO ── */
+  .recap-section { padding-top:5rem; padding-bottom:5rem; }
+  .recap-section::before { display:none; }
+  .recap-header { text-align:center; margin-bottom:2.75rem; display:flex; flex-direction:column; align-items:center; gap:.6rem; }
+  .recap-header .section-sub { margin:0 auto; }
+  .recap-frame { position:relative; max-width:1040px; margin:0 auto; padding:14px; background:linear-gradient(135deg, rgba(249,115,22,.22) 0%, rgba(168,85,247,.16) 50%, rgba(0,212,255,.14) 100%); border-radius:18px; box-shadow:0 30px 90px rgba(0,0,0,.55), 0 0 70px rgba(249,115,22,.18); }
+  .recap-frame::before { content:''; position:absolute; inset:0; border-radius:18px; padding:1px; background:linear-gradient(135deg, rgba(255,255,255,.18), rgba(255,255,255,0) 50%); -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none; }
+  .recap-video { position:relative; aspect-ratio:16/9; border-radius:11px; overflow:hidden; background:#000; box-shadow:inset 0 0 0 1px rgba(0,0,0,.4); }
+  .recap-video iframe { position:absolute; inset:0; width:100%; height:100%; border:0; display:block; }
+  .recap-rec { position:absolute; top:1rem; right:1rem; z-index:2; display:inline-flex; align-items:center; gap:.45rem; font-family:var(--mono); font-size:.6rem; letter-spacing:.22em; color:rgba(255,255,255,.95); background:rgba(0,0,0,.65); backdrop-filter:blur(8px); padding:.4rem .75rem; border-radius:4px; border:1px solid rgba(255,255,255,.14); pointer-events:none; }
+  .recap-rec-dot { width:6px; height:6px; border-radius:50%; background:#ef4444; box-shadow:0 0 8px #ef4444; animation:rec-blink 1.4s ease-in-out infinite; }
+  .recap-corner { position:absolute; width:26px; height:26px; pointer-events:none; z-index:3; }
+  .recap-corner-tl { top:-8px; left:-8px; border-top:2px solid var(--primary); border-left:2px solid var(--primary); }
+  .recap-corner-tr { top:-8px; right:-8px; border-top:2px solid var(--primary); border-right:2px solid var(--primary); }
+  .recap-corner-bl { bottom:-8px; left:-8px; border-bottom:2px solid var(--primary); border-left:2px solid var(--primary); }
+  .recap-corner-br { bottom:-8px; right:-8px; border-bottom:2px solid var(--primary); border-right:2px solid var(--primary); }
+  @media (max-width:768px) {
+    .recap-section { padding-top:3.5rem; padding-bottom:3.5rem; }
+    .recap-frame { padding:10px; border-radius:14px; }
+    .recap-corner { width:18px; height:18px; }
+  }
+
   /* ── SECTIONS ── */
   .section { padding:7rem 2rem; position:relative; z-index:1; }
   .section::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,rgba(249,115,22,.18) 30%,rgba(249,115,22,.18) 70%,transparent); }
@@ -931,56 +1144,106 @@
   .corner.br { bottom:0; right:0; border-bottom:2px solid; border-right:2px solid; }
   .kc-corners,.wc-corners { position:absolute; inset:0; pointer-events:none; z-index:2; }
 
-  /* ── WINNERS ── */
-  .winner-grand { margin-bottom:1.5rem; }
+  /* ── PROJECT CARDS (cinematic showcase) ── */
+  .track-section { margin-bottom:5rem; }
+  .track-header { display:flex; align-items:center; gap:1.1rem; margin-bottom:2rem; padding:.4rem 0 1rem; border-bottom:1px solid rgba(255,255,255,.06); position:relative; }
+  .track-header::after { content:''; position:absolute; left:0; bottom:-1px; width:60px; height:1px; background:linear-gradient(90deg,var(--primary),transparent); }
+  .track-grand { border-bottom-color:rgba(255,215,0,.18); }
+  .track-grand::after { background:linear-gradient(90deg,#FFD700,transparent); width:120px; }
+  .track-grand .track-header-icon { color:#FFD700; text-shadow:0 0 14px rgba(255,215,0,.5); }
+  .track-header-icon { font-family:var(--mono); font-size:1rem; font-weight:600; color:var(--primary); flex-shrink:0; min-width:28px; }
+  .track-label { font-family:var(--display); font-size:1.25rem; font-weight:700; letter-spacing:.04em; color:#fff; text-transform:uppercase; }
+  .track-label-sub { font-family:var(--mono); font-size:.58rem; letter-spacing:.22em; color:var(--muted); margin-left:auto; padding:.3rem .7rem; border:1px solid var(--border); border-radius:100px; }
 
-  .winner-card { display:block; background:var(--card); border:1px solid var(--card-b); border-radius:12px; overflow:hidden; position:relative; transition:transform .22s, border-color .22s, box-shadow .22s; color: inherit; }
-  .winner-card:hover { transform:translateY(-5px); }
+  .projects-grid { display:grid; gap:1.5rem; }
+  .projects-grid-1 { grid-template-columns:1fr; }
+  .projects-grid-2 { grid-template-columns:1fr 1fr; }
+  .projects-grid-3 { grid-template-columns:repeat(3,1fr); }
 
-  .wc-grand { border-color: rgba(249,115,22,.25); box-shadow: 0 0 40px rgba(249,115,22,.08); }
-  .wc-grand .wc-corners .corner { border-color: var(--primary); }
-  .wc-grand:hover { border-color:rgba(249,115,22,.5); box-shadow:0 0 80px rgba(249,115,22,.2), 0 20px 60px rgba(0,0,0,.5); }
-  .wc-grand .wc-inner { display:grid; grid-template-columns:1.3fr 1fr; }
+  .pcard { background:linear-gradient(180deg,#1a1828 0%,#15131f 100%); border:1px solid rgba(255,255,255,.07); border-radius:14px; overflow:hidden; display:flex; flex-direction:column; transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease; position:relative; box-shadow:0 4px 18px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.04); }
+  .pcard > .pcard-bar    { order:0; }
+  .pcard > .pcard-body   { order:1; }
+  .pcard > .pcard-thumb  { order:2; }
+  .pcard > .pcard-actions{ order:3; }
+  .pcard:hover { transform:translateY(-6px); box-shadow:0 24px 60px rgba(0,0,0,.6), 0 0 30px rgba(249,115,22,.1), inset 0 1px 0 rgba(255,255,255,.06); border-color:rgba(249,115,22,.32); }
+  .pcard-grand { flex-direction:row; background:linear-gradient(135deg,rgba(255,215,0,.04) 0%,rgba(20,18,32,.7) 40%,rgba(12,10,22,.8) 100%); border-color:rgba(255,215,0,.18); }
+  .pcard-grand:hover { box-shadow:0 24px 70px rgba(0,0,0,.55), 0 0 50px rgba(255,215,0,.1); border-color:rgba(255,215,0,.4); }
+  .pcard-grand .pcard-thumb { width:58%; flex-shrink:0; }
+  .pcard-grand .pcard-body { flex:1; padding:2.5rem 2.25rem; }
 
-  .wc-1st .wc-corners .corner { border-color: var(--primary); }
-  .wc-1st:hover { border-color:rgba(249,115,22,.3); box-shadow:0 0 35px rgba(249,115,22,.1); }
-  .wc-2nd .wc-corners .corner { border-color: var(--cyan); }
-  .wc-2nd:hover { border-color:rgba(0,212,255,.3); box-shadow:0 0 35px rgba(0,212,255,.08); }
-  .wc-award .wc-corners .corner { border-color: var(--purple); }
-  .wc-award:hover { border-color:rgba(168,85,247,.3); box-shadow:0 0 35px rgba(168,85,247,.08); }
+  .pcard-bar { height:3px; flex-shrink:0; position:relative; z-index:1; }
+  .bar-grand  { background:linear-gradient(90deg,#FFD700,#F97316,#FFD700); background-size:200% 100%; animation:bar-shift 6s ease-in-out infinite; }
+  .bar-1st   { background:linear-gradient(90deg,var(--primary),#FB923C); }
+  .bar-2nd   { background:linear-gradient(90deg,var(--cyan),#60A5FA); }
+  .bar-award { background:linear-gradient(90deg,var(--purple),#C084FC); }
+  @keyframes bar-shift { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
 
-  .winner-img { background:var(--card-b); min-height:300px; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
-  .winner-img img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:1; display:block; }
-  .winner-img-empty::after { content:'NO IMAGE'; font-family:var(--mono); font-size:.62rem; letter-spacing:.2em; color:rgba(255,255,255,.1); }
-  .winner-img:not(.winner-img-empty)::after { display:none; }
-  .winner-img-sm { min-height:200px; }
+  .pcard-thumb { position:relative; width:100%; aspect-ratio:16/9; overflow:hidden; background:#0a0913; flex-shrink:0; cursor:pointer; }
+  .pcard-grand .pcard-thumb { width:58%; aspect-ratio:auto; align-self:stretch; min-height:380px; }
+  .pcard-thumb img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s ease, filter .3s ease; filter:brightness(.92) saturate(1); }
+  .pcard:hover .pcard-thumb img { transform:scale(1.05); filter:brightness(1) saturate(1.05); }
+  .pcard-thumb-empty { background:radial-gradient(circle at 50% 40%, rgba(249,115,22,.06) 0%, transparent 60%), linear-gradient(135deg,#0d0c18,#1a1828); }
+  .pcard-thumb-empty .pcard-rec { display:none; }
 
-  .winner-content { padding:2rem; display:flex; flex-direction:column; }
-  .wc-grand .winner-content { justify-content:center; padding:2.5rem; }
+  /* HUD corner brackets on the thumbnail */
+  .pcard-thumb::before, .pcard-thumb::after { content:''; position:absolute; width:18px; height:18px; pointer-events:none; transition:border-color .3s, opacity .3s; opacity:.55; z-index:2; }
+  .pcard-thumb::before { top:10px; left:10px; border-top:1.5px solid rgba(255,255,255,.7); border-left:1.5px solid rgba(255,255,255,.7); }
+  .pcard-thumb::after { bottom:10px; right:10px; border-bottom:1.5px solid rgba(255,255,255,.7); border-right:1.5px solid rgba(255,255,255,.7); }
+  .pcard:hover .pcard-thumb::before, .pcard:hover .pcard-thumb::after { border-color:var(--primary); opacity:1; }
+  .pcard-grand:hover .pcard-thumb::before, .pcard-grand:hover .pcard-thumb::after { border-color:#FFD700; }
 
-  .winner-badges { display:flex; align-items:center; flex-wrap:wrap; gap:.5rem; margin-bottom:.75rem; }
-  .winner-place { font-family:var(--mono); font-size:.6rem; font-weight:600; letter-spacing:.2em; padding:.2rem .6rem; border-radius:3px; border:1px solid; }
-  .wc-place-grand { color:var(--primary); border-color:rgba(249,115,22,.3); background:rgba(249,115,22,.08); }
-  .wc-place-1st  { color:var(--primary); border-color:rgba(249,115,22,.3); background:rgba(249,115,22,.08); }
-  .wc-place-2nd  { color:var(--cyan);    border-color:rgba(0,212,255,.3);   background:rgba(0,212,255,.06); }
-  .wc-place-award { color:var(--purple); border-color:rgba(168,85,247,.3);  background:rgba(168,85,247,.07); }
-  .winner-award-tag { font-family:var(--mono); font-size:.58rem; letter-spacing:.12em; color:var(--muted); border:1px solid var(--border); padding:.2rem .5rem; border-radius:3px; }
+  /* REC / DEMO indicator */
+  .pcard-thumb .pcard-rec { position:absolute; top:14px; right:14px; display:inline-flex; align-items:center; gap:.4rem; font-family:var(--mono); font-size:.55rem; letter-spacing:.2em; color:rgba(255,255,255,.85); background:rgba(0,0,0,.55); backdrop-filter:blur(6px); padding:.3rem .55rem; border-radius:3px; border:1px solid rgba(255,255,255,.1); z-index:3; }
+  .pcard-thumb .pcard-rec::before { content:''; width:6px; height:6px; border-radius:50%; background:#ef4444; box-shadow:0 0 6px #ef4444; animation:rec-blink 1.4s ease-in-out infinite; }
+  @keyframes rec-blink { 0%,100%{opacity:1} 50%{opacity:.35} }
 
-  .winner-name { font-family:var(--display); font-weight:700; font-size:1.45rem; letter-spacing:-.01em; color:#fff; margin-bottom:.35rem; line-height:1.15; }
-  .wc-grand .winner-name { font-size:1.95rem; }
-  .winner-team { font-family:var(--mono); font-size:.62rem; letter-spacing:.06em; color:var(--muted); margin-bottom:.85rem; }
-  .winner-desc { font-size:.875rem; color:var(--light); line-height:1.7; flex:1; }
-  .winner-link { font-family:var(--mono); font-size:.62rem; letter-spacing:.1em; color:var(--primary); margin-top:1.25rem; display:inline-block; opacity:.75; transition:opacity .2s; }
-  .winner-card:hover .winner-link { opacity:1; }
+  .pcard-play-overlay { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:.85rem; background:linear-gradient(180deg, rgba(6,5,13,.15) 0%, rgba(6,5,13,.55) 100%); transition:background .3s; z-index:2; }
+  .pcard:hover .pcard-play-overlay { background:linear-gradient(180deg, rgba(6,5,13,.25) 0%, rgba(6,5,13,.7) 100%); }
 
-  .track-section { margin-bottom:4.5rem; }
-  .track-header { display: flex; align-items: center; gap: 1.25rem; margin-bottom: 2rem; padding: 1.25rem 1.75rem; background: linear-gradient(90deg, rgba(249,115,22,.07) 0%, transparent 100%); border: 1px solid rgba(249,115,22,.16); border-left: 3px solid var(--primary); border-radius: 0 8px 8px 0; position: relative; overflow: hidden; }
-  .track-header::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, rgba(249,115,22,.035) 0px, rgba(249,115,22,.035) 1px, transparent 1px, transparent 40px); pointer-events: none; }
-  .track-header-icon { font-family: var(--mono); font-size: 1.1rem; color: var(--primary); opacity: .7; flex-shrink: 0; line-height: 1; }
-  .track-label { font-family: var(--display); font-size: 1.15rem; font-weight: 700; letter-spacing: .08em; color: #fff; text-transform: uppercase; }
-  .track-label-sub { font-family: var(--mono); font-size: .6rem; letter-spacing: .2em; color: var(--muted); margin-left: auto; flex-shrink: 0; }
-  .track-row { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
-  .awards-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
+  .play-btn { width:60px; height:60px; border-radius:50%; background:rgba(249,115,22,.92); display:flex; align-items:center; justify-content:center; color:#000; box-shadow:0 0 0 0 rgba(249,115,22,.6), 0 8px 24px rgba(0,0,0,.4); transition:transform .25s ease, box-shadow .25s ease; animation:play-pulse 2.4s ease-in-out infinite; padding-left:4px; position:relative; z-index:1; }
+  .pcard-grand .play-btn { width:78px; height:78px; background:rgba(255,215,0,.95); }
+  .pcard:hover .play-btn { transform:scale(1.12); box-shadow:0 0 0 8px rgba(249,115,22,.18), 0 12px 30px rgba(0,0,0,.5); animation:none; }
+  .pcard-grand:hover .play-btn { box-shadow:0 0 0 10px rgba(255,215,0,.18), 0 14px 36px rgba(0,0,0,.55); }
+  @keyframes play-pulse { 0%,100% { box-shadow:0 0 0 0 rgba(249,115,22,.5), 0 8px 24px rgba(0,0,0,.4); } 50% { box-shadow:0 0 0 14px rgba(249,115,22,0), 0 8px 24px rgba(0,0,0,.4); } }
+
+  .play-label { font-family:var(--mono); font-size:.6rem; letter-spacing:.28em; color:rgba(255,255,255,.85); opacity:0; transform:translateY(6px); transition:opacity .25s, transform .25s; text-shadow:0 1px 4px rgba(0,0,0,.6); }
+  .pcard:hover .play-label { opacity:1; transform:translateY(0); }
+
+  .pcard-body { padding:1.6rem 1.5rem 1.25rem; display:flex; flex-direction:column; gap:.55rem; flex:1; }
+  .pcard-badges { display:flex; flex-wrap:wrap; gap:.45rem; align-items:center; }
+  .pbadge { font-family:var(--mono); font-size:.62rem; font-weight:700; letter-spacing:.2em; padding:.4rem .8rem; border-radius:4px; border:1px solid; white-space:nowrap; display:inline-flex; align-items:center; gap:.35rem; }
+  .pbadge-1st   { color:#fff; border-color:var(--primary); background:linear-gradient(135deg, rgba(249,115,22,.4) 0%, rgba(249,115,22,.18) 100%); box-shadow:0 0 14px rgba(249,115,22,.28), inset 0 1px 0 rgba(255,255,255,.1); }
+  .pbadge-1st::before { content:'★'; font-size:.7rem; color:#FFD27A; }
+  .pbadge-2nd   { color:#fff; border-color:var(--cyan); background:linear-gradient(135deg, rgba(0,212,255,.32) 0%, rgba(0,212,255,.14) 100%); box-shadow:0 0 14px rgba(0,212,255,.22), inset 0 1px 0 rgba(255,255,255,.1); }
+  .pbadge-award { color:#fff; border-color:var(--purple); background:linear-gradient(135deg, rgba(168,85,247,.36) 0%, rgba(168,85,247,.16) 100%); box-shadow:0 0 14px rgba(168,85,247,.22), inset 0 1px 0 rgba(255,255,255,.1); }
+  .pbadge-extra { color:rgba(255,255,255,.72); border-color:rgba(255,255,255,.18); background:transparent; font-weight:600; }
+
+  /* Team avatars */
+  .pcard-team { display:flex; align-items:center; gap:.55rem; flex-wrap:wrap; font-family:var(--mono); }
+  .team-label { font-size:.55rem; letter-spacing:.28em; color:rgba(255,255,255,.45); font-weight:500; text-transform:uppercase; }
+  .team-avatar { width:30px; height:30px; border-radius:50%; background:rgba(249,115,22,.14); border:1px solid rgba(249,115,22,.32); display:inline-flex; align-items:center; justify-content:center; font-family:var(--display); font-size:.62rem; font-weight:700; color:#fff; letter-spacing:.02em; cursor:default; position:relative; transition:background .2s, transform .2s, border-color .2s, box-shadow .2s; }
+  .team-avatar:hover { background:rgba(249,115,22,.32); border-color:var(--primary); transform:translateY(-2px); box-shadow:0 4px 14px rgba(249,115,22,.3); z-index:10; }
+  .team-avatar::after { content:attr(data-name); position:absolute; bottom:calc(100% + 10px); left:50%; transform:translateX(-50%) translateY(4px); background:rgba(8,6,16,.96); color:#fff; padding:.45rem .7rem; border-radius:5px; font-family:var(--mono); font-size:.58rem; letter-spacing:.1em; white-space:nowrap; pointer-events:none; border:1px solid rgba(249,115,22,.3); text-transform:uppercase; opacity:0; transition:opacity .18s, transform .18s; box-shadow:0 6px 20px rgba(0,0,0,.5); }
+  .team-avatar::before { content:''; position:absolute; bottom:100%; left:50%; width:0; height:0; border:5px solid transparent; border-top-color:rgba(8,6,16,.96); margin-bottom:1px; transform:translateX(-50%); opacity:0; transition:opacity .18s; pointer-events:none; }
+  .team-avatar:hover::after { opacity:1; transform:translateX(-50%) translateY(0); }
+  .team-avatar:hover::before { opacity:1; }
+
+  .pcard-title { font-family:var(--display); font-weight:700; font-size:1.3rem; letter-spacing:-.005em; color:#fff; line-height:1.2; margin-top:.15rem; }
+  .pcard-grand .pcard-title { font-family:var(--serif); font-size:2.4rem; font-weight:800; letter-spacing:-.02em; line-height:1.05; }
+  .pcard-team { font-family:var(--mono); font-size:.62rem; letter-spacing:.08em; color:var(--muted); text-transform:uppercase; }
+  .pcard-grand .pcard-team { font-size:.7rem; letter-spacing:.12em; color:rgba(255,215,0,.7); }
+  .pcard-desc { font-size:.88rem; color:var(--light); line-height:1.7; flex:1; display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden; }
+  .pcard-grand .pcard-desc { font-size:1rem; -webkit-line-clamp:7; color:rgba(242,234,214,.78); }
+
+  .pcard-actions { display:flex; gap:.65rem; padding:1.1rem 1.5rem 1.4rem; flex-wrap:wrap; align-items:center; border-top:1px solid rgba(255,255,255,.06); background:#100e1a; }
+  .pcard-demo { display:inline-flex; align-items:center; gap:.5rem; font-family:var(--display); font-weight:700; font-size:.78rem; letter-spacing:.12em; color:#000; background:var(--primary); border:none; cursor:pointer; padding:.62rem 1.2rem; border-radius:6px; transition:background .2s, box-shadow .2s, transform .15s; white-space:nowrap; }
+  .pcard-demo:hover { background:var(--pl); box-shadow:0 0 22px rgba(249,115,22,.5); transform:translateY(-1px); }
+  .pcard-grand .pcard-demo { background:#FFD700; padding:.78rem 1.5rem; font-size:.85rem; }
+  .pcard-grand .pcard-demo:hover { background:#FFE45C; box-shadow:0 0 28px rgba(255,215,0,.5); }
+  .pcard-devpost { display:inline-flex; align-items:center; gap:.4rem; font-family:var(--mono); font-weight:600; font-size:.68rem; letter-spacing:.16em; color:var(--primary); border:1px solid rgba(249,115,22,.45); background:rgba(249,115,22,.08); padding:.62rem 1.1rem; border-radius:6px; transition:color .2s, border-color .2s, background .2s, box-shadow .2s, transform .15s; white-space:nowrap; }
+  .pcard-devpost:hover { color:#fff; border-color:var(--primary); background:rgba(249,115,22,.18); box-shadow:0 0 18px rgba(249,115,22,.3); transform:translateY(-1px); }
+  .pcard-grand .pcard-devpost { padding:.85rem 1.4rem; font-size:.74rem; color:#FFD700; border-color:rgba(255,215,0,.5); background:rgba(255,215,0,.08); }
+  .pcard-grand .pcard-devpost:hover { color:#000; background:#FFD700; border-color:#FFD700; box-shadow:0 0 24px rgba(255,215,0,.45); }
 
   /* ── GALLERY TEASER ── */
   .gallery-teaser { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-radius: 14px; overflow: hidden; border: 1px solid rgba(249,115,22,.15); min-height: 420px; }
@@ -1015,9 +1278,15 @@
   /* ── RESPONSIVE ── */
   @media (max-width:1024px) {
     .spring-grid { grid-template-columns:repeat(2,1fr); }
+    .projects-grid-3 { grid-template-columns:repeat(2,1fr); }
   }
   @media (max-width:900px) {
     .awards-grid { grid-template-columns:1fr 1fr; }
+    .pcard-grand { flex-direction:column; }
+    .pcard-grand .pcard-thumb { width:100%; aspect-ratio:16/9; min-height:0; }
+    .pcard-grand .pcard-body { padding:1.75rem 1.5rem; }
+    .pcard-grand .pcard-title { font-size:2rem; }
+    .pcard-embed { width:100%; min-height:0; aspect-ratio:16/9; }
   }
   @media (max-width:768px) {
     .nav-links { display:none; }
@@ -1031,6 +1300,9 @@
     .platinum-logo { height: 70px; }
     .track-row { grid-template-columns:1fr; }
     .awards-grid { grid-template-columns:1fr; }
+    .projects-grid-2 { grid-template-columns:1fr; }
+    .projects-grid-3 { grid-template-columns:1fr; }
+    .track-label { font-size:1.05rem; }
     .wc-grand .wc-inner { grid-template-columns:1fr; }
     .footer-top { flex-direction:column; align-items:flex-start; }
     .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: 200px 180px 180px; }
@@ -1042,10 +1314,122 @@
     .gi-f, .gi-g { display: none; }
     .notify-inner { padding:2.5rem 1.5rem; }
     .v1-banner { min-height:340px; }
+    .vm { padding:1rem; }
+    .vm-close { top:.75rem; right:.75rem; }
   }
   @media (max-width:640px) {
     .spring-grid { grid-template-columns:1fr; }
     .cta-group { flex-direction:column; align-items:center; }
     .notify-actions { flex-direction:column; align-items:center; }
+    .track-label-sub { display:none; }
+    .pcard-grand .pcard-title { font-size:1.7rem; }
   }
+
+  /* ── LIGHT THEME ── */
+  :root[data-theme="light"] {
+    --bg: #f6f3ec;
+    --card: #ffffff;
+    --card-b: #e2dfd6;
+    --border: #d4d0c4;
+    --text: #1a1828;
+    --muted: #6b6a72;
+    --light: #3d3c45;
+  }
+  :root[data-theme="light"] body { background:var(--bg); color:var(--text); }
+  :root[data-theme="light"] .logo-text,
+  :root[data-theme="light"] .title-main { color:#1a1828; }
+  :root[data-theme="light"] .nav-inner { background:rgba(255,255,255,.85); border-color:rgba(0,0,0,.08); }
+  :root[data-theme="light"] nav.scrolled .nav-inner { background:rgba(255,255,255,.96); border-color:rgba(249,115,22,.3); box-shadow:0 8px 32px rgba(0,0,0,.08), 0 0 60px rgba(249,115,22,.06); }
+  :root[data-theme="light"] .nav-link { color:rgba(26,24,40,.72); background:rgba(0,0,0,.025); border-color:rgba(0,0,0,.1); }
+  :root[data-theme="light"] .nav-link:hover { color:#1a1828; background:rgba(249,115,22,.1); border-color:rgba(249,115,22,.4); }
+  :root[data-theme="light"] .mobile-menu { background:rgba(255,255,255,.97) !important; border-color:rgba(0,0,0,.08); }
+  :root[data-theme="light"] .mobile-menu a { color:#3d3c45; }
+  :root[data-theme="light"] .hero-series-badge { color:rgba(26,24,40,.65); background:rgba(249,115,22,.08); border-color:rgba(249,115,22,.3); }
+  :root[data-theme="light"] .theme-toggle { background:rgba(0,0,0,.04); border-color:rgba(0,0,0,.12); color:rgba(26,24,40,.7); }
+  :root[data-theme="light"] .theme-toggle:hover { color:var(--primary); background:rgba(249,115,22,.08); border-color:rgba(249,115,22,.4); }
+  :root[data-theme="light"] .hamburger span { background:#1a1828; }
+  :root[data-theme="light"] .hud-tl,
+  :root[data-theme="light"] .hud-tr,
+  :root[data-theme="light"] .hud-bl,
+  :root[data-theme="light"] .hud-br { color:rgba(26,24,40,.7); }
+  :root[data-theme="light"] .hud-label-white { color:rgba(26,24,40,.75); }
+  :root[data-theme="light"] .fe-plus-1 { color:rgba(249,115,22,.55); }
+  :root[data-theme="light"] .fe-plus-2 { color:rgba(0,140,180,.55); }
+  :root[data-theme="light"] .fe-plus-3 { color:rgba(249,115,22,.4); }
+  :root[data-theme="light"] .fe-ring-1 { border-color:rgba(249,115,22,.25); }
+  :root[data-theme="light"] .fe-ring-2,
+  :root[data-theme="light"] .fe-ring-3 { border-color:rgba(0,140,180,.22); }
+
+  /* Hero */
+  :root[data-theme="light"] .hero-sub { color:rgba(26,24,40,.62); }
+  :root[data-theme="light"] .hero-meta-line { color:#0891b2; text-shadow:none; }
+  :root[data-theme="light"] .meta-dot { color:rgba(249,115,22,.55); }
+  :root[data-theme="light"] .cd-block { background:#fff; border-color:rgba(249,115,22,.4); box-shadow:0 2px 8px rgba(0,0,0,.06); }
+  :root[data-theme="light"] .cd-val { color:#1a1828; text-shadow:none; }
+  :root[data-theme="light"] .cd-label { color:rgba(26,24,40,.65); }
+  :root[data-theme="light"] .cd-sep { color:rgba(249,115,22,.55); text-shadow:none; }
+  :root[data-theme="light"] .btn-ghost { color:#1a1828; border-color:rgba(0,0,0,.18); }
+  :root[data-theme="light"] .btn-coming-soon { color:#15803d; background:rgba(34,197,94,.08); border-color:rgba(34,197,94,.4); }
+  :root[data-theme="light"] .scroll-down { color:rgba(26,24,40,.5); }
+
+  /* Spring section */
+  :root[data-theme="light"] .section-spring { background:linear-gradient(180deg, rgba(249,115,22,.06) 0%, transparent 60%); }
+  :root[data-theme="light"] .spring-header-right { color:#3d3c45; }
+  :root[data-theme="light"] .spring-card { background:#fff; border-color:rgba(0,0,0,.07); box-shadow:0 2px 10px rgba(0,0,0,.04); }
+  :root[data-theme="light"] .spring-card:hover { border-color:rgba(249,115,22,.3); box-shadow:0 12px 30px rgba(0,0,0,.08), 0 0 24px rgba(249,115,22,.1); }
+  :root[data-theme="light"] .spring-card-title { color:#1a1828; }
+  :root[data-theme="light"] .spring-card-desc { color:#3d3c45; }
+  :root[data-theme="light"] .spring-notify { background:linear-gradient(135deg, rgba(249,115,22,.08) 0%, rgba(168,85,247,.05) 100%); border-color:rgba(249,115,22,.25); }
+  :root[data-theme="light"] .notify-text { color:#3d3c45; }
+
+  /* V1 banner — keep image dark-styled, just lighten the surrounding section */
+  :root[data-theme="light"] .v1-banner-overlay { background:linear-gradient(to bottom, rgba(6,5,13,.55) 0%, rgba(6,5,13,.3) 40%, rgba(246,243,236,.85) 92%, rgba(246,243,236,1) 100%), linear-gradient(to right, rgba(6,5,13,.5) 0%, transparent 40%, transparent 60%, rgba(6,5,13,.5) 100%); }
+
+  /* Sponsor strip + sections */
+  :root[data-theme="light"] .sponsor-strip { background:rgba(0,0,0,.03); border-color:rgba(0,0,0,.06); }
+  :root[data-theme="light"] .strip-label { color:rgba(26,24,40,.7); }
+  :root[data-theme="light"] .strip-logo img { filter:brightness(.95) grayscale(.3); }
+  :root[data-theme="light"] .strip-logo:hover img { filter:brightness(1) grayscale(0); }
+  :root[data-theme="light"] .section-dark { background:linear-gradient(180deg, rgba(0,0,0,.03) 0%, transparent 100%); }
+  :root[data-theme="light"] .section::before { background:linear-gradient(90deg, transparent, rgba(249,115,22,.3) 30%, rgba(249,115,22,.3) 70%, transparent); }
+  :root[data-theme="light"] .section-title { color:#1a1828; }
+  :root[data-theme="light"] .section-sub { color:#3d3c45; }
+
+  /* Cards (key change) */
+  :root[data-theme="light"] .pcard { background:linear-gradient(180deg, #ffffff 0%, #fafaf6 100%); border-color:rgba(0,0,0,.08); box-shadow:0 4px 16px rgba(0,0,0,.06), inset 0 1px 0 rgba(255,255,255,.5); }
+  :root[data-theme="light"] .pcard:hover { border-color:rgba(249,115,22,.4); box-shadow:0 22px 50px rgba(0,0,0,.1), 0 0 28px rgba(249,115,22,.12), inset 0 1px 0 rgba(255,255,255,.5); }
+  :root[data-theme="light"] .pcard-actions { background:#f0ede4; border-top-color:rgba(0,0,0,.06); }
+  :root[data-theme="light"] .pcard-thumb { background:#0a0913; }
+  :root[data-theme="light"] .pcard-title { color:#1a1828; }
+  :root[data-theme="light"] .pcard-desc { color:#3d3c45; }
+  :root[data-theme="light"] .pbadge-extra { color:#3d3c45; border-color:rgba(0,0,0,.22); background:rgba(0,0,0,.03); }
+  :root[data-theme="light"] .pbadge-1st { color:#fff; background:linear-gradient(135deg, #f97316 0%, #ea580c 100%); border-color:transparent; box-shadow:0 2px 10px rgba(249,115,22,.35); }
+  :root[data-theme="light"] .pbadge-1st::before { color:#fff3cd; }
+  :root[data-theme="light"] .pbadge-2nd { color:#fff; background:linear-gradient(135deg, #06b6d4 0%, #0891b2 100%); border-color:transparent; box-shadow:0 2px 10px rgba(6,182,212,.32); }
+  :root[data-theme="light"] .pbadge-award { color:#fff; background:linear-gradient(135deg, #a855f7 0%, #9333ea 100%); border-color:transparent; box-shadow:0 2px 10px rgba(168,85,247,.3); }
+  :root[data-theme="light"] .team-avatar { color:#1a1828; background:rgba(249,115,22,.14); border-color:rgba(249,115,22,.42); }
+  :root[data-theme="light"] .team-avatar:hover { background:rgba(249,115,22,.26); border-color:#ea580c; box-shadow:0 4px 14px rgba(249,115,22,.25); }
+  :root[data-theme="light"] .team-avatar::after { background:#1a1828; color:#fff; border-color:rgba(249,115,22,.5); }
+  :root[data-theme="light"] .team-avatar::before { border-top-color:#1a1828; }
+  :root[data-theme="light"] .team-label { color:rgba(26,24,40,.5); }
+  :root[data-theme="light"] .track-label { color:#1a1828; }
+  :root[data-theme="light"] .track-header { border-bottom-color:rgba(0,0,0,.07); }
+  :root[data-theme="light"] .track-label-sub { color:#3d3c45; border-color:rgba(0,0,0,.15); }
+
+  /* Gallery teaser */
+  :root[data-theme="light"] .gallery-teaser { background:#fff; border-color:rgba(0,0,0,.08); }
+  :root[data-theme="light"] .gallery-teaser-content { background:linear-gradient(135deg, rgba(249,115,22,.06) 0%, transparent 60%); border-left-color:rgba(0,0,0,.06); }
+
+  /* Footer */
+  :root[data-theme="light"] footer { background:#f0ede4; }
+  :root[data-theme="light"] .footer-top { border-bottom-color:rgba(0,0,0,.08); }
+  :root[data-theme="light"] .footer-logo { color:#1a1828; }
+  :root[data-theme="light"] .social-btn { border-color:rgba(0,0,0,.15); color:#3d3c45; }
+
+  /* Modal */
+  :root[data-theme="light"] .vm-backdrop { background:rgba(20,18,28,.78); }
+  :root[data-theme="light"] .vm-caption { color:rgba(255,255,255,.65); }
+
+  /* Recap */
+  :root[data-theme="light"] .recap-frame { background:linear-gradient(135deg, rgba(249,115,22,.28) 0%, rgba(168,85,247,.16) 50%, rgba(0,212,255,.12) 100%); box-shadow:0 24px 60px rgba(0,0,0,.12), 0 0 50px rgba(249,115,22,.18); }
 </style>
