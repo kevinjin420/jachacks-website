@@ -1,0 +1,314 @@
+---
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="/jaseci-logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gallery — JacHacks 1.0</title>
+    <meta name="description" content="Photos from JacHacks 1.0 — April 4–5, 2026, Ann Arbor, MI." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Rajdhani:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <!-- NAV -->
+    <nav id="main-nav">
+      <div class="nav-inner">
+        <a href="/" class="logo">
+          <img src="/jaseci-logo.png" alt="JacHacks" class="logo-img" />
+          <span class="logo-text">Jac<span class="logo-accent">Hacks</span></span>
+        </a>
+        <a href="/" class="back-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+          BACK TO HOME
+        </a>
+      </div>
+    </nav>
+
+    <!-- HEADER -->
+    <header class="gallery-header">
+      <div class="header-content">
+        <div class="header-eyebrow">// JACHACKS 1.0 · APR 4–5, 2026 · ANN ARBOR, MI</div>
+        <h1 class="header-title">Gallery</h1>
+        <p class="header-sub">Moments from the weekend — 170+ builders, 70 projects, 24 hours.</p>
+      </div>
+    </header>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox">
+      <button class="lb-close" id="lb-close" aria-label="Close">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+      <button class="lb-prev" id="lb-prev" aria-label="Previous">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button class="lb-next" id="lb-next" aria-label="Next">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+      <div class="lb-img-wrap">
+        <img src="" alt="" id="lb-img" />
+      </div>
+      <div class="lb-caption" id="lb-caption"></div>
+    </div>
+    <div class="lb-backdrop" id="lb-backdrop"></div>
+
+    <!-- GALLERY -->
+    <main class="gallery-main">
+      <div class="gallery-grid">
+
+        <div class="gi gi-a" data-caption="All hands on deck — the full JacHacks 1.0 crowd">
+          <img src="/photos/DSC06792.webp" alt="Full room group photo" loading="eager" decoding="async" />
+          <div class="gi-overlay"><span class="gi-zoom">&#x2B;</span></div>
+        </div>
+
+        <div class="gi gi-b" data-caption="Keynote opening — setting the stage">
+          <img src="/photos/DSC06563.webp" alt="Keynote speaker" loading="eager" decoding="async" />
+          <div class="gi-overlay"><span class="gi-zoom">&#x2B;</span></div>
+        </div>
+
+        <div class="gi gi-c" data-caption="Teams deep in the build">
+          <img src="/photos/DSC06646.webp" alt="Team hacking" loading="lazy" decoding="async" />
+          <div class="gi-overlay"><span class="gi-zoom">&#x2B;</span></div>
+        </div>
+
+        <div class="gi gi-d" data-caption="Side-by-side building sessions">
+          <img src="/photos/DSC06650.webp" alt="Hackers working" loading="lazy" decoding="async" />
+          <div class="gi-overlay"><span class="gi-zoom">&#x2B;</span></div>
+        </div>
+
+        <div class="gi gi-e" data-caption="Project demo presentations">
+          <img src="/photos/DSC06673.webp" alt="Demo presentation" loading="lazy" decoding="async" />
+          <div class="gi-overlay"><span class="gi-zoom">&#x2B;</span></div>
+        </div>
+
+        <div class="gi gi-f" data-caption="Networking and collaboration">
+          <img src="/photos/DSC06692.webp" alt="Networking" loading="lazy" decoding="async" />
+          <div class="gi-overlay"><span class="gi-zoom">&#x2B;</span></div>
+        </div>
+
+        <div class="gi gi-g" data-caption="Late-night hacking — the grind continues">
+          <img src="/photos/DSC06550.webp" alt="Late night hacking" loading="lazy" decoding="async" />
+          <div class="gi-overlay"><span class="gi-zoom">&#x2B;</span></div>
+        </div>
+
+        <div class="gi gi-h" data-caption="Winners taking the stage">
+          <img src="/photos/DSC06776.webp" alt="Winners on stage" loading="lazy" decoding="async" />
+          <div class="gi-overlay"><span class="gi-zoom">&#x2B;</span></div>
+        </div>
+
+        <div class="gi gi-i" data-caption="Champions — the JacHacks 1.0 winning teams">
+          <img src="/photos/DSC06774.webp" alt="Winners group photo" loading="lazy" decoding="async" />
+          <div class="gi-overlay"><span class="gi-zoom">&#x2B;</span></div>
+        </div>
+
+        <div class="gi gi-j" data-caption="Check-in — the excitement begins">
+          <img src="/photos/DSC06546.webp" alt="Check-in" loading="lazy" decoding="async" />
+          <div class="gi-overlay"><span class="gi-zoom">&#x2B;</span></div>
+        </div>
+
+        <div class="gi gi-k" data-caption="Closing ceremony and celebrations">
+          <img src="/photos/DSC06780.webp" alt="Closing ceremony" loading="lazy" decoding="async" />
+          <div class="gi-overlay"><span class="gi-zoom">&#x2B;</span></div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <p>© 2026 JacHacks · <a href="/">Back to Home</a> · Powered by <a href="https://jaseci.org" target="_blank" rel="noopener noreferrer">Jaseci</a></p>
+    </footer>
+
+  <script>
+    // NAV scroll
+    const nav = document.getElementById('main-nav')!;
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+
+    // REVEAL
+    const obs = new IntersectionObserver(es => {
+      es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); obs.unobserve(e.target); } });
+    }, { threshold: 0.06 });
+    document.querySelectorAll('.gi').forEach(el => obs.observe(el));
+
+    // LIGHTBOX
+    const items = Array.from(document.querySelectorAll('.gi')) as HTMLElement[];
+    const lb = document.getElementById('lightbox')!;
+    const lbImg = document.getElementById('lb-img') as HTMLImageElement;
+    const lbCap = document.getElementById('lb-caption')!;
+    const lbBack = document.getElementById('lb-backdrop')!;
+    let current = 0;
+
+    function open(idx: number) {
+      current = idx;
+      const el = items[idx];
+      const img = el.querySelector('img') as HTMLImageElement;
+      lbImg.src = img.src;
+      lbImg.alt = img.alt;
+      lbCap.textContent = el.dataset.caption || '';
+      lb.classList.add('open');
+      lbBack.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function close() {
+      lb.classList.remove('open');
+      lbBack.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function prev() { open((current - 1 + items.length) % items.length); }
+    function next() { open((current + 1) % items.length); }
+
+    items.forEach((el, i) => el.addEventListener('click', () => open(i)));
+    document.getElementById('lb-close')!.addEventListener('click', close);
+    document.getElementById('lb-prev')!.addEventListener('click', prev);
+    document.getElementById('lb-next')!.addEventListener('click', next);
+    lbBack.addEventListener('click', close);
+    document.addEventListener('keydown', e => {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowLeft') prev();
+      if (e.key === 'ArrowRight') next();
+    });
+  </script>
+  </body>
+</html>
+
+<style>
+  *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #06050d;
+    --card-b: #181728;
+    --border: #232235;
+    --text: #E4E4E7;
+    --muted: #52525B;
+    --light: #A1A1AA;
+    --primary: #F97316;
+    --cyan: #00D4FF;
+    --mono: 'JetBrains Mono', monospace;
+    --display: 'Rajdhani', sans-serif;
+    --serif: 'Playfair Display', Georgia, serif;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  a { text-decoration: none; color: inherit; }
+
+  .orb { position: fixed; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: 0; }
+  .orb-1 { width: 700px; height: 700px; background: radial-gradient(circle, rgba(249,115,22,.09), transparent 65%); top: -250px; left: -200px; }
+  .orb-2 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(0,212,255,.05), transparent 65%); bottom: -150px; right: -150px; }
+
+  /* NAV */
+  nav { position: fixed; top: 1rem; left: 50%; transform: translateX(-50%); z-index: 100; width: min(900px, calc(100% - 2rem)); }
+  .nav-inner { background: rgba(6,5,13,.75); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,.08); border-radius: 12px; padding: 0 1.25rem; height: 52px; display: flex; align-items: center; justify-content: space-between; transition: border-color .3s, box-shadow .3s; }
+  nav.scrolled .nav-inner { border-color: rgba(249,115,22,.2); box-shadow: 0 8px 40px rgba(0,0,0,.4); }
+  .logo { display: flex; align-items: center; gap: .5rem; }
+  .logo-img { width: 24px; height: 24px; object-fit: contain; }
+  .logo-text { font-family: var(--display); font-weight: 700; font-size: 1.05rem; letter-spacing: .05em; color: #fff; }
+  .logo-accent { color: var(--primary); }
+  .back-link { font-family: var(--mono); font-size: .63rem; letter-spacing: .12em; color: var(--muted); display: flex; align-items: center; gap: .5rem; transition: color .2s; }
+  .back-link:hover { color: var(--primary); }
+
+  /* HEADER */
+  .gallery-header { padding: 9rem 2rem 4rem; text-align: center; position: relative; z-index: 1; }
+  .gallery-header::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 60%; height: 1px; background: linear-gradient(90deg, transparent, rgba(249,115,22,.2), transparent); }
+  .header-eyebrow { font-family: var(--mono); font-size: .63rem; letter-spacing: .25em; color: var(--primary); margin-bottom: .75rem; opacity: .8; }
+  .header-title { font-family: var(--serif); font-weight: 800; font-size: clamp(2.5rem, 7vw, 5rem); color: #F3EBD7; letter-spacing: -.025em; line-height: 1; margin-bottom: 1rem; }
+  .header-sub { font-family: var(--display); font-weight: 500; font-size: 1.05rem; color: var(--light); letter-spacing: .03em; }
+
+  /* GALLERY GRID */
+  .gallery-main { max-width: 1300px; margin: 0 auto; padding: 3rem 1.5rem 6rem; position: relative; z-index: 1; }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 300px 220px 220px 260px;
+    gap: 12px;
+  }
+
+  /* Explicit placement — no gaps */
+  .gi-a { grid-column: 1 / 3; grid-row: 1; }
+  .gi-b { grid-column: 3;     grid-row: 1; }
+  .gi-c { grid-column: 1;     grid-row: 2; }
+  .gi-d { grid-column: 2;     grid-row: 2; }
+  .gi-e { grid-column: 3;     grid-row: 2; }
+  .gi-f { grid-column: 1;     grid-row: 3; }
+  .gi-g { grid-column: 2;     grid-row: 3; }
+  .gi-h { grid-column: 3;     grid-row: 3; }
+  .gi-i { grid-column: 1;     grid-row: 4; }
+  .gi-j { grid-column: 2 / 4; grid-row: 4; }
+  .gi-k { display: none; }
+
+  .gi {
+    border-radius: 10px; overflow: hidden; position: relative;
+    background: var(--card-b); border: 1px solid rgba(255,255,255,.04);
+    cursor: pointer;
+    opacity: 0; transform: translateY(24px);
+    transition: opacity .6s ease, transform .6s ease, border-color .3s, box-shadow .3s;
+  }
+  .gi.revealed { opacity: 1; transform: translateY(0); }
+  .gi:nth-child(2) { transition-delay: .08s; }
+  .gi:nth-child(3) { transition-delay: .12s; }
+  .gi:nth-child(4) { transition-delay: .16s; }
+  .gi:nth-child(5) { transition-delay: .2s; }
+  .gi:nth-child(6) { transition-delay: .24s; }
+  .gi:nth-child(7) { transition-delay: .28s; }
+  .gi:nth-child(8) { transition-delay: .32s; }
+  .gi:nth-child(9) { transition-delay: .36s; }
+  .gi:nth-child(10) { transition-delay: .4s; }
+
+  .gi img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .45s cubic-bezier(.25,.46,.45,.94); }
+  .gi-overlay { position: absolute; inset: 0; z-index: 2; display: flex; align-items: center; justify-content: center; background: rgba(6,5,13,.0); transition: background .3s; }
+  .gi-zoom { font-size: 2rem; color: #fff; opacity: 0; transform: scale(.7); transition: opacity .3s, transform .3s; font-weight: 300; line-height: 1; }
+  .gi:hover img { transform: scale(1.06); }
+  .gi:hover { border-color: rgba(249,115,22,.3); box-shadow: 0 12px 48px rgba(0,0,0,.6); }
+  .gi:hover .gi-overlay { background: rgba(6,5,13,.35); }
+  .gi:hover .gi-zoom { opacity: 1; transform: scale(1); }
+
+  /* LIGHTBOX */
+  .lb-backdrop { position: fixed; inset: 0; background: rgba(4,3,10,.92); z-index: 200; opacity: 0; pointer-events: none; transition: opacity .3s; backdrop-filter: blur(6px); }
+  .lb-backdrop.open { opacity: 1; pointer-events: all; }
+
+  .lightbox { position: fixed; inset: 0; z-index: 201; display: flex; align-items: center; justify-content: center; padding: 2rem; opacity: 0; pointer-events: none; transition: opacity .3s; }
+  .lightbox.open { opacity: 1; pointer-events: all; }
+
+  .lb-img-wrap { max-width: 90vw; max-height: 82vh; display: flex; align-items: center; justify-content: center; }
+  .lb-img-wrap img { max-width: 100%; max-height: 82vh; border-radius: 8px; object-fit: contain; box-shadow: 0 30px 100px rgba(0,0,0,.8); display: block; }
+
+  .lb-caption { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); font-family: var(--mono); font-size: .65rem; letter-spacing: .12em; color: rgba(255,255,255,.5); white-space: nowrap; }
+
+  .lb-close, .lb-prev, .lb-next { position: fixed; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); border-radius: 8px; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; transition: background .2s, border-color .2s; }
+  .lb-close:hover, .lb-prev:hover, .lb-next:hover { background: rgba(249,115,22,.2); border-color: rgba(249,115,22,.4); }
+  .lb-close { top: 1.5rem; right: 1.5rem; }
+  .lb-prev { left: 1.5rem; top: 50%; transform: translateY(-50%); }
+  .lb-next { right: 1.5rem; top: 50%; transform: translateY(-50%); }
+
+  /* FOOTER */
+  footer { text-align: center; padding: 2rem; position: relative; z-index: 1; border-top: 1px solid var(--border); }
+  footer p { font-family: var(--mono); font-size: .65rem; letter-spacing: .08em; color: var(--muted); }
+  footer a { color: var(--primary); }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .gallery-grid {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: repeat(6, 180px);
+    }
+    .gi-a { grid-column: 1 / 3; grid-row: 1; }
+    .gi-b { grid-column: 1; grid-row: 2; }
+    .gi-c { grid-column: 2; grid-row: 2; }
+    .gi-d { grid-column: 1; grid-row: 3; }
+    .gi-e { grid-column: 2; grid-row: 3; }
+    .gi-f { grid-column: 1; grid-row: 4; }
+    .gi-g { grid-column: 2; grid-row: 4; }
+    .gi-h { grid-column: 1; grid-row: 5; }
+    .gi-i { grid-column: 2; grid-row: 5; }
+    .gi-j { grid-column: 1 / 3; grid-row: 6; }
+    .lb-prev { left: .5rem; }
+    .lb-next { right: .5rem; }
+  }
+</style>
