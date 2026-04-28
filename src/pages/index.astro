@@ -283,7 +283,7 @@
       <div class="v1-banner-content">
         <div class="v1-banner-eyebrow">// APR 4–5, 2026 · ANN ARBOR, MI</div>
         <div class="v1-banner-title">JacHacks <span class="v1-banner-accent">Winter</span></div>
-        <div class="v1-banner-sub">Where it all started — 170+ builders, 70 projects, 24 hours.</div>
+        <div class="v1-banner-sub">Where it all started.</div>
         <div class="v1-stats-row">
           <div class="v1-stat">
             <span class="v1-stat-val">170+</span>
@@ -1096,7 +1096,7 @@
   .v1-stats-row { display:flex; align-items:center; gap:.5rem; margin-top:1.5rem; background:rgba(6,5,13,.5); border:1px solid rgba(249,115,22,.2); border-radius:10px; padding:.9rem 2rem; backdrop-filter:blur(12px); flex-wrap:wrap; justify-content:center; }
   .v1-stat { display:flex; flex-direction:column; align-items:center; padding:.2rem 1.5rem; gap:.15rem; }
   .v1-stat-val { font-family:var(--display); font-weight:700; font-size:1.9rem; letter-spacing:-.02em; color:var(--primary); line-height:1; }
-  .v1-stat-key { font-family:var(--mono); font-size:.55rem; letter-spacing:.2em; color:var(--muted); }
+  .v1-stat-key { font-family:var(--mono); font-size:.58rem; letter-spacing:.22em; color:rgba(255,255,255,.78); font-weight:500; }
   .v1-stat-sep { font-family:var(--mono); color:rgba(249,115,22,.25); font-size:.85rem; padding:0 .25rem; }
 
   /* ── RECAP VIDEO ── */
@@ -1386,10 +1386,8 @@
   :root[data-theme="light"] .v1-banner-overlay { background:linear-gradient(to bottom, rgba(6,5,13,.55) 0%, rgba(6,5,13,.3) 40%, rgba(246,243,236,.85) 92%, rgba(246,243,236,1) 100%), linear-gradient(to right, rgba(6,5,13,.5) 0%, transparent 40%, transparent 60%, rgba(6,5,13,.5) 100%); }
 
   /* Sponsor strip + sections */
-  :root[data-theme="light"] .sponsor-strip { background:rgba(0,0,0,.03); border-color:rgba(0,0,0,.06); }
-  :root[data-theme="light"] .strip-label { color:rgba(26,24,40,.7); }
-  :root[data-theme="light"] .strip-logo img { filter:brightness(.95) grayscale(.3); }
-  :root[data-theme="light"] .strip-logo:hover img { filter:brightness(1) grayscale(0); }
+  :root[data-theme="light"] .sponsor-strip { background:#0d0c18; border-top-color:rgba(255,255,255,.05); border-bottom-color:rgba(255,255,255,.05); }
+  :root[data-theme="light"] .strip-label { color:rgba(255,255,255,.65); }
   :root[data-theme="light"] .section-dark { background:linear-gradient(180deg, rgba(0,0,0,.03) 0%, transparent 100%); }
   :root[data-theme="light"] .section::before { background:linear-gradient(90deg, transparent, rgba(249,115,22,.3) 30%, rgba(249,115,22,.3) 70%, transparent); }
   :root[data-theme="light"] .section-title { color:#1a1828; }
