@@ -122,28 +122,6 @@
           <span>GLOBAL ONLINE</span>
         </div>
 
-        <div class="countdown" id="countdown">
-          <div class="cd-block">
-            <span class="cd-val" id="cd-days">00</span>
-            <span class="cd-label">DAYS</span>
-          </div>
-          <span class="cd-sep">:</span>
-          <div class="cd-block">
-            <span class="cd-val" id="cd-hours">00</span>
-            <span class="cd-label">HRS</span>
-          </div>
-          <span class="cd-sep">:</span>
-          <div class="cd-block">
-            <span class="cd-val" id="cd-mins">00</span>
-            <span class="cd-label">MIN</span>
-          </div>
-          <span class="cd-sep">:</span>
-          <div class="cd-block">
-            <span class="cd-val" id="cd-secs">00</span>
-            <span class="cd-label">SEC</span>
-          </div>
-        </div>
-
         <div class="cta-group">
           <a href="https://luma.com/d36npfr1/" target="_blank" rel="noopener noreferrer" class="btn-primary btn-register">
             <span class="cs-dot"></span>
@@ -769,27 +747,6 @@
     }
     draw();
 
-    // ===== COUNTDOWN =====
-    (function() {
-      // 10:00 AM Eastern (EDT / UTC-4 in May) on Fri, May 15, 2026
-      const target = new Date('2026-05-15T14:00:00Z').getTime();
-      const days = document.getElementById('cd-days')!;
-      const hours = document.getElementById('cd-hours')!;
-      const mins = document.getElementById('cd-mins')!;
-      const secs = document.getElementById('cd-secs')!;
-      function pad(n: number){ return String(n).padStart(2,'0'); }
-      function tick(){
-        const diff = target - Date.now();
-        if(diff <= 0){ days.textContent=hours.textContent=mins.textContent=secs.textContent='00'; return; }
-        days.textContent  = pad(Math.floor(diff/86400000));
-        hours.textContent = pad(Math.floor((diff%86400000)/3600000));
-        mins.textContent  = pad(Math.floor((diff%3600000)/60000));
-        secs.textContent  = pad(Math.floor((diff%60000)/1000));
-      }
-      tick();
-      setInterval(tick, 1000);
-    })();
-
     // ===== REVEAL =====
     const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('revealed');obs.unobserve(e.target);}});},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
     document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
@@ -1012,12 +969,6 @@
   .hero-meta-line { display:flex; align-items:center; gap:1.1rem; font-family:var(--mono); font-size:1.1rem; font-weight:500; letter-spacing:.18em; color:var(--cyan); margin-bottom:2.5rem; flex-wrap:wrap; justify-content:center; text-shadow: 0 0 18px rgba(0,212,255,.35); }
   .meta-dot { color:rgba(249,115,22,.5); }
 
-  /* ── COUNTDOWN ── */
-  .countdown { display:flex; align-items:center; gap:.75rem; margin-bottom:2rem; }
-  .cd-block { display:flex; flex-direction:column; align-items:center; gap:.2rem; background:rgba(249,115,22,.07); border:1px solid rgba(249,115,22,.35); border-radius:8px; padding:.5rem .9rem; min-width:56px; box-shadow:0 0 14px rgba(249,115,22,.1), inset 0 1px 0 rgba(255,255,255,.06); }
-  .cd-val { font-family:var(--display); font-size:1.55rem; font-weight:700; color:#fff; line-height:1; letter-spacing:.02em; text-shadow:0 0 16px rgba(249,115,22,.45); }
-  .cd-label { font-family:var(--mono); font-size:.52rem; letter-spacing:.22em; color:rgba(255,255,255,.7); font-weight:500; }
-  .cd-sep { font-family:var(--display); font-size:1.1rem; font-weight:700; color:rgba(249,115,22,.6); margin-bottom:.7rem; text-shadow:0 0 10px rgba(249,115,22,.35); }
 
   .cta-group { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
   .btn-primary { display:inline-flex; align-items:center; gap:.6rem; font-family:var(--display); font-weight:700; font-size:1.05rem; letter-spacing:.1em; color:#000; background:var(--primary); padding:.9rem 2.5rem; clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%); transition:all .2s; box-shadow:0 0 40px rgba(249,115,22,.4),0 0 80px rgba(249,115,22,.1); }
@@ -1375,10 +1326,6 @@
   :root[data-theme="light"] .hero-sub { color:rgba(26,24,40,.62); }
   :root[data-theme="light"] .hero-meta-line { color:#0891b2; text-shadow:none; }
   :root[data-theme="light"] .meta-dot { color:rgba(249,115,22,.55); }
-  :root[data-theme="light"] .cd-block { background:#fff; border-color:rgba(249,115,22,.4); box-shadow:0 2px 8px rgba(0,0,0,.06); }
-  :root[data-theme="light"] .cd-val { color:#1a1828; text-shadow:none; }
-  :root[data-theme="light"] .cd-label { color:rgba(26,24,40,.65); }
-  :root[data-theme="light"] .cd-sep { color:rgba(249,115,22,.55); text-shadow:none; }
   :root[data-theme="light"] .btn-ghost { color:#1a1828; border-color:rgba(0,0,0,.18); }
   :root[data-theme="light"] .btn-coming-soon { color:#15803d; background:rgba(34,197,94,.08); border-color:rgba(34,197,94,.4); }
   :root[data-theme="light"] .scroll-down { color:rgba(26,24,40,.5); }
