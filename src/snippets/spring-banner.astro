@@ -1,0 +1,48 @@
+{/*
+  SAVED FOR FUTURE USE — JacHacks Spring banner bar (gradient/online variant of the
+  Winter v1-banner). Removed from src/pages/index.astro on request.
+
+  To restore: paste this block back into src/pages/index.astro immediately BEFORE
+  the "<!-- SPRING WINNERS -->" section. Add id="spring" back to the outer div if
+  you want the "// JACHACKS SPRING" nav anchor to land here (it currently points to
+  #spring-winners while this banner is removed).
+
+  Supporting CSS still lives in index.astro's <style> block:
+    .v1-banner, .v1-banner-spring, .v1-banner-bg-spring (+ ::before / ::after),
+    .v1-banner-content, .v1-banner-eyebrow, .v1-banner-title, .v1-banner-accent,
+    .v1-banner-sub, .v1-stats-row, .v1-stat, .v1-stat-val, .v1-stat-key, .v1-stat-sep,
+    and the light-theme override for .v1-banner-bg-spring::after.
+
+  This file is NOT imported anywhere — it is a reference snippet only.
+*/}
+
+<!-- JACHACKS SPRING BANNER -->
+<div class="v1-banner v1-banner-spring">
+  <div class="v1-banner-bg-spring"></div>
+  <div class="v1-banner-content">
+    <div class="v1-banner-eyebrow">// MAY 15–19, 2026 · GLOBAL · ONLINE</div>
+    <div class="v1-banner-title">JacHacks <span class="v1-banner-accent">Spring</span></div>
+    <div class="v1-banner-sub">The series goes worldwide.</div>
+    <div class="v1-stats-row">
+      <div class="v1-stat">
+        <span class="v1-stat-val">300+</span>
+        <span class="v1-stat-key">PARTICIPANTS</span>
+      </div>
+      <div class="v1-stat-sep">//</div>
+      <div class="v1-stat">
+        <span class="v1-stat-val">81</span>
+        <span class="v1-stat-key">PROJECTS</span>
+      </div>
+      <div class="v1-stat-sep">//</div>
+      <div class="v1-stat">
+        <span class="v1-stat-val">4</span>
+        <span class="v1-stat-key">DAYS</span>
+      </div>
+      <div class="v1-stat-sep">//</div>
+      <div class="v1-stat">
+        <span class="v1-stat-val">13</span>
+        <span class="v1-stat-key">WINNERS</span>
+      </div>
+    </div>
+  </div>
+</div>

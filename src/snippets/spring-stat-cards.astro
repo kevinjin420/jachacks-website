@@ -1,0 +1,48 @@
+{/*
+  SAVED FOR FUTURE USE — Spring "stat cards" grid (4-up).
+  Removed from src/pages/index.astro on request (2026 Spring recap).
+
+  To restore: paste the <div class="spring-grid"> block back into the
+  #spring section of src/pages/index.astro, between the .spring-header
+  and the .spring-notify blocks.
+
+  The supporting CSS (.spring-grid, .spring-card, .spring-card-icon,
+  .spring-card-title, .spring-card-desc, .delay-1..4) still lives in
+  index.astro's <style> block, so the markup below will render as-is.
+
+  This file is NOT imported anywhere — it is a reference snippet only.
+*/}
+
+<div class="spring-grid">
+  <div class="spring-card reveal">
+    <div class="spring-card-icon">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+    </div>
+    <div class="spring-card-title">81 Projects</div>
+    <p class="spring-card-desc">Submissions shipped on Devpost over four days of building across the globe.</p>
+  </div>
+
+  <div class="spring-card reveal delay-1">
+    <div class="spring-card-icon">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    </div>
+    <div class="spring-card-title">4 Days</div>
+    <p class="spring-card-desc">May 15–19, 2026 — kickoff to demo across four full days of non-stop building.</p>
+  </div>
+
+  <div class="spring-card reveal delay-2">
+    <div class="spring-card-icon">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+    </div>
+    <div class="spring-card-title">Global & Online</div>
+    <p class="spring-card-desc">Builders from around the world joined — no travel, no zip code required.</p>
+  </div>
+
+  <div class="spring-card reveal delay-3">
+    <div class="spring-card-icon">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    </div>
+    <div class="spring-card-title">4 Tracks + Awards</div>
+    <p class="spring-card-desc">Agentic AI · Consumer Healthcare · Fintech · Social Impact, plus sponsor &amp; special awards.</p>
+  </div>
+</div>
