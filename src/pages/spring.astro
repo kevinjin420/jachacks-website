@@ -1,0 +1,612 @@
+---
+import '../styles/site.css';
+---
+
+<html lang="en">
+  <head>
+    <script is:inline>
+      try { var t = localStorage.getItem('theme'); if (t === 'light') document.documentElement.setAttribute('data-theme','light'); } catch(e){}
+    </script>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="/jaseci-logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>JacHacks Spring · Winners</title>
+    <meta name="description" content="JacHacks Spring 2026: winners and standout projects from the global online hackathon." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+
+    <!-- NAV -->
+    <nav id="main-nav" class="scrolled">
+      <div class="nav-inner">
+        <a href="/" class="logo">
+          <img src="/jaseci-logo.png" alt="JacHacks" class="logo-img" />
+          <span class="logo-text">Jac<span class="logo-accent">Hacks</span></span>
+        </a>
+        <div class="nav-links">
+          <a href="/" class="nav-link">// HOME</a>
+          <a href="/spring" class="nav-link">// SPRING</a>
+          <a href="/winter" class="nav-link">// WINTER</a>
+          <a href="/gallery" class="nav-link">// GALLERY</a>
+        </div>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme" title="Toggle light/dark">
+          <svg class="tt-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="tt-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <a href="https://github.com/jaseci-labs/jaseci" target="_blank" rel="noopener noreferrer" class="nav-cta">STAR ON GITHUB</a>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobile-menu">
+      <a href="/">// HOME</a>
+      <a href="/spring">// SPRING</a>
+      <a href="/winter">// WINTER</a>
+      <a href="/gallery">// GALLERY</a>
+      <a href="https://github.com/jaseci-labs/jaseci" target="_blank" class="mobile-cta">STAR ON GITHUB</a>
+    </div>
+
+    <main class="edition-main">
+    <!-- JACHACKS SPRING COVER -->
+    <div class="v1-banner v1-banner-spring" id="spring">
+      <div class="v1-banner-bg-spring"></div>
+      <div class="v1-banner-content">
+        <div class="v1-banner-tag">PREVIOUS EDITION</div>
+        <div class="v1-banner-eyebrow">// MAY 15–19, 2026 · GLOBAL · ONLINE</div>
+        <div class="v1-banner-title">JacHacks <span class="v1-banner-accent">Spring</span></div>
+        <div class="v1-banner-sub">Where the series went global.</div>
+        <div class="v1-stats-row">
+          <div class="v1-stat">
+            <span class="v1-stat-val">300+</span>
+            <span class="v1-stat-key">PARTICIPANTS</span>
+          </div>
+          <div class="v1-stat-sep">//</div>
+          <div class="v1-stat">
+            <span class="v1-stat-val">81</span>
+            <span class="v1-stat-key">PROJECTS</span>
+          </div>
+          <div class="v1-stat-sep">//</div>
+          <div class="v1-stat">
+            <span class="v1-stat-val">4</span>
+            <span class="v1-stat-key">DAYS</span>
+          </div>
+          <div class="v1-stat-sep">//</div>
+          <div class="v1-stat">
+            <span class="v1-stat-val">13</span>
+            <span class="v1-stat-key">WINNERS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SPRING WINNERS -->
+    <section class="section section-dark" id="spring-winners">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-eyebrow">// JACHACKS SPRING · WINNERS</div>
+          <h2 class="section-title">The Best of <span class="text-accent">JacHacks Spring</span></h2>
+          <p class="section-sub">The standout projects, built over 4 days, online and worldwide, May 2026.</p>
+        </div>
+
+        <!-- Agentic AI -->
+        <div class="track-section">
+          <div class="track-header">
+            <span class="track-header-icon">//</span>
+            <span class="track-label">Agentic AI Track</span>
+            <span class="track-label-sub">2 WINNERS</span>
+          </div>
+          <div class="projects-grid projects-grid-2">
+            <div class="pcard reveal"
+              data-video="lvuGwVVP2ic"
+              data-devpost="https://devpost.com/software/civicmesh-0ctxl5">
+              <div class="pcard-bar bar-1st"></div>
+              <div class="pcard-thumb">
+                <img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/004/684/153/datas/original.png" alt="CivicMesh" />
+                <div class="pcard-rec">DEMO</div>
+                <div class="pcard-play-overlay">
+                  <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg></div>
+                  <span class="play-label">CLICK TO WATCH</span>
+                </div>
+              </div>
+              <div class="pcard-body">
+                <div class="pcard-badges">
+                  <span class="pbadge pbadge-1st">1ST PLACE</span>
+                  <span class="pbadge pbadge-extra">BEST STARTUP IDEA</span>
+                </div>
+                <h3 class="pcard-title">CivicMesh</h3>
+                <p class="pcard-team">Anbuchelvan Ganesan</p>
+                <p class="pcard-desc">A multi-agent AI navigator that routes people in crisis (single mothers, undocumented families, elderly tenants) to the housing, food, healthcare, and legal aid they qualify for, in any language.</p>
+              </div>
+              <div class="pcard-actions">
+                <a class="pcard-devpost" href="https://devpost.com/software/civicmesh-0ctxl5" target="_blank" rel="noopener noreferrer">DEVPOST →</a>
+              </div>
+            </div>
+
+            <div class="pcard reveal delay-1"
+              data-video="8B1SQwvSf9w"
+              data-devpost="https://devpost.com/software/medigraph">
+              <div class="pcard-bar bar-2nd"></div>
+              <div class="pcard-thumb">
+                <img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/004/683/084/datas/original.png" alt="MediGraph" />
+                <div class="pcard-rec">DEMO</div>
+                <div class="pcard-play-overlay">
+                  <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg></div>
+                  <span class="play-label">CLICK TO WATCH</span>
+                </div>
+              </div>
+              <div class="pcard-body">
+                <div class="pcard-badges">
+                  <span class="pbadge pbadge-2nd">2ND PLACE</span>
+                  <span class="pbadge pbadge-extra">BEST STARTUP IDEA</span>
+                </div>
+                <h3 class="pcard-title">MediGraph</h3>
+                <p class="pcard-team">Soujanya Chatti</p>
+                <p class="pcard-desc">Your medications, safety-checked by AI agents that reason through your body's own chemistry, not a lookup table, flagging dangerous interactions and proposing safer alternatives.</p>
+              </div>
+              <div class="pcard-actions">
+                <a class="pcard-devpost" href="https://devpost.com/software/medigraph" target="_blank" rel="noopener noreferrer">DEVPOST →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Consumer Healthcare -->
+        <div class="track-section">
+          <div class="track-header">
+            <span class="track-header-icon">//</span>
+            <span class="track-label">Consumer Healthcare Track</span>
+            <span class="track-label-sub">2 WINNERS</span>
+          </div>
+          <div class="projects-grid projects-grid-2">
+            <div class="pcard reveal"
+              data-video="0WfSL8U_i08"
+              data-devpost="https://devpost.com/software/consilium-mqu6w3">
+              <div class="pcard-bar bar-1st"></div>
+              <div class="pcard-thumb">
+                <img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/004/684/410/datas/original.png" alt="CONSILIUM" />
+                <div class="pcard-rec">DEMO</div>
+                <div class="pcard-play-overlay">
+                  <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg></div>
+                  <span class="play-label">CLICK TO WATCH</span>
+                </div>
+              </div>
+              <div class="pcard-body">
+                <div class="pcard-badges">
+                  <span class="pbadge pbadge-1st">1ST PLACE</span>
+                  <span class="pbadge pbadge-extra">BEST STARTUP IDEA</span>
+                </div>
+                <h3 class="pcard-title">CONSILIUM</h3>
+                <p class="pcard-team">Tony Y</p>
+                <p class="pcard-desc">A multi-agent council where seven AI specialists triage, debate, and cross-examine each case with evidence to surface the three most likely diagnoses.</p>
+              </div>
+              <div class="pcard-actions">
+                <a class="pcard-devpost" href="https://devpost.com/software/consilium-mqu6w3" target="_blank" rel="noopener noreferrer">DEVPOST →</a>
+              </div>
+            </div>
+
+            <div class="pcard reveal delay-1"
+              data-video="1jH-H-h2Y2c"
+              data-devpost="https://devpost.com/software/persist-yindp5">
+              <div class="pcard-bar bar-2nd"></div>
+              <div class="pcard-thumb">
+                <img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/004/682/173/datas/original.png" alt="Persist" />
+                <div class="pcard-rec">DEMO</div>
+                <div class="pcard-play-overlay">
+                  <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg></div>
+                  <span class="play-label">CLICK TO WATCH</span>
+                </div>
+              </div>
+              <div class="pcard-body">
+                <div class="pcard-badges"><span class="pbadge pbadge-2nd">2ND PLACE</span></div>
+                <h3 class="pcard-title">Persist</h3>
+                <p class="pcard-team">Patrick Wang</p>
+                <p class="pcard-desc">The first autonomous prior-authorization agent that doesn't just submit claims; it fights every denial, generating ERISA-compliant appeal letters without human intervention.</p>
+              </div>
+              <div class="pcard-actions">
+                <a class="pcard-devpost" href="https://devpost.com/software/persist-yindp5" target="_blank" rel="noopener noreferrer">DEVPOST →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fintech -->
+        <div class="track-section">
+          <div class="track-header">
+            <span class="track-header-icon">//</span>
+            <span class="track-label">Fintech Track</span>
+            <span class="track-label-sub">2 WINNERS</span>
+          </div>
+          <div class="projects-grid projects-grid-2">
+            <div class="pcard reveal"
+              data-video="U2bF5Golysk"
+              data-devpost="https://devpost.com/software/sentinel-multi-agent-fraud-investigation-system">
+              <div class="pcard-bar bar-1st"></div>
+              <div class="pcard-thumb">
+                <img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/004/681/752/datas/original.png" alt="Sentinel" />
+                <div class="pcard-rec">DEMO</div>
+                <div class="pcard-play-overlay">
+                  <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg></div>
+                  <span class="play-label">CLICK TO WATCH</span>
+                </div>
+              </div>
+              <div class="pcard-body">
+                <div class="pcard-badges"><span class="pbadge pbadge-1st">1ST PLACE</span></div>
+                <h3 class="pcard-title">Sentinel</h3>
+                <p class="pcard-team">Yash Patil</p>
+                <p class="pcard-desc">Five AI agents walk a Medicare claims knowledge graph to turn fraud signals into complete, cited investigations, not just risk scores, reaching 98% precision.</p>
+              </div>
+              <div class="pcard-actions">
+                <a class="pcard-devpost" href="https://devpost.com/software/sentinel-multi-agent-fraud-investigation-system" target="_blank" rel="noopener noreferrer">DEVPOST →</a>
+              </div>
+            </div>
+
+            <div class="pcard reveal delay-1"
+              data-video="Q5hGeKgeuJk"
+              data-devpost="https://devpost.com/software/killbill-wam45d">
+              <div class="pcard-bar bar-2nd"></div>
+              <div class="pcard-thumb">
+                <img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/004/682/900/datas/original.png" alt="Killbill" />
+                <div class="pcard-rec">DEMO</div>
+                <div class="pcard-play-overlay">
+                  <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg></div>
+                  <span class="play-label">CLICK TO WATCH</span>
+                </div>
+              </div>
+              <div class="pcard-body">
+                <div class="pcard-badges"><span class="pbadge pbadge-2nd">2ND PLACE</span></div>
+                <h3 class="pcard-title">Killbill</h3>
+                <p class="pcard-team">Ibrahim Pima</p>
+                <p class="pcard-desc">An agent that finds every recurring charge, judges which ones you actually use, and hands you the cancellation emails ready to send.</p>
+              </div>
+              <div class="pcard-actions">
+                <a class="pcard-devpost" href="https://devpost.com/software/killbill-wam45d" target="_blank" rel="noopener noreferrer">DEVPOST →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Impact -->
+        <div class="track-section">
+          <div class="track-header">
+            <span class="track-header-icon">//</span>
+            <span class="track-label">Social Impact Track</span>
+            <span class="track-label-sub">2 WINNERS</span>
+          </div>
+          <div class="projects-grid projects-grid-2">
+            <div class="pcard reveal"
+              data-video="vnfOB2DHppQ"
+              data-devpost="https://devpost.com/software/demo-wrtjkc">
+              <div class="pcard-bar bar-1st"></div>
+              <div class="pcard-thumb">
+                <img src="https://img.youtube.com/vi/vnfOB2DHppQ/maxresdefault.jpg" alt="Nourish" />
+                <div class="pcard-rec">DEMO</div>
+                <div class="pcard-play-overlay">
+                  <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg></div>
+                  <span class="play-label">CLICK TO WATCH</span>
+                </div>
+              </div>
+              <div class="pcard-body">
+                <div class="pcard-badges"><span class="pbadge pbadge-1st">1ST PLACE</span></div>
+                <h3 class="pcard-title">Nourish</h3>
+                <p class="pcard-team">Viktor Nedev</p>
+                <p class="pcard-desc">An autonomous food-rescue platform that connects surplus food with shelters and volunteer drivers in real time, dispatching deliveries with AI agents.</p>
+              </div>
+              <div class="pcard-actions">
+                <a class="pcard-devpost" href="https://devpost.com/software/demo-wrtjkc" target="_blank" rel="noopener noreferrer">DEVPOST →</a>
+              </div>
+            </div>
+
+            <div class="pcard reveal delay-1"
+              data-video="nFKW_On0u9A"
+              data-devpost="https://devpost.com/software/orion-eua8x9">
+              <div class="pcard-bar bar-2nd"></div>
+              <div class="pcard-thumb">
+                <img src="https://img.youtube.com/vi/nFKW_On0u9A/maxresdefault.jpg" alt="Orion & Diana" />
+                <div class="pcard-rec">DEMO</div>
+                <div class="pcard-play-overlay">
+                  <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg></div>
+                  <span class="play-label">CLICK TO WATCH</span>
+                </div>
+              </div>
+              <div class="pcard-body">
+                <div class="pcard-badges"><span class="pbadge pbadge-2nd">2ND PLACE</span></div>
+                <h3 class="pcard-title">Orion &amp; Diana</h3>
+                <p class="pcard-team">Pranav Rajesh Krishnan</p>
+                <p class="pcard-desc">An autonomous OSINT agent that detects marine oil spills from live satellite imagery faster than any human, classifying slicks with trained ML models.</p>
+              </div>
+              <div class="pcard-actions">
+                <a class="pcard-devpost" href="https://devpost.com/software/orion-eua8x9" target="_blank" rel="noopener noreferrer">DEVPOST →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Special Awards -->
+        <div class="track-section">
+          <div class="track-header">
+            <span class="track-header-icon">//</span>
+            <span class="track-label">Sponsor &amp; Special Awards</span>
+            <span class="track-label-sub">5 WINNERS</span>
+          </div>
+          <div class="projects-grid projects-grid-3">
+            <div class="pcard reveal"
+              data-video="wUXlJ0tSvNA"
+              data-devpost="https://devpost.com/software/ori-4mscde">
+              <div class="pcard-bar bar-award"></div>
+              <div class="pcard-thumb">
+                <img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/004/684/489/datas/original.png" alt="Ori" />
+                <div class="pcard-rec">DEMO</div>
+                <div class="pcard-play-overlay">
+                  <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg></div>
+                  <span class="play-label">CLICK TO WATCH</span>
+                </div>
+              </div>
+              <div class="pcard-body">
+                <div class="pcard-badges">
+                  <span class="pbadge pbadge-award">BEST USE OF JAC</span>
+                  <span class="pbadge pbadge-award">BEST USE OF FEATHERLESS.AI</span>
+                </div>
+                <h3 class="pcard-title">Ori</h3>
+                <p class="pcard-team">Ahmed Hammad</p>
+                <p class="pcard-desc">A full-stack Jac template enabling vehicles to communicate through an agentic protocol for fuel-efficient, safety-focused driving.</p>
+              </div>
+              <div class="pcard-actions">
+                <a class="pcard-devpost" href="https://devpost.com/software/ori-4mscde" target="_blank" rel="noopener noreferrer">DEVPOST →</a>
+              </div>
+            </div>
+
+            <div class="pcard reveal delay-1"
+              data-video="v_5TzI9crGo"
+              data-devpost="https://devpost.com/software/futureos-f03dgs">
+              <div class="pcard-bar bar-award"></div>
+              <div class="pcard-thumb">
+                <img src="https://img.youtube.com/vi/v_5TzI9crGo/maxresdefault.jpg" alt="FutureOS" />
+                <div class="pcard-rec">DEMO</div>
+                <div class="pcard-play-overlay">
+                  <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg></div>
+                  <span class="play-label">CLICK TO WATCH</span>
+                </div>
+              </div>
+              <div class="pcard-body">
+                <div class="pcard-badges"><span class="pbadge pbadge-award">BEST USE OF JAC</span></div>
+                <h3 class="pcard-title">FutureOS</h3>
+                <p class="pcard-team">Kshitij Kumrawat</p>
+                <p class="pcard-desc">A graph-native life OS where six autonomous agents turn long-term goals into daily missions, coaching, and real-time progress tracking.</p>
+              </div>
+              <div class="pcard-actions">
+                <a class="pcard-devpost" href="https://devpost.com/software/futureos-f03dgs" target="_blank" rel="noopener noreferrer">DEVPOST →</a>
+              </div>
+            </div>
+
+            <div class="pcard reveal delay-2"
+              data-video="K03jFxZY-MU"
+              data-devpost="https://devpost.com/software/pairup-qmjrke">
+              <div class="pcard-bar bar-award"></div>
+              <div class="pcard-thumb">
+                <img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/004/684/654/datas/original.png" alt="PairUp" />
+                <div class="pcard-rec">DEMO</div>
+                <div class="pcard-play-overlay">
+                  <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg></div>
+                  <span class="play-label">CLICK TO WATCH</span>
+                </div>
+              </div>
+              <div class="pcard-body">
+                <div class="pcard-badges"><span class="pbadge pbadge-award">BEST DEMO</span></div>
+                <h3 class="pcard-title">PairUp</h3>
+                <p class="pcard-team">Harshith Nair, Anjika Singh</p>
+                <p class="pcard-desc">A matchmaking platform for builders: swipe through potential collaborators, match on skills and interests, and chat in real time to find your next teammate.</p>
+              </div>
+              <div class="pcard-actions">
+                <a class="pcard-devpost" href="https://devpost.com/software/pairup-qmjrke" target="_blank" rel="noopener noreferrer">DEVPOST →</a>
+              </div>
+            </div>
+
+            <div class="pcard reveal delay-3"
+              data-video="lIaV6WBkGx0"
+              data-devpost="https://devpost.com/software/depgraph">
+              <div class="pcard-bar bar-award"></div>
+              <div class="pcard-thumb">
+                <img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/004/684/411/datas/original.png" alt="DepGraph" />
+                <div class="pcard-rec">DEMO</div>
+                <div class="pcard-play-overlay">
+                  <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg></div>
+                  <span class="play-label">CLICK TO WATCH</span>
+                </div>
+              </div>
+              <div class="pcard-body">
+                <div class="pcard-badges"><span class="pbadge pbadge-award">BEST LINKEDIN POST</span></div>
+                <h3 class="pcard-title">DepGraph</h3>
+                <p class="pcard-team">Shailesh Hawale</p>
+                <p class="pcard-desc">An LLM agent that investigates your dependency graph, finding CVEs, tracing transitive vulnerability chains, and generating validated fix plans in Jac.</p>
+              </div>
+              <div class="pcard-actions">
+                <a class="pcard-devpost" href="https://devpost.com/software/depgraph" target="_blank" rel="noopener noreferrer">DEVPOST →</a>
+              </div>
+            </div>
+
+            <div class="pcard reveal delay-4"
+              data-video=""
+              data-devpost="https://devpost.com/software/drowzie">
+              <div class="pcard-bar bar-award"></div>
+              <div class="pcard-thumb">
+                <img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/004/684/289/datas/original.png" alt="Drowzie" />
+                <div class="pcard-rec">DEMO</div>
+                <div class="pcard-play-overlay">
+                  <div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg></div>
+                  <span class="play-label">CLICK TO WATCH</span>
+                </div>
+              </div>
+              <div class="pcard-body">
+                <div class="pcard-badges"><span class="pbadge pbadge-award">BEST USE OF LOVABLE</span></div>
+                <h3 class="pcard-title">Drowzie</h3>
+                <p class="pcard-team">Shashank Shekhar</p>
+                <p class="pcard-desc">A social layer on an agentic sleep platform that logs daily habits, computes personalized correlations, and nudges users toward better sleep.</p>
+              </div>
+              <div class="pcard-actions">
+                <a class="pcard-devpost" href="https://devpost.com/software/drowzie" target="_blank" rel="noopener noreferrer">DEVPOST →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- VIDEO MODAL -->
+    <div class="vm-backdrop" id="vm-backdrop"></div>
+    <div class="vm" id="vm">
+      <div class="vm-shell">
+        <span class="vm-caption">// PROJECT DEMO</span>
+        <button class="vm-close" id="vm-close" aria-label="Close video">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+        <div class="vm-body">
+          <iframe id="vm-iframe" src="" title="Project demo video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-top">
+        <div class="footer-logo">
+          <img src="/jaseci-logo.png" alt="Jaseci" class="logo-img" />
+          <span>Jac<span class="text-accent">Hacks</span></span>
+        </div>
+        <div class="footer-nav">
+          <a href="#spring-winners">Spring Winners</a>
+          <a href="#winners">Winter Winners</a>
+          <a href="/gallery">Gallery</a>
+        </div>
+        <div class="footer-socials">
+          <a href="https://x.com/Jaseci_Org" class="social-btn" aria-label="Twitter">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/jaseci.ai/" target="_blank" class="social-btn" aria-label="Instagram">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/company/jaseci-labs/posts/?feedView=all" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="LinkedIn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7H10v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 JacHacks · Powered by <a href="https://jaseci.org" target="_blank" rel="noopener noreferrer">Jaseci</a> · A global hackathon series</p>
+      </div>
+    </footer>
+
+
+  <script>
+    // ===== REVEAL =====
+    const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('revealed');obs.unobserve(e.target);}});},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
+    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+    // ===== NAV =====
+    const nav=document.getElementById('main-nav')!;
+    window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60));
+
+    // ===== HAMBURGER =====
+    const hbg=document.getElementById('hamburger')!,mm=document.getElementById('mobile-menu')!;
+    hbg.addEventListener('click',()=>{hbg.classList.toggle('open');mm.classList.toggle('open');});
+    mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{hbg.classList.remove('open');mm.classList.remove('open');}));
+
+    // ===== THEME TOGGLE =====
+    const themeBtn = document.getElementById('theme-toggle')!;
+    themeBtn.addEventListener('click', () => {
+      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+      if (isLight) {
+        document.documentElement.removeAttribute('data-theme');
+        try { localStorage.setItem('theme','dark'); } catch(e){}
+      } else {
+        document.documentElement.setAttribute('data-theme','light');
+        try { localStorage.setItem('theme','light'); } catch(e){}
+      }
+    });
+
+    // ===== TEAM AVATARS =====
+    function getInitials(name: string): string {
+      const cleaned = name.replace(/\./g, '').trim();
+      const parts = cleaned.split(/\s+/).filter(p => p.length > 0);
+      if (parts.length === 0) return '?';
+      if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    }
+    function escapeHtml(s: string): string {
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+    document.querySelectorAll<HTMLElement>('.pcard-team').forEach(el => {
+      const text = (el.textContent || '').trim();
+      if (!text) return;
+      const names = text.split(/,\s*/).map(n => n.trim()).filter(n => n.length > 0);
+      if (names.length === 0) return;
+      // Preserve Astro's scoped style attribute on dynamically created children
+      const cidAttr = el.getAttributeNames().find(n => n.startsWith('data-astro-cid-'));
+      const cidStr = cidAttr ? ` ${cidAttr}=""` : '';
+      el.innerHTML = `<span class="team-label"${cidStr}>TEAM</span>` +
+        names.map(n => `<span class="team-avatar"${cidStr} data-name="${escapeHtml(n)}">${escapeHtml(getInitials(n))}</span>`).join('');
+    });
+
+    // ===== VIDEO MODAL =====
+    const vmBackdrop = document.getElementById('vm-backdrop')!;
+    const vm = document.getElementById('vm')!;
+    const vmIframe = document.getElementById('vm-iframe') as HTMLIFrameElement;
+    const vmClose = document.getElementById('vm-close')!;
+
+    function openVideo(youtubeId: string, startSeconds?: string) {
+      const start = startSeconds && startSeconds.length > 0 ? `&start=${startSeconds}` : '';
+      vmIframe.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0${start}`;
+      vm.classList.add('open');
+      vmBackdrop.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeVideo() {
+      vm.classList.remove('open');
+      vmBackdrop.classList.remove('open');
+      vmIframe.src = '';
+      document.body.style.overflow = '';
+    }
+
+    function handleProjectClick(card: HTMLElement) {
+      const videoId = card.dataset.video;
+      const videoStart = card.dataset.videoStart;
+      const devpost = card.dataset.devpost;
+      if (videoId && videoId.length > 0) {
+        openVideo(videoId, videoStart);
+      } else if (devpost) {
+        window.open(devpost, '_blank', 'noopener,noreferrer');
+      }
+    }
+
+    document.querySelectorAll<HTMLElement>('.js-demo').forEach(el => {
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const card = el.closest<HTMLElement>('[data-devpost]');
+        if (card) handleProjectClick(card);
+      });
+    });
+
+    document.querySelectorAll<HTMLElement>('.pcard-thumb').forEach(thumb => {
+      thumb.addEventListener('click', () => {
+        const card = thumb.closest<HTMLElement>('[data-devpost]');
+        if (card) handleProjectClick(card);
+      });
+    });
+
+    vmClose.addEventListener('click', closeVideo);
+    vmBackdrop.addEventListener('click', closeVideo);
+    vm.addEventListener('click', e => { if (e.target === vm) closeVideo(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && vm.classList.contains('open')) closeVideo(); });
+  </script>
+  </body>
+</html>
