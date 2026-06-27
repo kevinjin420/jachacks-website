@@ -156,13 +156,13 @@
   .scroll-down { position:absolute; bottom:2.5rem; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:.4rem; color:var(--muted); font-family:var(--mono); font-size:.58rem; letter-spacing:.22em; animation:bob 2s ease-in-out infinite; }
   @keyframes bob { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
 
-  /* ═══ ARCHIVED — SPRING RECAP / STAT-CARD STYLES ═══
+  /* ═══ ARCHIVED - SPRING RECAP / STAT-CARD STYLES ═══
      Not used by any live markup right now. These back the saved snippets:
        src/snippets/spring-recap-section.astro  (.section-spring, .spring-header*, .text-link, .spring-notify, .notify-*)
        src/snippets/spring-stat-cards.astro     (.spring-grid, .spring-card*)
      Kept in place so those snippets render as-is when restored for a future hackathon.
      A few responsive variants live in the shared @media blocks below (search ".spring-grid" / ".notify-"),
-     and light-theme variants live in the light-theme block (search "ARCHIVED — light").  ═══ */
+     and light-theme variants live in the light-theme block (search "ARCHIVED - light").  ═══ */
   .section-spring { background: linear-gradient(180deg, rgba(249,115,22,.04) 0%, transparent 60%); }
   .spring-header { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center; margin-bottom:4rem; }
   .spring-header-left { display:flex; flex-direction:column; }
@@ -542,7 +542,7 @@
   :root[data-theme="light"] .btn-coming-soon { color:#15803d; background:rgba(34,197,94,.08); border-color:rgba(34,197,94,.4); }
   :root[data-theme="light"] .scroll-down { color:rgba(26,24,40,.5); }
 
-  /* ARCHIVED — light-theme variants for the Spring recap / stat-cards (see snippets; not used by live markup) */
+  /* ARCHIVED - light-theme variants for the Spring recap / stat-cards (see snippets; not used by live markup) */
   :root[data-theme="light"] .section-spring { background:linear-gradient(180deg, rgba(249,115,22,.06) 0%, transparent 60%); }
   :root[data-theme="light"] .spring-header-right { color:#3d3c45; }
   :root[data-theme="light"] .spring-card { background:#fff; border-color:rgba(0,0,0,.07); box-shadow:0 2px 10px rgba(0,0,0,.04); }
@@ -552,9 +552,9 @@
   :root[data-theme="light"] .spring-notify { background:linear-gradient(135deg, rgba(249,115,22,.08) 0%, rgba(168,85,247,.05) 100%); border-color:rgba(249,115,22,.25); }
   :root[data-theme="light"] .notify-text { color:#3d3c45; }
 
-  /* V1 banner — keep image dark-styled, just lighten the surrounding section */
+  /* V1 banner - keep image dark-styled, just lighten the surrounding section */
   :root[data-theme="light"] .v1-banner-overlay { background:linear-gradient(to bottom, rgba(6,5,13,.55) 0%, rgba(6,5,13,.3) 40%, rgba(246,243,236,.85) 92%, rgba(246,243,236,1) 100%), linear-gradient(to right, rgba(6,5,13,.5) 0%, transparent 40%, transparent 60%, rgba(6,5,13,.5) 100%); }
-  /* ARCHIVED — light variant for the Spring banner (see src/snippets/spring-banner.astro) */
+  /* ARCHIVED - light variant for the Spring banner (see src/snippets/spring-banner.astro) */
   :root[data-theme="light"] .v1-banner-bg-spring::after { background:linear-gradient(to bottom, rgba(6,5,13,.2) 0%, transparent 30%, transparent 62%, rgba(246,243,236,.95) 94%, #F6F3EC 100%); }
 
   /* Sponsor strip + sections */
@@ -636,6 +636,87 @@
     .editions-grid { grid-template-columns:1fr; }
     .editions-gallery { grid-template-columns:1fr; }
   }
+
+  /* ── POPUP BANNERS (paradise / ohio) - gradient-only, no photo ── */
+  .v1-banner-paradise, .v1-banner-ohio { background:#06050d; }
+  .v1-banner-bg-paradise { position:absolute; inset:0; background:
+      radial-gradient(circle at 18% 16%, rgba(0,212,255,.30), transparent 52%),
+      radial-gradient(circle at 84% 20%, rgba(168,85,247,.22), transparent 56%),
+      radial-gradient(circle at 50% 104%, rgba(249,115,22,.40), transparent 62%),
+      linear-gradient(165deg, #0a1824 0%, #0c0a1a 58%, #06050d 100%); }
+  .v1-banner-bg-ohio { position:absolute; inset:0; background:
+      radial-gradient(circle at 20% 22%, rgba(249,115,22,.30), transparent 54%),
+      radial-gradient(circle at 82% 26%, rgba(0,212,255,.16), transparent 56%),
+      radial-gradient(circle at 50% 104%, rgba(168,85,247,.18), transparent 62%),
+      linear-gradient(160deg, #16111e 0%, #0a0a14 60%, #06050d 100%); }
+  .v1-banner-bg-paradise::before, .v1-banner-bg-ohio::before { content:''; position:absolute; inset:0;
+      background-image:linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+      background-size:60px 60px;
+      -webkit-mask-image:radial-gradient(circle at center, #000 0%, transparent 78%);
+      mask-image:radial-gradient(circle at center, #000 0%, transparent 78%); }
+  .v1-banner-bg-paradise::after, .v1-banner-bg-ohio::after { content:''; position:absolute; inset:0;
+      background:radial-gradient(ellipse 72% 82% at 50% 46%, rgba(6,5,13,.5) 0%, rgba(6,5,13,.18) 50%, transparent 80%),
+      linear-gradient(to bottom, rgba(6,5,13,.32) 0%, transparent 36%, transparent 64%, rgba(6,5,13,.92) 100%); }
+  :root[data-theme="light"] .v1-banner-bg-paradise::after,
+  :root[data-theme="light"] .v1-banner-bg-ohio::after { background:linear-gradient(to bottom, rgba(6,5,13,.2) 0%, transparent 30%, transparent 62%, rgba(246,243,236,.95) 94%, #F6F3EC 100%); }
+
+  /* ── POPUP INTRO (two-column context) ── */
+  .popup-intro { display:grid; grid-template-columns:1.1fr 1fr; gap:3.5rem; align-items:start; }
+  .popup-intro-body { color:var(--light); font-size:1.02rem; line-height:1.8; }
+  .popup-intro-body p { margin-bottom:1.1rem; }
+  .popup-facts { display:flex; flex-direction:column; gap:1rem; }
+  .popup-fact { display:flex; gap:1rem; align-items:flex-start; background:var(--card); border:1px solid var(--card-b); border-radius:12px; padding:1.2rem 1.35rem; transition:border-color .25s, box-shadow .25s, transform .25s; }
+  .popup-fact:hover { border-color:rgba(249,115,22,.28); box-shadow:0 12px 34px rgba(0,0,0,.35); transform:translateY(-3px); }
+  .popup-fact-icon { width:42px; height:42px; flex-shrink:0; border-radius:9px; background:rgba(249,115,22,.08); border:1px solid rgba(249,115,22,.18); display:flex; align-items:center; justify-content:center; color:var(--primary); }
+  .popup-fact-key { font-family:var(--mono); font-size:.56rem; letter-spacing:.22em; color:var(--primary); margin-bottom:.3rem; }
+  .popup-fact-val { font-family:var(--display); font-weight:600; font-size:1.02rem; color:#fff; line-height:1.35; }
+  :root[data-theme="light"] .popup-fact-val { color:#1a1828; }
+  :root[data-theme="light"] .popup-fact { background:#fff; border-color:rgba(0,0,0,.08); box-shadow:0 2px 10px rgba(0,0,0,.04); }
+  @media (max-width:860px) { .popup-intro { grid-template-columns:1fr; gap:2rem; } }
+
+  /* ── VIDEO GALLERY (popup pages) ── */
+  .vid-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
+  .vcard { display:flex; flex-direction:column; background:linear-gradient(180deg,#1a1828 0%,#15131f 100%); border:1px solid rgba(255,255,255,.07); border-radius:14px; overflow:hidden; cursor:pointer; transition:transform .3s, box-shadow .3s, border-color .3s; box-shadow:0 4px 18px rgba(0,0,0,.45); }
+  .vcard:hover { transform:translateY(-6px); border-color:rgba(249,115,22,.32); box-shadow:0 24px 60px rgba(0,0,0,.6), 0 0 30px rgba(249,115,22,.1); }
+  .vcard-thumb { position:relative; aspect-ratio:16/9; overflow:hidden; background:#0a0913; }
+  .vcard-thumb img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s ease, filter .3s ease; filter:brightness(.9); }
+  .vcard:hover .vcard-thumb img { transform:scale(1.05); filter:brightness(1); }
+  .vcard-play { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:linear-gradient(180deg, rgba(6,5,13,.12) 0%, rgba(6,5,13,.55) 100%); transition:background .3s; }
+  .vcard:hover .vcard-play { background:linear-gradient(180deg, rgba(6,5,13,.22) 0%, rgba(6,5,13,.7) 100%); }
+  .vcard-play .play-btn { width:54px; height:54px; }
+  .vcard-rec { position:absolute; top:12px; right:12px; z-index:2; display:inline-flex; align-items:center; gap:.4rem; font-family:var(--mono); font-size:.55rem; letter-spacing:.2em; color:rgba(255,255,255,.85); background:rgba(0,0,0,.55); -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); padding:.3rem .55rem; border-radius:3px; border:1px solid rgba(255,255,255,.1); }
+  .vcard-rec::before { content:''; width:6px; height:6px; border-radius:50%; background:#ef4444; box-shadow:0 0 6px #ef4444; animation:rec-blink 1.4s ease-in-out infinite; }
+  .vcard-body { padding:1.2rem 1.3rem 1.4rem; display:flex; flex-direction:column; gap:.5rem; flex:1; }
+  .vcard-tag { font-family:var(--mono); font-size:.55rem; letter-spacing:.22em; color:var(--primary); }
+  .vcard-title { font-family:var(--display); font-weight:700; font-size:1.05rem; color:#fff; line-height:1.3; }
+  :root[data-theme="light"] .vcard { background:linear-gradient(180deg,#fff 0%,#fafaf6 100%); border-color:rgba(0,0,0,.08); box-shadow:0 4px 16px rgba(0,0,0,.06); }
+  :root[data-theme="light"] .vcard:hover { border-color:rgba(249,115,22,.4); box-shadow:0 22px 50px rgba(0,0,0,.1), 0 0 28px rgba(249,115,22,.12); }
+  :root[data-theme="light"] .vcard-title { color:#1a1828; }
+  @media (max-width:980px) { .vid-grid { grid-template-columns:1fr 1fr; } }
+  @media (max-width:640px) { .vid-grid { grid-template-columns:1fr; } }
+
+  /* ── PHOTO STRIP (popup page teaser) ── */
+  .photo-strip { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; border-radius:14px; }
+  .photo-strip-cell { position:relative; aspect-ratio:4/3; overflow:hidden; border-radius:12px; border:1px solid var(--border); background:var(--card-b); display:block; }
+  .photo-strip-cell img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s ease, filter .3s ease; filter:brightness(.92); }
+  .photo-strip:hover .photo-strip-cell img { filter:brightness(1); }
+  .photo-strip-cell:hover img { transform:scale(1.05); }
+  .photo-strip:hover .photo-strip-cell { border-color:rgba(249,115,22,.28); }
+  .photo-strip-4 { grid-template-columns:repeat(4,1fr); }
+  @media (max-width:760px) {
+    .photo-strip, .photo-strip-4 { grid-template-columns:1fr 1fr; }
+    .photo-strip:not(.photo-strip-4) .photo-strip-cell:nth-child(3) { grid-column:1 / 3; }
+  }
+
+  /* ── HOMEPAGE POPUP CARDS ── */
+  .edition-card-paradise .edition-card-bg { background:
+      radial-gradient(circle at 22% 22%, rgba(0,212,255,.30), transparent 55%),
+      radial-gradient(circle at 80% 80%, rgba(249,115,22,.30), transparent 55%),
+      linear-gradient(160deg,#0a1824 0%, #06050d 72%); }
+  .edition-card-ohio .edition-card-bg { background:
+      radial-gradient(circle at 24% 26%, rgba(249,115,22,.30), transparent 55%),
+      radial-gradient(circle at 82% 80%, rgba(0,212,255,.16), transparent 55%),
+      linear-gradient(160deg,#16111e 0%, #06050d 72%); }
 
   /* ── Golden Gate Bridge wireframe backdrop (hero) ── */
   /* edge-traced photo, anchored to the right, dissolving toward the center-left */

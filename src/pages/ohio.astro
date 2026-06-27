@@ -1,0 +1,261 @@
+---
+import '../styles/site.css';
+---
+
+<html lang="en">
+  <head>
+    <script is:inline>
+      try { var t = localStorage.getItem('theme'); if (t === 'light') document.documentElement.setAttribute('data-theme','light'); } catch(e){}
+    </script>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="/jaseci-logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RocketHacks 2026 · Toledo · JacHacks</title>
+    <meta name="description" content="JacHacks Popup in Ohio: Jaseci & Jac at RocketHacks 2026, a 24-hour hackathon at the University of Toledo, with the Best Use of Agentic AI prize. Keynote, kickoff, and winners." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+
+    <!-- NAV -->
+    <nav id="main-nav" class="scrolled">
+      <div class="nav-inner">
+        <a href="/" class="logo">
+          <img src="/jaseci-logo.png" alt="JacHacks" class="logo-img" />
+          <span class="logo-text">Jac<span class="logo-accent">Hacks</span></span>
+        </a>
+        <div class="nav-links">
+          <a href="/" class="nav-link">// HOME</a>
+          <a href="/spring" class="nav-link">// SPRING</a>
+          <a href="/winter" class="nav-link">// WINTER</a>
+          <a href="/paradise" class="nav-link">// VELRIC</a>
+          <a href="/ohio" class="nav-link">// ROCKETHACKS</a>
+          <a href="/gallery" class="nav-link">// GALLERY</a>
+        </div>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme" title="Toggle light/dark">
+          <svg class="tt-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="tt-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <a href="https://github.com/jaseci-labs/jaseci" target="_blank" rel="noopener noreferrer" class="nav-cta">STAR ON GITHUB</a>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobile-menu">
+      <a href="/">// HOME</a>
+      <a href="/spring">// SPRING</a>
+      <a href="/winter">// WINTER</a>
+      <a href="/paradise">// VELRIC</a>
+      <a href="/ohio">// ROCKETHACKS</a>
+      <a href="/gallery">// GALLERY</a>
+      <a href="https://github.com/jaseci-labs/jaseci" target="_blank" class="mobile-cta">STAR ON GITHUB</a>
+    </div>
+
+    <main class="edition-main">
+    <!-- BANNER -->
+    <div class="v1-banner v1-banner-ohio" id="ohio">
+      <div class="v1-banner-bg-ohio"></div>
+      <div class="v1-banner-content">
+        <div class="v1-banner-tag">JACHACKS · ON THE ROAD</div>
+        <div class="v1-banner-eyebrow">// MAR 14–15, 2026 · UNIVERSITY OF TOLEDO · OH</div>
+        <div class="v1-banner-title">Rocket<span class="v1-banner-accent">Hacks</span></div>
+        <div class="v1-banner-sub">24 hours at the University of Toledo, powered by Jac &amp; Jaseci.</div>
+        <div class="v1-stats-row">
+          <div class="v1-stat">
+            <span class="v1-stat-val">KEYNOTE</span>
+            <span class="v1-stat-key">PROF. JASON MARS</span>
+          </div>
+          <div class="v1-stat-sep">//</div>
+          <div class="v1-stat">
+            <span class="v1-stat-val">PRIZE</span>
+            <span class="v1-stat-key">BEST USE OF AGENTIC AI</span>
+          </div>
+          <div class="v1-stat-sep">//</div>
+          <div class="v1-stat">
+            <span class="v1-stat-val">SPONSOR</span>
+            <span class="v1-stat-key">JASECI</span>
+          </div>
+        </div>
+        <a href="https://rockethacks26.devpost.com/" target="_blank" rel="noopener noreferrer" class="v1-banner-link">
+          VIEW ON DEVPOST
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- ABOUT / CONTEXT -->
+    <section class="section" id="about">
+      <div class="container">
+        <div class="popup-intro reveal">
+          <div>
+            <div class="section-eyebrow">// THE POPUP</div>
+            <h2 class="section-title">Jac landed in <span class="text-accent">Toledo</span></h2>
+            <div class="popup-intro-body">
+              <p>Before the JacHacks series had its own name, we were already taking Jac and agentic AI on the road. At <strong>RocketHacks 2026</strong>, the University of Toledo's flagship 24-hour hackathon, Jaseci joined as a sponsor and put up the <strong>Best Use of Agentic AI</strong> prize, challenging 150 hackers across the Midwest to build with graph-native agents.</p>
+              <p>Prof. Jason Mars opened the weekend with a keynote on where programming is heading, and the teams delivered, from a board-reading Chess Vision agent to a wave of projects built end-to-end with Jac.</p>
+            </div>
+          </div>
+          <div class="popup-facts">
+            <div class="popup-fact">
+              <span class="popup-fact-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></span>
+              <div>
+                <div class="popup-fact-key">HOSTED BY</div>
+                <div class="popup-fact-val">University of Toledo · College of Engineering</div>
+              </div>
+            </div>
+            <div class="popup-fact">
+              <span class="popup-fact-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></span>
+              <div>
+                <div class="popup-fact-key">JASECI PRIZE</div>
+                <div class="popup-fact-val">Best Use of Agentic AI</div>
+              </div>
+            </div>
+            <div class="popup-fact">
+              <span class="popup-fact-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/></svg></span>
+              <div>
+                <div class="popup-fact-key">KEYNOTE</div>
+                <div class="popup-fact-val">Prof. Jason Mars · Founder, Jaseci</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURED VIDEO (keynote) -->
+    <section class="section section-dark recap-section" id="keynote">
+      <div class="container">
+        <div class="recap-header reveal">
+          <div class="section-eyebrow">// THE KEYNOTE</div>
+          <h2 class="section-title">Watch the <span class="text-accent">Keynote</span></h2>
+          <p class="section-sub">Prof. Jason Mars on agentic AI and the case for Jac, live from RocketHacks 2026.</p>
+        </div>
+        <div class="recap-frame reveal" style="max-width:560px;">
+          <span class="recap-corner recap-corner-tl"></span>
+          <span class="recap-corner recap-corner-tr"></span>
+          <span class="recap-corner recap-corner-bl"></span>
+          <span class="recap-corner recap-corner-br"></span>
+          <div class="recap-video">
+            <span class="recap-rec"><span class="recap-rec-dot"></span> KEYNOTE</span>
+            <iframe src="https://www.youtube.com/embed/KwvSq8r1JTg?rel=0" title="Keynote by Prof. Jason Mars, RocketHacks 2026" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EVENT RECAP -->
+    <section class="section recap-section" id="recap">
+      <div class="container">
+        <div class="recap-header reveal">
+          <div class="section-eyebrow">// THE RECAP</div>
+          <h2 class="section-title">A Look Back at <span class="text-accent">RocketHacks</span></h2>
+          <p class="section-sub">A quick recap of the weekend in Toledo.</p>
+        </div>
+        <div class="recap-frame reveal" style="max-width:400px;">
+          <span class="recap-corner recap-corner-tl"></span>
+          <span class="recap-corner recap-corner-tr"></span>
+          <span class="recap-corner recap-corner-bl"></span>
+          <span class="recap-corner recap-corner-br"></span>
+          <div class="recap-video" style="aspect-ratio:9/16;">
+            <span class="recap-rec"><span class="recap-rec-dot"></span> RECAP</span>
+            <iframe src="https://www.youtube.com/embed/vAAE71GxWII?rel=0" title="RocketHacks 2026 recap" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHOTOS -->
+    <section class="section" id="photos">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-eyebrow">// PHOTOS</div>
+          <h2 class="section-title">From <span class="text-accent">Toledo</span></h2>
+          <p class="section-sub">A few moments from the weekend. See them full-size in the gallery album.</p>
+        </div>
+        <a href="/gallery#ohio" class="photo-strip photo-strip-4 reveal" aria-label="Open the RocketHacks album in the gallery">
+          <span class="photo-strip-cell"><img src="/photos/toldeohacks/th_1.png" alt="RocketHacks 2026 at the University of Toledo" loading="lazy" /></span>
+          <span class="photo-strip-cell"><img src="/photos/toldeohacks/th_2.png" alt="RocketHacks build session" loading="lazy" /></span>
+          <span class="photo-strip-cell"><img src="/photos/toldeohacks/th_3.png" alt="RocketHacks demos" loading="lazy" /></span>
+          <span class="photo-strip-cell"><img src="/photos/toldeohacks/th_4.png" alt="RocketHacks 2026" loading="lazy" /></span>
+        </a>
+        <div class="reveal" style="text-align:center; margin-top:2rem;">
+          <a href="/gallery#ohio" class="btn-primary" style="display:inline-flex;">
+            VIEW FULL ALBUM
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-top">
+        <div class="footer-logo">
+          <img src="/jaseci-logo.png" alt="Jaseci" class="logo-img" />
+          <span>Jac<span class="text-accent">Hacks</span></span>
+        </div>
+        <div class="footer-nav">
+          <a href="/spring">JacHacks Spring</a>
+          <a href="/winter">JacHacks Winter</a>
+          <a href="/paradise">Popup in Paradise</a>
+          <a href="/ohio">Popup in Ohio</a>
+          <a href="/gallery">Gallery</a>
+        </div>
+        <div class="footer-socials">
+          <a href="https://x.com/Jaseci_Org" class="social-btn" aria-label="Twitter">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/jaseci.ai/" target="_blank" class="social-btn" aria-label="Instagram">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/company/jaseci-labs/posts/?feedView=all" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="LinkedIn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7H10v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 JacHacks · Powered by <a href="https://jaseci.org" target="_blank" rel="noopener noreferrer">Jaseci</a> · A global hackathon series</p>
+      </div>
+    </footer>
+
+  <script>
+    // ===== REVEAL =====
+    const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('revealed');obs.unobserve(e.target);}});},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
+    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+    // ===== NAV =====
+    const nav=document.getElementById('main-nav')!;
+    window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60));
+
+    // ===== HAMBURGER =====
+    const hbg=document.getElementById('hamburger')!,mm=document.getElementById('mobile-menu')!;
+    hbg.addEventListener('click',()=>{hbg.classList.toggle('open');mm.classList.toggle('open');});
+    mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{hbg.classList.remove('open');mm.classList.remove('open');}));
+
+    // ===== THEME TOGGLE =====
+    const themeBtn = document.getElementById('theme-toggle')!;
+    themeBtn.addEventListener('click', () => {
+      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+      if (isLight) {
+        document.documentElement.removeAttribute('data-theme');
+        try { localStorage.setItem('theme','dark'); } catch(e){}
+      } else {
+        document.documentElement.setAttribute('data-theme','light');
+        try { localStorage.setItem('theme','light'); } catch(e){}
+      }
+    });
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && vm.classList.contains('open')) closeVideo(); });
+  </script>
+  </body>
+</html>
